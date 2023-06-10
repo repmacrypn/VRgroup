@@ -1,0 +1,14 @@
+.preloader {
+    width: 250px;
+    position: absolute;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    margin: -100px 0 0 -100px;
+}
+
+@media (max-width: 1130px) and (min-width: 320px) {
+    .preloader {
+        margin: 0 -70px 0;
+    }
+}
