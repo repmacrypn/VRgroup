@@ -4,11 +4,11 @@ import { filterAPI } from '../api/api'
 const initialState = {
     status: 'idle',
     error: null,
-    totalCount: 0,
-    currentPage: 0,
     customers: [],
     countries: [],
-    industries: []
+    industries: [],
+    totalCount: 0,
+    itemsPerPage: 12
 }
 
 const filterSlice = createSlice({
@@ -23,8 +23,10 @@ const filterSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(findCustomers.fulfilled, (state, action) => {
+                const { data, total } = action.payload
                 state.status = 'succeeded'
-                state.customers = action.payload
+                state.customers = data
+                state.totalCount = total
             })
             .addCase(findCustomers.rejected, (state, action) => {
                 state.status = 'failed'
@@ -50,9 +52,12 @@ export const fetchIndustries = createAsyncThunk('filter/fetchIndustries', async 
 })
 
 export const findCustomers = createAsyncThunk('filter/findCustomers',
-    async ({ searchValue, selectLocValue, selectIndValue }) => {
-        return await filterAPI.findCustomers(searchValue, selectLocValue, selectIndValue)
+    async (apiObj) => {
+        return await filterAPI.findCustomers(apiObj)
     })
+
+export const selectTotalCount = (state) => state.filter.totalCount
+export const selectItemsPerPage = (state) => state.filter.itemsPerPage
 
 /* export const { } = filterSlice.actions */
 

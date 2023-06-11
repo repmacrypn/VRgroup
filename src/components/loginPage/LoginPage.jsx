@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../redux/authSlice'
 import { Navigate } from "react-router-dom"
 import Preloader from '../common components/preloader/Preloader'
+import { selectIsAuth } from '../../redux/authSlice'
 
 function LoginPage() {
     const form = useForm({
@@ -21,7 +22,7 @@ function LoginPage() {
     const dispatch = useDispatch()
 
     const authStatus = useSelector(state => state.auth.status)
-    const isAuth = useSelector(state => state.auth.userData)
+    const isAuth = useSelector(selectIsAuth)
     const error = useSelector(state => state.auth.error)
 
     const onSubmitButtonClick = ({ email, password }) => {

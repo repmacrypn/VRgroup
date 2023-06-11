@@ -38,6 +38,8 @@ export const login = createAsyncThunk('auth/login', async ({ email, password }) 
     return data.user
 })
 
+export const selectIsAuth = (state) => state.auth.userData
+
 /* export const { } = authSlice.actions */
 
 export default authSlice.reducer

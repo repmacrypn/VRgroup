@@ -26,7 +26,7 @@ instance.interceptors.response.use((config) => {
     if (error.response.status === 401 && error.config && !error.config._isRetry) {
         originalRequest._isRetry = true
         try {
-            const response = await instance.post(`auth/refresh_tokens`, {
+            const response = await instance.post(`auth/refresh-tokens`, {
                 "token": localStorage.getItem('refresh_token')
             })
             localStorage.setItem('access_token', response.data.accessToken)
@@ -53,10 +53,15 @@ export const authAPI = {
 }
 
 export const filterAPI = {
-    async findCustomers(jobTitle, country, industry) {
+    async findCustomers({ searchValue, selectLocValue, selectIndValue, from, to }) {
         try {
-            const response = await instance.get(`contacts?range=[0,11]&filter={"job_title":${jobTitle ? jobTitle : '""'},"country":${country ? country : '""'},"industry":${industry ? industry : '""'}}`)
-            return response.data
+            const response = await instance.get(`contacts?range=[${from},${Number(to) - 1}]&filter={"job_title":${searchValue ? '"' + searchValue + '"' : '""'},"country":${selectLocValue ? selectLocValue : '""'},"industry":${selectIndValue ? selectIndValue : '""'}}`)
+            const splitArr = response.headers['content-range'].split('/')
+
+            return {
+                data: response.data,
+                total: splitArr[1]
+            }
         } catch (e) {
             throw new Error(e.response.data.message)
         }
