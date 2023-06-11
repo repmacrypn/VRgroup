@@ -4,7 +4,7 @@ import { useForm } from '@mantine/form'
 import s from './LoginPage.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../redux/authSlice'
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom"
 import Preloader from '../common components/preloader/Preloader'
 
 function LoginPage() {
@@ -21,7 +21,7 @@ function LoginPage() {
     const dispatch = useDispatch()
 
     const authStatus = useSelector(state => state.auth.status)
-    const isAuth = useSelector(state => state.auth.authData?.user)
+    const isAuth = useSelector(state => state.auth.userData)
     const error = useSelector(state => state.auth.error)
 
     const onSubmitButtonClick = ({ email, password }) => {
@@ -47,8 +47,12 @@ function LoginPage() {
                 {authStatus === 'failed' ? error : ''}
             </div>
             <Button type="submit">Login</Button>
+            <div>
+                test@nyblecraft.com
+                12345678qQ
+            </div>
         </form>
     )
 }
 
-export default LoginPage;
+export default LoginPage

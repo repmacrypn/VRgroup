@@ -4,7 +4,7 @@ import { authAPI } from '../api/api'
 const initialState = {
     status: 'idle',
     error: null,
-    authData: {}
+    userData: null
 }
 
 const authSlice = createSlice({
@@ -20,7 +20,7 @@ const authSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, action) => {
                 state.status = 'succeeded'
-                state.authData = action.payload
+                state.userData = action.payload
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = 'failed'
@@ -31,7 +31,11 @@ const authSlice = createSlice({
 
 export const login = createAsyncThunk('auth/login', async ({ email, password }) => {
     const data = await authAPI.login(email, password)
-    return data
+
+    localStorage.setItem('access_token', data.accessToken)
+    localStorage.setItem('refresh_token', data.refreshToken)
+
+    return data.user
 })
 
 /* export const { } = authSlice.actions */
