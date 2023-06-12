@@ -170,7 +170,7 @@ const UserTableInfo = ({ user }) => {
     )
 }
 
-const UserShortInfo = React.memo(({ user, isVisible, setIsVisible, getCurUserName, getUserNameOnClick }) => {
+const UserShortInfo = ({ user, isVisible, setIsVisible, getCurUserName, getUserNameOnClick }) => {
     console.log('child')
     return (
         <div className={`${s[`userShortInfo${isVisible}`]}`}>
@@ -186,6 +186,6 @@ const UserShortInfo = React.memo(({ user, isVisible, setIsVisible, getCurUserNam
             <div onClick={() => setIsVisible(false)}>X</div>
         </div>
     )
-})
+}
 
 export default FilterPage
