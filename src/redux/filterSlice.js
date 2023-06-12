@@ -7,6 +7,7 @@ const initialState = {
     customers: [],
     countries: [],
     industries: [],
+    usersFullNameArray: [],
     totalCount: 0,
     itemsPerPage: 12
 }
@@ -40,6 +41,10 @@ const filterSlice = createSlice({
                 state.status = 'succeeded'
                 state.industries = action.payload
             })
+            .addCase(getUserName.fulfilled, (state, action) => {
+                state.status = 'succeeded'
+                state.usersFullNameArray.push(action.payload)
+            })
     }
 })
 
@@ -55,6 +60,11 @@ export const findCustomers = createAsyncThunk('filter/findCustomers',
     async (apiObj) => {
         return await filterAPI.findCustomers(apiObj)
     })
+
+export const getUserName = createAsyncThunk('filter/getUserName', async (userId) => {
+    const data = await filterAPI.getUserName(userId)
+    return { userId, userName: data }
+})
 
 export const selectTotalCount = (state) => state.filter.totalCount
 export const selectItemsPerPage = (state) => state.filter.itemsPerPage

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import s from './FilterPage.module.css'
 /* import dropDown from '../../../resources/images/dropDown.png';
 import dropDownOnFocus from '../../../resources/images/dropDownOnFocus.png'; */
 import { Input, Select } from '@mantine/core';
 import { Search } from 'tabler-icons-react';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCountries, fetchIndustries, findCustomers, selectItemsPerPage, selectTotalCount } from "../../redux/filterSlice";
+import { fetchCountries, fetchIndustries, findCustomers, getUserName, selectItemsPerPage, selectTotalCount } from "../../redux/filterSlice";
 import ReactPaginate from "react-paginate";
 /* import { selectIsAuth } from "../../redux/authSlice";
 import { Navigate } from "react-router-dom"; */
@@ -17,8 +17,6 @@ const FilterPage = React.memo(() => {
     const customers = useSelector(state => state.filter.customers)
     const itemsPerPage = useSelector(selectItemsPerPage)
     const totalCount = useSelector(selectTotalCount)
-    /* const isAuth = useSelector(selectIsAuth) */
-
     const dispatch = useDispatch()
 
     const [searchValue, setSearchValue] = useState('')
@@ -36,14 +34,8 @@ const FilterPage = React.memo(() => {
         return fetchedArr.map((prop) => ({ value: prop.id, label: prop.name }))
     }
 
-    const fetchedCustomers = customers.map(uno => {
-        return <div key={uno.id}>
-            <div>get Full Name</div>
-            <div>{uno.job_title}</div>
-            <div>{uno.industry}</div>
-            <div>{uno.country}</div>
-            <br></br>
-        </div>
+    const fetchedCustomers = customers.map(user => {
+        return <UserTableInfo key={user.id} user={user} />
     })
 
     const fetchCustomersOnBlur = () => {
@@ -54,8 +46,6 @@ const FilterPage = React.memo(() => {
         const newOffset = (e.selected * itemsPerPage) % totalCount;
         dispatch(findCustomers({ searchValue, selectLocValue, selectIndValue, from: newOffset, to: newOffset + itemsPerPage }))
     }
-
-    /* if (!isAuth) return <Navigate to='/loginPage' /> */
 
     return (
         <div className={s.filterField}>
@@ -124,5 +114,78 @@ const FilterPageSelect = ({ handleBlur, value, setValue, processArr, array, text
         />
     )
 }
+
+const UserTableInfo = ({ user }) => {
+    const wrapperRef = useRef(null)
+
+    const [isVisible, setIsVisible] = useState(false)
+
+    const dispatch = useDispatch()
+    const usersFullNameArray = useSelector(state => state.filter.usersFullNameArray)
+
+    const getCurUserName = useCallback((id) => {
+        return usersFullNameArray.find(obj => obj.userId === id)?.userName
+    }, [usersFullNameArray])
+
+    const getUserNameOnClick = useCallback((e, userId) => {
+        e.stopPropagation()
+        dispatch(getUserName(userId))
+    }, [dispatch])
+
+    const handleOutsideClick = (e) => {
+        if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+            setIsVisible(false)
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', handleOutsideClick)
+        return () => {
+            document.removeEventListener('click', handleOutsideClick)
+        }
+    })
+    console.log('parent')
+
+    return (
+        <div ref={wrapperRef}>
+            <div onClick={() => setIsVisible(true)}>
+                <button
+                    disabled={getCurUserName(user.id)}
+                    onClick={(e) => getUserNameOnClick(e, user.id)}>
+                    {getCurUserName(user.id) || 'get Full Name'}
+                </button>
+                <div>{user.job_title}</div>
+                <div>{user.industry}</div>
+                <div>{user.country}</div>
+                <br></br>
+            </div>
+            <UserShortInfo
+                setIsVisible={setIsVisible}
+                isVisible={isVisible}
+                user={user}
+                getCurUserName={getCurUserName}
+                getUserNameOnClick={getUserNameOnClick}
+            />
+        </div>
+    )
+}
+
+const UserShortInfo = React.memo(({ user, isVisible, setIsVisible, getCurUserName, getUserNameOnClick }) => {
+    console.log('child')
+    return (
+        <div className={`${s[`userShortInfo${isVisible}`]}`}>
+            <button
+                disabled={getCurUserName(user.id)}
+                onClick={(e) => getUserNameOnClick(e, user.id)}>
+                {getCurUserName(user.id) || 'get Full Name'}
+            </button>
+            <div>{user.job_title}</div>
+            <div>{user.industry}</div>
+            <div>{user.country}</div>
+            <div>{user.description}</div>
+            <div onClick={() => setIsVisible(false)}>X</div>
+        </div>
+    )
+})
 
 export default FilterPage

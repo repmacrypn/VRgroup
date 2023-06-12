@@ -81,5 +81,13 @@ export const filterAPI = {
         } catch (e) {
             throw new Error(e.response.data.message)
         }
+    },
+    async getUserName(id) {
+        try {
+            const response = await instance.post(`contacts/${id}/open?contactId=${id}`);
+            return response.data
+        } catch (e) {
+            throw new Error(e.response.data.message)
+        }
     }
 }
