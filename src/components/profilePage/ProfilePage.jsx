@@ -38,6 +38,9 @@ export const ProfilePage = () => {
                 <Input value={email} onChange={(e) => setEmail(e.target.value)} />
                 <Input value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
+            <div>
+                Subscription
+            </div>
         </div>
     )
 }
