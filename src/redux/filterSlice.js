@@ -8,19 +8,22 @@ const initialState = {
     countries: [],
     industries: [],
     usersFullNameArray: [],
-    totalCount: 0,
-    itemsPerPage: 12
+    totalCount: null,
+    itemsPerPage: 12,
+    isPopUpVisible: false
 }
 
 const filterSlice = createSlice({
     name: 'filter',
     initialState,
     reducers: {
-
+        showPopUp: (state) => {
+            state.isPopUpVisible = true
+        }
     },
     extraReducers(builder) {
         builder
-            .addCase(findCustomers.pending, (state, action) => {
+            .addCase(findCustomers.pending, (state) => {
                 state.status = 'loading'
             })
             .addCase(findCustomers.fulfilled, (state, action) => {
@@ -69,6 +72,6 @@ export const getUserName = createAsyncThunk('filter/getUserName', async (userId)
 export const selectTotalCount = (state) => state.filter.totalCount
 export const selectItemsPerPage = (state) => state.filter.itemsPerPage
 
-/* export const { } = filterSlice.actions */
+export const { showPopUp } = filterSlice.actions
 
 export default filterSlice.reducer

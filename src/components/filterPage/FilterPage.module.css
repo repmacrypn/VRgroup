@@ -5,3 +5,8 @@
 .userShortInfofalse {
     display: none;
 }
+
+.active {
+    font-weight: bold;
+    color: green
+}

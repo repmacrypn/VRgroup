@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import s from './EmptyState.module.css';
-import emptyState from '../../../asserts/images/emptyState.png';
-import { connect } from "react-redux";
-import { getVacanciesOnFieldLoad } from '../../../redux/vacanciesReducer';
-import { Link } from "react-router-dom";
+import emptyState from '../../../assets/images/noResults.svg';
+import { useDispatch, useSelector } from "react-redux";
+import { findCustomers, selectItemsPerPage } from "../../../redux/filterSlice";
+import { FilterContext } from "../../filterPage/FilterPage";
 
-const EmptyState = ({ isButtonNeeded }) => {
+export const EmptyState = () => {
+    const { setSearchValue, setSelectLocValue, setSelectIndValue } = useContext(FilterContext)
+
+    const itemsPerPage = useSelector(selectItemsPerPage)
+    const dispatch = useDispatch()
+
+    const resetFiltersOnClick = () => {
+        dispatch(findCustomers({ searchValue: '', selectLocValue: '', selectIndValue: '', from: 0, to: 0 + itemsPerPage }))
+        setSearchValue('')
+        setSelectLocValue('')
+        setSelectIndValue('')
+    }
+    //щас ухожу потом подумать как отредачить повторный рендеринг при изменнении селекта + вообще всех компонент при клике на имя + сделать менюшку
+
     return <div className={s.emptyWrapper}>
         <img
             className={s.emptyState}
@@ -15,17 +28,14 @@ const EmptyState = ({ isButtonNeeded }) => {
             height='230px'
         />
         <div className={s.emptyTitle}>
-            Упс, здесь еще ничего нет!
+            No results found
         </div>
-        {
-            isButtonNeeded &&
-            <div className={s.emptyButton}>
-                <Link to='/vacancies/*'>Поиск Вакансий</Link>
-            </div>
-        }
+        <div className={s.emptyTitle}>
+            We couldn’t find what you searched for.
+            Please try again.
+        </div>
+        <button onClick={resetFiltersOnClick} className={s.emptyButton}>
+            Clear filters
+        </button>
     </div>
-};
-
-const mapStateToProps = (state) => ({});
-
-export default connect(mapStateToProps, { getVacanciesOnFieldLoad })(EmptyState);
+}
