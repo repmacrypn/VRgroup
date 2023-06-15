@@ -49,7 +49,17 @@ export const authAPI = {
         } catch (e) {
             throw new Error(e.response.data.message)
         }
-    }
+    },
+    async logout() {
+        try {
+            const response = await instance.post(`auth/logout`, {
+                "token": localStorage.getItem('refresh_token')
+            });
+            return response.data
+        } catch (e) {
+            throw new Error(e.response.data.message)
+        }
+    },
 }
 
 export const filterAPI = {

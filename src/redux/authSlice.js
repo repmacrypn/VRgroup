@@ -15,7 +15,7 @@ const authSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-            .addCase(login.pending, (state, action) => {
+            .addCase(login.pending, (state) => {
                 state.status = 'loading'
             })
             .addCase(login.fulfilled, (state, action) => {
@@ -25,6 +25,13 @@ const authSlice = createSlice({
             .addCase(login.rejected, (state, action) => {
                 state.status = 'failed'
                 state.error = action.error.message
+            })
+            .addCase(logout.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(logout.fulfilled, (state) => {
+                state.status = 'succeeded'
+                state.userData = null
             })
     }
 })
@@ -36,6 +43,10 @@ export const login = createAsyncThunk('auth/login', async ({ email, password }) 
     localStorage.setItem('refresh_token', data.refreshToken)
 
     return data.user
+})
+
+export const logout = createAsyncThunk('auth/logout', async () => {
+    await authAPI.logout()
 })
 
 export const selectIsAuth = (state) => state.auth.userData

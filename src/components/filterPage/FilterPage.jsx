@@ -53,6 +53,9 @@ const FilterPage = React.memo(() => {
         <FilterContext.Provider
             value={{ setSearchValue, setSelectLocValue, setSelectIndValue }}
         >
+            <div>
+                total {totalCount || 0}
+            </div>
             <div className={s.filterField}>
                 <Input
                     onBlur={fetchCustomersOnBlur}
