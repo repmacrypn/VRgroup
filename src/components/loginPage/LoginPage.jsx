@@ -8,6 +8,7 @@ import { Navigate } from "react-router-dom"
 import Preloader from '../common components/preloader/Preloader'
 import { selectIsAuth } from '../../redux/authSlice'
 import '../../styles/fonts.css'
+import { ms } from '../../styles/mantineStyles'
 
 function LoginPage() {
     const authStatus = useSelector(state => state.auth.status)
@@ -61,13 +62,21 @@ const LoginForm = ({ authStatus }) => {
         >
             <TextInput
                 label="Email"
+                type='email'
                 placeholder="Enter your email"
                 {...form.getInputProps('email')}
+                styles={{
+                    input: ms.textInput.input,
+                }}
             />
             <TextInput
                 label="Password"
+                type='password'
                 placeholder="Enter your password"
                 {...form.getInputProps('password')}
+                styles={{
+                    input: ms.textInput.input,
+                }}
             />
             <div className={s.errorMessage}>
                 {authStatus === 'failed' ? error : ''}
