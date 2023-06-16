@@ -7,8 +7,39 @@ import { login } from '../../redux/authSlice'
 import { Navigate } from "react-router-dom"
 import Preloader from '../common components/preloader/Preloader'
 import { selectIsAuth } from '../../redux/authSlice'
+import '../../styles/fonts.css'
 
 function LoginPage() {
+    const authStatus = useSelector(state => state.auth.status)
+    const isAuth = useSelector(selectIsAuth)
+
+    if (authStatus === 'loading') return <Preloader />
+    if (isAuth) return <Navigate to='/filterPage' />
+
+    return (
+        <div className={`${s.loginPageWrapper} defaultFontS`}>
+            <div className={s.loginFormWrapper}>
+                <div className={`${s.loginPageTitle} bold800`}>
+                    Login to lorem ipsum
+                </div>
+                <div className={`${s.loginPageAbstract} regular400`}>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                </div>
+                <LoginForm
+                    authStatus={authStatus}
+                />
+            </div>
+            <div className={s.loginIntroPic}>
+                qq
+            </div>
+        </div>
+    )
+}
+
+const LoginForm = ({ authStatus }) => {
+    const error = useSelector(state => state.auth.error)
+    const dispatch = useDispatch()
+
     const form = useForm({
         initialValues: {
             email: '',
@@ -19,21 +50,15 @@ function LoginPage() {
         }
     })
 
-    const dispatch = useDispatch()
-
-    const authStatus = useSelector(state => state.auth.status)
-    const isAuth = useSelector(selectIsAuth)
-    const error = useSelector(state => state.auth.error)
-
     const onSubmitButtonClick = ({ email, password }) => {
         dispatch(login({ email, password }))
     }
 
-    if (authStatus === 'loading') return <Preloader />
-    if (isAuth) return <Navigate to='/filterPage' />
-
     return (
-        <form onSubmit={form.onSubmit((values) => onSubmitButtonClick(values))}>
+        <form
+            className={s.loginForm}
+            onSubmit={form.onSubmit((values) => onSubmitButtonClick(values))}
+        >
             <TextInput
                 label="Email"
                 placeholder="Enter your email"
@@ -48,10 +73,10 @@ function LoginPage() {
                 {authStatus === 'failed' ? error : ''}
             </div>
             <Button type="submit">Login</Button>
-            <div>
+            {/* <div>
                 test@nyblecraft.com
                 12345678qQ
-            </div>
+            </div> */}
         </form>
     )
 }

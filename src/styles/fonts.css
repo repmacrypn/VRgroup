@@ -1,0 +1,41 @@
+.defaultFontS {
+    font-family: 'Mulish', sans-serif;
+    font-style: normal;
+    color: #151515;
+}
+
+.regular400 {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.bold500 {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.bold600 {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.bold700 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+.bold800 {
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 40px;
+}
+
+.bold900 {
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 48px;
+}

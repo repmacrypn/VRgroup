@@ -1,0 +1,27 @@
+.loginPageWrapper {
+    max-width: 1440px;
+    display: flex;
+    flex-direction: row;
+}
+
+.loginFormWrapper {
+    width: 50%;
+}
+
+.loginIntroPic {
+    width: 50%;
+    background-color: #F5F6F9;
+}
+
+.loginPageTitle {
+    margin: 114px 0 8px 15.56%;
+}
+
+.loginPageAbstract {
+    margin: 8px 0 48px 15.56%;
+    max-width: 357px;
+}
+
+.loginForm {
+    margin-left: 15.56%;
+}

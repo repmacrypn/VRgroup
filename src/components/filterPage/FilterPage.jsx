@@ -9,6 +9,8 @@ import { fetchCountries, fetchIndustries, findCustomers, getUserName, selectItem
 import ReactPaginate from "react-paginate";
 import { EmptyState } from "../common components/emptyState/EmptyState";
 import Preloader from "../common components/preloader/Preloader";
+import { Navigate } from "react-router-dom";
+import { selectIsAuth } from "../../redux/authSlice";
 /* import { selectIsAuth } from "../../redux/authSlice";
 import { Navigate } from "react-router-dom"; */
 /* import { ms } from '../../../styles/mantineStyles'; */
@@ -19,6 +21,7 @@ const FilterPage = React.memo(() => {
     const countries = useSelector(state => state.filter.countries)
     const industries = useSelector(state => state.filter.industries)
     const isPopUpVis = useSelector(state => state.filter.isPopUpVisible)
+    const userData = useSelector(selectIsAuth)
     const totalCount = useSelector(selectTotalCount)
     const itemsPerPage = useSelector(selectItemsPerPage)
     const dispatch = useDispatch()
@@ -48,6 +51,8 @@ const FilterPage = React.memo(() => {
         dispatch(findCustomers({ searchValue, selectLocValue, selectIndValue, from: newOffset, to: newOffset + itemsPerPage }))
         setPageNumber(e.selected);
     }
+
+    if (!userData) return <Navigate to='/loginPage' />
 
     return (
         <FilterContext.Provider

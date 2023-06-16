@@ -6,11 +6,14 @@ import LoginPage from './components/loginPage/LoginPage';
 import React from 'react'
 import { Header } from './components/header/Header';
 import { ProfilePage } from './components/profilePage/ProfilePage';
+import { useSelector } from 'react-redux';
+import { selectIsAuth } from './redux/authSlice';
 
 function App() {
+  const userData = useSelector(selectIsAuth)
   return (
-    <div className="App">
-      <Header />
+    <div className="appWrapper">
+      {userData && < Header />}
       <Routes>
         <Route path='/' element={<Navigate to='/loginPage' />} />
         <Route path='/loginPage' element={<LoginPage />} />
