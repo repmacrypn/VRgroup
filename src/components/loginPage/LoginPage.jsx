@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextInput, Button } from '@mantine/core'
+import { TextInput, Button, PasswordInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import s from './LoginPage.module.css'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,6 +9,8 @@ import Preloader from '../common components/preloader/Preloader'
 import { selectIsAuth } from '../../redux/authSlice'
 import '../../styles/fonts.css'
 import { ms } from '../../styles/mantineStyles'
+import eyeOpened from '../../assets/images/eye.svg'
+import eyeClosed from '../../assets/images/eye-closed.svg'
 
 function LoginPage() {
     const authStatus = useSelector(state => state.auth.status)
@@ -21,11 +23,12 @@ function LoginPage() {
         <div className={`${s.loginPageWrapper} defaultFontS`}>
             <div className={s.loginFormWrapper}>
                 <div className={`${s.loginPageTitle} bold800`}>
-                    Login to lorem ipsum
+                    Login
                 </div>
                 <div className={`${s.loginPageAbstract} regular400`}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    Welcome! Login to your account - find more potential customers.
                 </div>
+                <LoginData />
                 <LoginForm
                     authStatus={authStatus}
                 />
@@ -61,32 +64,82 @@ const LoginForm = ({ authStatus }) => {
             onSubmit={form.onSubmit((values) => onSubmitButtonClick(values))}
         >
             <TextInput
+                inputWrapperOrder={['label', 'error', 'input']}
+                radius="md"
                 label="Email"
                 type='email'
                 placeholder="Enter your email"
                 {...form.getInputProps('email')}
                 styles={{
                     input: ms.textInput.input,
+                    label: ms.textInput.label
                 }}
             />
-            <TextInput
+            <PasswordInput
+                radius="md"
                 label="Password"
-                type='password'
+                visibilityToggleIcon={({ reveal }) =>
+                    reveal ? <EyeOpened /> : <EyeClosed />}
                 placeholder="Enter your password"
                 {...form.getInputProps('password')}
                 styles={{
-                    input: ms.textInput.input,
+                    input: ms.passwordInput.input,
+                    label: ms.passwordInput.label,
+                    innerInput: ms.passwordInput.innerInput,
                 }}
             />
             <div className={s.errorMessage}>
-                {authStatus === 'failed' ? error : ''}
+                {authStatus === 'failed' ? error : null}
             </div>
-            <Button type="submit">Login</Button>
-            {/* <div>
-                test@nyblecraft.com
-                12345678qQ
-            </div> */}
+            <Button
+                radius='md'
+                type="submit"
+                styles={{
+                    root: ms.button.root,
+                }}
+            >
+                Login
+            </Button>
         </form>
+    )
+}
+
+const EyeOpened = () => {
+    return (
+        <div className={s.eyeIcon}>
+            <img alt='eye icon opened' src={eyeOpened} />
+        </div>
+    )
+}
+
+const EyeClosed = () => {
+    return (
+        <div className={s.eyeIcon}>
+            <img alt='eye icon closed' src={eyeClosed} />
+        </div>
+    )
+}
+
+const LoginData = () => {
+    return (
+        <div className={s.loginDataWrapper}>
+            <div>
+                <span className='bold600'>
+                    Email:
+                </span>
+                <span className='regular400'>
+                    test@nyblecraft.com
+                </span>
+            </div>
+            <div>
+                <span className='bold600'>
+                    Password:
+                </span>
+                <span className='regular400'>
+                    12345678qQ
+                </span>
+            </div>
+        </div>
     )
 }
 
