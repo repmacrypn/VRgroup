@@ -13,6 +13,7 @@
 }
 
 .loginIntroPic {
+    position: relative;
     width: 50%;
     background: url('../../assets/images/loginbg.jpg') no-repeat 0 0/100% 100%;
 }
@@ -38,4 +39,19 @@
 
 .loginDataWrapper {
     margin: 28px 0;
+}
+
+.logo {
+    color: #3626A7;
+    font-size: 50px;
+    position: absolute;
+    bottom: 160px;
+    left: 40px;
+}
+
+.logoSlogan {
+    position: absolute;
+    bottom: 50px;
+    left: 40px;
+    max-width: 550px;
 }

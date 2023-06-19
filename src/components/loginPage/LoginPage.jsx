@@ -28,10 +28,10 @@ function LoginPage() {
                 <LoginForm />
             </div>
             <div className={s.loginIntroPic}>
-                <div>
-
+                <div className={`${s.logo} bold800`}>
+                    VRgroup
                 </div>
-                <div>
+                <div className={`${s.logoSlogan} bold800`}>
                     Find and contact every potential customer in the world
                 </div>
             </div>
