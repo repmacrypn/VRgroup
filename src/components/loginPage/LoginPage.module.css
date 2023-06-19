@@ -14,7 +14,7 @@
 
 .loginIntroPic {
     width: 50%;
-    background-color: #F5F6F9;
+    background: url('../../assets/images/loginbg.jpg') no-repeat 0 0/100% 100%;
 }
 
 .loginPageTitle {

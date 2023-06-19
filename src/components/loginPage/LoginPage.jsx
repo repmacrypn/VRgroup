@@ -5,18 +5,14 @@ import s from './LoginPage.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../redux/authSlice'
 import { Navigate } from "react-router-dom"
-import Preloader from '../common components/preloader/Preloader'
 import { selectIsAuth } from '../../redux/authSlice'
 import '../../styles/fonts.css'
 import { ms } from '../../styles/mantineStyles'
-import eyeOpened from '../../assets/images/eye.svg'
-import eyeClosed from '../../assets/images/eye-closed.svg'
+import { Eye, EyeOff } from 'tabler-icons-react'
 
 function LoginPage() {
-    const authStatus = useSelector(state => state.auth.status)
     const isAuth = useSelector(selectIsAuth)
 
-    if (authStatus === 'loading') return <Preloader />
     if (isAuth) return <Navigate to='/filterPage' />
 
     return (
@@ -29,19 +25,23 @@ function LoginPage() {
                     Welcome! Login to your account - find more potential customers.
                 </div>
                 <LoginData />
-                <LoginForm
-                    authStatus={authStatus}
-                />
+                <LoginForm />
             </div>
             <div className={s.loginIntroPic}>
-                qq
+                <div>
+
+                </div>
+                <div>
+                    Find and contact every potential customer in the world
+                </div>
             </div>
         </div>
     )
 }
 
-const LoginForm = ({ authStatus }) => {
+const LoginForm = () => {
     const error = useSelector(state => state.auth.error)
+    const isLoading = useSelector(state => state.auth.status)
     const dispatch = useDispatch()
 
     const form = useForm({
@@ -76,22 +76,26 @@ const LoginForm = ({ authStatus }) => {
                 }}
             />
             <PasswordInput
-                radius="md"
                 label="Password"
                 visibilityToggleIcon={({ reveal }) =>
-                    reveal ? <EyeOpened /> : <EyeClosed />}
+                    reveal ? <Eye /> : <EyeOff />}
                 placeholder="Enter your password"
                 {...form.getInputProps('password')}
                 styles={{
                     input: ms.passwordInput.input,
                     label: ms.passwordInput.label,
                     innerInput: ms.passwordInput.innerInput,
+                    rightSection: ms.passwordInput.rightSection,
                 }}
             />
-            <div className={s.errorMessage}>
-                {authStatus === 'failed' ? error : null}
-            </div>
+            {
+                error &&
+                <div className={s.errorMessage}>
+                    {error}
+                </div>
+            }
             <Button
+                disabled={isLoading === 'loading'}
                 radius='md'
                 type="submit"
                 styles={{
@@ -104,41 +108,24 @@ const LoginForm = ({ authStatus }) => {
     )
 }
 
-const EyeOpened = () => {
-    return (
-        <div className={s.eyeIcon}>
-            <img alt='eye icon opened' src={eyeOpened} />
-        </div>
-    )
-}
-
-const EyeClosed = () => {
-    return (
-        <div className={s.eyeIcon}>
-            <img alt='eye icon closed' src={eyeClosed} />
-        </div>
-    )
-}
-
 const LoginData = () => {
     return (
         <div className={s.loginDataWrapper}>
-            <div>
-                <span className='bold600'>
-                    Email:
-                </span>
-                <span className='regular400'>
-                    test@nyblecraft.com
-                </span>
-            </div>
-            <div>
-                <span className='bold600'>
-                    Password:
-                </span>
-                <span className='regular400'>
-                    12345678qQ
-                </span>
-            </div>
+            <LoginDataProp title='Email: ' value='test@nyblecraft.com' />
+            <LoginDataProp title='Password: ' value='12345678qQ' />
+        </div>
+    )
+}
+
+const LoginDataProp = ({ title, value }) => {
+    return (
+        <div>
+            <span className='bold600'>
+                {title}
+            </span>
+            <span className='regular400'>
+                {value}
+            </span>
         </div>
     )
 }

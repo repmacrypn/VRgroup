@@ -51,6 +51,9 @@ export const ms = {
             '&:hover': {
                 borderColor: '#3626A7',
             },
+            '&:focus': {
+                borderColor: '#3626A7'
+            },
             /* [`@media (max-width: 1130px) and (min-width: 320px)`]: {
                 width: '100%',
             }, */
@@ -63,28 +66,37 @@ export const ms = {
     },
     passwordInput: {
         input: {
-            border: '1px solid #EBEBED',
             maxWidth: 384,
             height: 48,
             padding: '14px 16px',
             marginBottom: 24,
-            color: '#151515',
-            font: 'normal 400 14px/20px Mulish, sans-serif',
-            '&:hover': {
-                borderColor: '#3626A7',
-            },
+            border: 'none',
             /* [`@media (max-width: 1130px) and (min-width: 320px)`]: {
                 width: '100%',
             }, */
         },
         innerInput: {
+            color: '#151515',
+            font: 'normal 400 14px/20px Mulish, sans-serif',
             width: '100%',
-            height: '100%'
+            height: '100%',
+            borderRadius: 6,
+            paddingRight: 30,
+            border: '1px solid #EBEBED',
+            '&:focus': {
+                borderColor: '#3626A7'
+            },
+            '&:hover': {
+                borderColor: '#3626A7',
+            },
         },
         label: {
             font: 'normal 600 14px/20px Mulish, sans-serif',
             paddingBottom: 8,
             pointerEvents: 'none'
+        },
+        rightSection: {
+            marginRight: 7
         }
     },
     button: {
@@ -94,7 +106,7 @@ export const ms = {
             width: '100%',
             height: 48,
             padding: '12px 120px',
-            marginTop: 80,
+            marginTop: 60,
             backgroundColor: '#3626A7',
             '&:hover': {
                 backgroundColor: 'rgb(40 29 115)',
