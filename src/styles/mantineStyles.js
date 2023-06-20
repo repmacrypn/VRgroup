@@ -2,14 +2,14 @@ export const ms = {
     select: {
         input: {
             width: '100%',
-            height: 42,
-            marginBottom: 20,
-            padding: '8px 12px',
-            borderColor: '#D5D6DC',
-            color: '#232134',
-            font: 'normal 400 14px/20px Inter, sans-serif',
+            height: 40,
+            marginBottom: 16,
+            padding: '14px 16px',
+            border: '1px solid #EBEBED',
+            color: '#151515',
+            font: 'normal 400 14px/20px Mulish, sans-serif',
             '&:hover': {
-                borderColor: '#5E96FC',
+                borderColor: '#3626A7',
             },
         },
         dropdown: {
@@ -40,12 +40,9 @@ export const ms = {
         rightSection: { pointerEvents: 'none' },
     },
     textInput: {
-        input: {
+        defaultInput: {
             border: '1px solid #EBEBED',
-            maxWidth: 384,
-            height: 48,
             padding: '14px 16px',
-            marginBottom: 24,
             color: '#151515',
             font: 'normal 400 14px/20px Mulish, sans-serif',
             '&:hover': {
@@ -57,6 +54,29 @@ export const ms = {
             /* [`@media (max-width: 1130px) and (min-width: 320px)`]: {
                 width: '100%',
             }, */
+        },
+        filterInput: {
+            width: 204,
+            height: 40,
+            marginBottom: 16,
+            /* [`@media (max-width: 1130px) and (min-width: 320px)`]: {
+                width: '100%',
+            }, */
+        },
+        emailInput: {
+            maxWidth: 384,
+            height: 48,
+            marginBottom: 24,
+            /* [`@media (max-width: 1130px) and (min-width: 320px)`]: {
+                width: '100%',
+            }, */
+        },
+        wrapper: {
+            maxWidth: 204,
+            borderBottom: '1px solid #E7E8EF'
+        },
+        icon: {
+            marginBottom: 16
         },
         label: {
             font: 'normal 600 14px/20px Mulish, sans-serif',

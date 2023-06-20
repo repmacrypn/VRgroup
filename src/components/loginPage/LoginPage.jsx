@@ -71,7 +71,7 @@ const LoginForm = () => {
                 placeholder="Enter your email"
                 {...form.getInputProps('email')}
                 styles={{
-                    input: ms.textInput.input,
+                    input: Object.assign({}, ms.textInput.defaultInput, ms.textInput.emailInput),
                     label: ms.textInput.label
                 }}
             />

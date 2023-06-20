@@ -10,3 +10,56 @@
     font-weight: bold;
     color: rgb(18, 96, 18)
 }
+
+.filterPageWrapper {
+    display: flex;
+}
+
+.filterTotalField {}
+
+.filterTotalNum {
+    background: rgba(54, 38, 167, 0.1);
+    border-radius: 26px;
+    padding: 4px 36px;
+    color: #3626A7;
+    text-align: center;
+    font-size: 19px;
+}
+
+.filterFieldWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 228px;
+    width: 100%;
+    gap: 50px;
+    margin-left: 24px;
+}
+
+.logoTitle {
+    color: #3626A7;
+    font-size: 32px;
+}
+
+.filterLabelWrapper {
+    margin-top: 8px;
+}
+
+.filtersTitle {
+    font-size: 18px;
+    padding-bottom: 16px;
+    padding-left: 24px;
+    margin-left: -24px;
+    border-bottom: 1px solid #E7E8EF;
+    margin-bottom: 8px;
+}
+
+.filterField {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filterLabel {
+    display: inline-block;
+}

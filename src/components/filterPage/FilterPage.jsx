@@ -1,19 +1,19 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react"
 import s from './FilterPage.module.css'
 /* import dropDown from '../../../resources/images/dropDown.png';
 import dropDownOnFocus from '../../../resources/images/dropDownOnFocus.png'; */
-import { Input, Select } from '@mantine/core';
-import { Search } from 'tabler-icons-react';
-import { useDispatch, useSelector } from "react-redux";
-import { fetchCountries, fetchIndustries, findCustomers, getUserName, selectItemsPerPage, selectTotalCount, showPopUp } from "../../redux/filterSlice";
-import ReactPaginate from "react-paginate";
-import { EmptyState } from "../common components/emptyState/EmptyState";
-import Preloader from "../common components/preloader/Preloader";
-import { Navigate } from "react-router-dom";
-import { selectIsAuth } from "../../redux/authSlice";
-/* import { selectIsAuth } from "../../redux/authSlice";
-import { Navigate } from "react-router-dom"; */
-/* import { ms } from '../../../styles/mantineStyles'; */
+import { Select, TextInput } from '@mantine/core'
+import { Briefcase, BuildingSkyscraper, ChevronDown, Location, LocationOff, Map, MapPin, Search } from 'tabler-icons-react'
+import { useDispatch, useSelector } from "react-redux"
+import { fetchCountries, fetchIndustries, findCustomers, getUserName, selectItemsPerPage, selectTotalCount, showPopUp } from "../../redux/filterSlice"
+import ReactPaginate from "react-paginate"
+import { EmptyState } from "../common components/emptyState/EmptyState"
+import Preloader from "../common components/preloader/Preloader"
+import { Navigate } from "react-router-dom"
+import { selectIsAuth } from "../../redux/authSlice"
+import '../../styles/fonts.css'
+/* import { selectIsAuth } from "../../redux/authSlice";*/
+import { ms } from '../../styles/mantineStyles';
 
 export const FilterContext = React.createContext()
 
@@ -58,73 +58,96 @@ const FilterPage = React.memo(() => {
         <FilterContext.Provider
             value={{ setSearchValue, setSelectLocValue, setSelectIndValue }}
         >
-            <div>
-                total {totalCount || 0}
-            </div>
-            <div className={s.filterField}>
-                <Input
-                    onBlur={fetchCustomersOnBlur}
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    icon={<Search size={16} />}
-                    iconWidth={30}
-                    placeholder="Search by job title"
-                    radius="md"
-                /* styles={{
-                    input: ms.textInput.input,
-                }} */
-                />
-                <FilterPageSelect
-                    handleBlur={fetchCustomersOnBlur}
-                    value={selectLocValue}
-                    setValue={setSelectLocValue}
-                    processArr={mapFetchedFilterData}
-                    array={countries}
-                    text='Choose location'
-                />
-                <FilterPageSelect
-                    handleBlur={fetchCustomersOnBlur}
-                    value={selectIndValue}
-                    setValue={setSelectIndValue}
-                    processArr={mapFetchedFilterData}
-                    array={industries}
-                    text='Choose industry'
-                />
-                {
-                    isPopUpVis ||
-                    <UserTable
-                        itemsPerPage={itemsPerPage}
-                        handlePageChange={handlePageChange}
-                        totalCount={totalCount}
-                        pageNumber={pageNumber}
-                    />
-                }
-                {isPopUpVis && <UpgragePopUp />}
+            <div className={`defaultFontS ${s.filterPageWrapper}`}>
+                <div className={s.filterFieldWrapper}>
+                    <div className={`bold900 ${s.logoTitle}`}>
+                        VRgroup
+                    </div>
+                    <div>
+                        <div className={`bold600 ${s.filtersTitle}`}>
+                            Filters
+                        </div>
+                        <div className={s.filterField}>
+                            <div className={`${s.filterLabelWrapper}`}>
+                                <Briefcase size={14} />
+                                <span className={`bold500 ${s.filterLabel}`}>Job title</span>
+                            </div>
+                            <TextInput
+                                value={searchValue}
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                icon={<Search color="black" size={16} />}
+                                iconWidth={30}
+                                placeholder="Search by job title"
+                                radius="md"
+                                styles={{
+                                    wrapper: ms.textInput.wrapper,
+                                    icon: ms.textInput.icon,
+                                    input: Object.assign({}, ms.textInput.defaultInput, ms.textInput.filterInput),
+                                }}
+                            />
+                            <div className={`${s.filterLabelWrapper}`}>
+                                <MapPin size={14} />
+                                <span className={`bold500 ${s.filterLabel}`}> Location</span>
+                            </div>
+                            <FilterPageSelect
+                                value={selectLocValue}
+                                setValue={setSelectLocValue}
+                                processArr={mapFetchedFilterData}
+                                array={countries}
+                                text='Choose location'
+                            />
+                            <div className={`${s.filterLabelWrapper}`}>
+                                <BuildingSkyscraper size={14} />
+                                <span className={`bold500 ${s.filterLabel}`}>Industry</span>
+                            </div>
+                            <FilterPageSelect
+                                value={selectIndValue}
+                                setValue={setSelectIndValue}
+                                processArr={mapFetchedFilterData}
+                                array={industries}
+                                text='Choose industry'
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div className={`bold700 ${s.filterTotalField}`}>
+                        <span>Total </span>
+                        <span className={`bold600 ${s.filterTotalNum}`}>{totalCount || 0}</span>
+                    </div>
+                    {
+                        isPopUpVis ||
+                        <UserTable
+                            itemsPerPage={itemsPerPage}
+                            handlePageChange={handlePageChange}
+                            totalCount={totalCount}
+                            pageNumber={pageNumber}
+                        />
+                    }
+                    {isPopUpVis && <UpgragePopUp />}
+                </div>
             </div>
         </FilterContext.Provider>
     )
 })
 
-const FilterPageSelect = ({ handleBlur, value, setValue, processArr, array, text }) => {
+const FilterPageSelect = ({ value, setValue, processArr, array, text }) => {
     return (
         <Select
-            onBlur={handleBlur}
             value={value}
             onChange={setValue}
             maxDropdownHeight={188}
             data={processArr(array)}
             placeholder={text}
             radius="md"
-        /* rightSectionWidth={40}
-        rightSection={}
-        onDropdownClose={() => setFocused(false)}
-        onDropdownOpen={() => setFocused(true)}
-        styles={{
-            input: ms.select.input,
-            dropdown: ms.select.dropdown,
-            item: ms.select.item,
-            rightSection: ms.select.rightSection,
-        }} */
+            rightSectionWidth={40}
+            rightSection={<ChevronDown />}
+            styles={{
+                input: ms.select.input,
+                dropdown: ms.select.dropdown,
+                item: ms.select.item,
+                rightSection: ms.select.rightSection,
+            }}
         />
     )
 }
