@@ -3,7 +3,7 @@ import s from './FilterPage.module.css'
 /* import dropDown from '../../../resources/images/dropDown.png';
 import dropDownOnFocus from '../../../resources/images/dropDownOnFocus.png'; */
 import { Select, TextInput } from '@mantine/core'
-import { Briefcase, BuildingSkyscraper, ChevronDown, Location, LocationOff, Map, MapPin, Search } from 'tabler-icons-react'
+import { Briefcase, BuildingSkyscraper, ChevronDown, MapPin, Search } from 'tabler-icons-react'
 import { useDispatch, useSelector } from "react-redux"
 import { fetchCountries, fetchIndustries, findCustomers, getUserName, selectItemsPerPage, selectTotalCount, showPopUp } from "../../redux/filterSlice"
 import ReactPaginate from "react-paginate"
@@ -40,10 +40,10 @@ const FilterPage = React.memo(() => {
         return fetchedArr.map((prop) => ({ value: prop.id, label: prop.name }))
     }
 
-    const fetchCustomersOnBlur = () => {
+    /* const fetchCustomersOnBlur = () => {
         dispatch(findCustomers({ searchValue, selectLocValue, selectIndValue, from: 0, to: 0 + itemsPerPage }))
         setPageNumber(0)
-    }
+    } */
 
     const handlePageChange = (e) => {
         const newOffset = (e.selected * itemsPerPage) % totalCount;
@@ -147,6 +147,7 @@ const FilterPageSelect = ({ value, setValue, processArr, array, text }) => {
                 dropdown: ms.select.dropdown,
                 item: ms.select.item,
                 rightSection: ms.select.rightSection,
+                wrapper: ms.select.wrapper
             }}
         />
     )

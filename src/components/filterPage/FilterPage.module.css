@@ -13,6 +13,7 @@
 
 .filterPageWrapper {
     display: flex;
+    height: 100%;
 }
 
 .filterTotalField {}
@@ -32,8 +33,10 @@
     justify-content: space-between;
     max-width: 228px;
     width: 100%;
+    height: 100%;
     gap: 50px;
     margin-left: 24px;
+    border-right: 1px solid #E7E8EF;
 }
 
 .logoTitle {

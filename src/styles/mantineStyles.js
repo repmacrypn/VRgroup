@@ -11,6 +11,13 @@ export const ms = {
             '&:hover': {
                 borderColor: '#3626A7',
             },
+            '&:focus': {
+                borderColor: '#3626A7',
+            },
+        },
+        wrapper: {
+            maxWidth: 204,
+            borderBottom: '1px solid #E7E8EF'
         },
         dropdown: {
             border: 'none',
@@ -24,20 +31,23 @@ export const ms = {
             height: 36,
             padding: 8,
             borderRadius: 8,
-            font: 'normal 400 14px/20px Inter, sans-serif',
-            color: '#232134',
-            '&[data-hovered]': {
-                backgroundColor: "#DEECFF",
-                padding: '8px 12px',
-            },
+            font: 'normal 400 14px/20px Mulish, sans-serif',
+            color: '#151515',
             '&[data-selected]': {
-                backgroundColor: "#5E96FC",
+                backgroundColor: "#20156d",
                 color: "white",
                 padding: '8px 12px',
-                font: 'normal 500 14px/20px Inter, sans-serif',
+                font: 'normal 500 14px/20px Mulish, sans-serif',
+            },
+            '&[data-hovered]': {
+                backgroundColor: "#948ad3",
+                padding: '8px 12px',
             },
         },
-        rightSection: { pointerEvents: 'none' },
+        rightSection: {
+            pointerEvents: 'none',
+            marginBottom: 16
+        },
     },
     textInput: {
         defaultInput: {
