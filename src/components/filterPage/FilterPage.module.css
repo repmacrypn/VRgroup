@@ -19,6 +19,7 @@
 .filterTotalField {}
 
 .filterTotalNum {
+    display: inline-block;
     background: rgba(54, 38, 167, 0.1);
     border-radius: 26px;
     padding: 4px 36px;
