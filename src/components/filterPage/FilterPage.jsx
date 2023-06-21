@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react"
 import s from './FilterPage.module.css'
 /* import dropDown from '../../../resources/images/dropDown.png';
 import dropDownOnFocus from '../../../resources/images/dropDownOnFocus.png'; */
-import { Select, TextInput } from '@mantine/core'
+import { Button, Select, TextInput } from '@mantine/core'
 import { Briefcase, BuildingSkyscraper, ChevronDown, MapPin, Search } from 'tabler-icons-react'
 import { useDispatch, useSelector } from "react-redux"
 import { fetchCountries, fetchIndustries, findCustomers, getUserName, selectItemsPerPage, selectTotalCount, showPopUp } from "../../redux/filterSlice"
@@ -21,6 +21,7 @@ const FilterPage = React.memo(() => {
     const countries = useSelector(state => state.filter.countries)
     const industries = useSelector(state => state.filter.industries)
     const isPopUpVis = useSelector(state => state.filter.isPopUpVisible)
+    const status = useSelector(state => state.filter.status)
     const userData = useSelector(selectIsAuth)
     const totalCount = useSelector(selectTotalCount)
     const itemsPerPage = useSelector(selectItemsPerPage)
@@ -40,10 +41,10 @@ const FilterPage = React.memo(() => {
         return fetchedArr.map((prop) => ({ value: prop.id, label: prop.name }))
     }
 
-    /* const fetchCustomersOnBlur = () => {
+    const fetchCustomersOnClick = () => {
         dispatch(findCustomers({ searchValue, selectLocValue, selectIndValue, from: 0, to: 0 + itemsPerPage }))
         setPageNumber(0)
-    } */
+    }
 
     const handlePageChange = (e) => {
         const newOffset = (e.selected * itemsPerPage) % totalCount;
@@ -68,10 +69,9 @@ const FilterPage = React.memo(() => {
                             Filters
                         </div>
                         <div className={s.filterField}>
-                            <div className={`${s.filterLabelWrapper}`}>
+                            <FilterLabel text='Job title'>
                                 <Briefcase size={14} />
-                                <span className={`bold500 ${s.filterLabel}`}>Job title</span>
-                            </div>
+                            </FilterLabel>
                             <TextInput
                                 value={searchValue}
                                 onChange={(e) => setSearchValue(e.target.value)}
@@ -85,10 +85,9 @@ const FilterPage = React.memo(() => {
                                     input: Object.assign({}, ms.textInput.defaultInput, ms.textInput.filterInput),
                                 }}
                             />
-                            <div className={`${s.filterLabelWrapper}`}>
+                            <FilterLabel text='Location'>
                                 <MapPin size={14} />
-                                <span className={`bold500 ${s.filterLabel}`}> Location</span>
-                            </div>
+                            </FilterLabel>
                             <FilterPageSelect
                                 value={selectLocValue}
                                 setValue={setSelectLocValue}
@@ -96,10 +95,9 @@ const FilterPage = React.memo(() => {
                                 array={countries}
                                 text='Choose location'
                             />
-                            <div className={`${s.filterLabelWrapper}`}>
+                            <FilterLabel text='Industry'>
                                 <BuildingSkyscraper size={14} />
-                                <span className={`bold500 ${s.filterLabel}`}>Industry</span>
-                            </div>
+                            </FilterLabel>
                             <FilterPageSelect
                                 value={selectIndValue}
                                 setValue={setSelectIndValue}
@@ -107,6 +105,17 @@ const FilterPage = React.memo(() => {
                                 array={industries}
                                 text='Choose industry'
                             />
+                            <Button
+                                onClick={fetchCustomersOnClick}
+                                disabled={status === 'loading'}
+                                radius='md'
+                                type="submit"
+                                styles={{
+                                    root: Object.assign({}, ms.button.defaultRoot, ms.button.filterRoot)
+                                }}
+                            >
+                                Find customers
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -118,6 +127,7 @@ const FilterPage = React.memo(() => {
                     {
                         isPopUpVis ||
                         <UserTable
+                            status={status}
                             itemsPerPage={itemsPerPage}
                             handlePageChange={handlePageChange}
                             totalCount={totalCount}
@@ -160,11 +170,9 @@ const UpgragePopUp = () => {
 }
 
 const UserTable = ({ itemsPerPage, handlePageChange,
-    totalCount, pageNumber }) => {
+    totalCount, pageNumber, status }) => {
 
-    const status = useSelector(state => state.filter.status)
     const customers = useSelector(state => state.filter.customers)
-
     const pageCount = Math.ceil(totalCount / itemsPerPage)
 
     const fetchedCustomers = customers.map(user => {
@@ -263,6 +271,16 @@ const UserShortInfo = ({ user, isVisible, setIsVisible, getCurUserName, getUserN
             <div>{user.country}</div>
             <div>{user.description}</div>
             <div onClick={() => setIsVisible(false)}>X</div>
+        </div>
+    )
+}
+
+const FilterLabel = ({ children, text }) => {
+    return (
+        <div className={`${s.filterLabelWrapper}`}>
+            {children}
+            {' '}
+            <span className={`bold500 ${s.filterLabel}`}>{text}</span>
         </div>
     )
 }

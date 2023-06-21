@@ -66,6 +66,7 @@ export const ms = {
             }, */
         },
         filterInput: {
+            maxWidth: 204,
             width: 204,
             height: 40,
             marginBottom: 16,
@@ -130,17 +131,27 @@ export const ms = {
         }
     },
     button: {
-        root: {
+        defaultRoot: {
             font: 'normal 600 14px/24px Mulish, sans-serif',
+            backgroundColor: '#3626A7',
+            '&:hover': {
+                backgroundColor: 'rgb(40 29 115)'
+            }
+        },
+        filterRoot: {
+            maxWidth: 204,
+            width: '100%',
+            height: 40,
+            padding: '12px 52px',
+            marginTop: 16,
+            marginBottom: 8
+        },
+        loginRoot: {
             maxWidth: 384,
             width: '100%',
             height: 48,
             padding: '12px 120px',
-            marginTop: 60,
-            backgroundColor: '#3626A7',
-            '&:hover': {
-                backgroundColor: 'rgb(40 29 115)',
-            },
+            marginTop: 60
         }
     }
 }

@@ -99,7 +99,7 @@ const LoginForm = () => {
                 radius='md'
                 type="submit"
                 styles={{
-                    root: ms.button.root,
+                    root: Object.assign({}, ms.button.defaultRoot, ms.button.loginRoot)
                 }}
             >
                 Login
