@@ -3,7 +3,7 @@ import s from './FilterPage.module.css'
 /* import dropDown from '../../../resources/images/dropDown.png';
 import dropDownOnFocus from '../../../resources/images/dropDownOnFocus.png'; */
 import { Button, Select, TextInput } from '@mantine/core'
-import { Briefcase, BuildingSkyscraper, ChevronDown, MapPin, Search } from 'tabler-icons-react'
+import { Briefcase, BuildingSkyscraper, ChevronDown, History, MapPin, Search } from 'tabler-icons-react'
 import { useDispatch, useSelector } from "react-redux"
 import { fetchCountries, fetchIndustries, findCustomers, getUserName, selectItemsPerPage, selectTotalCount, showPopUp } from "../../redux/filterSlice"
 import ReactPaginate from "react-paginate"
@@ -70,7 +70,7 @@ const FilterPage = React.memo(() => {
                         </div>
                         <div className={s.filterField}>
                             <FilterLabel text='Job title'>
-                                <Briefcase size={14} />
+                                <Briefcase viewBox="0 -2 24 24" size={14} />
                             </FilterLabel>
                             <TextInput
                                 value={searchValue}
@@ -86,7 +86,7 @@ const FilterPage = React.memo(() => {
                                 }}
                             />
                             <FilterLabel text='Location'>
-                                <MapPin size={14} />
+                                <MapPin viewBox="0 -1 24 24" size={14} />
                             </FilterLabel>
                             <FilterPageSelect
                                 value={selectLocValue}
@@ -96,7 +96,7 @@ const FilterPage = React.memo(() => {
                                 text='Choose location'
                             />
                             <FilterLabel text='Industry'>
-                                <BuildingSkyscraper size={14} />
+                                <BuildingSkyscraper viewBox="0 -1 24 24" size={14} />
                             </FilterLabel>
                             <FilterPageSelect
                                 value={selectIndValue}
@@ -294,6 +294,16 @@ const GreetingsState = () => {
             <div className={s.greetsEmptyState}>
                 Start your people search by applying
                 any filter in the left panel
+            </div>
+            <div className={s.recentSearchWrapper}>
+                <FilterLabel text='Recent searches'>
+                    <History viewBox="-16 -2 24 24" width={30} height={14} />
+                </FilterLabel>
+                <div className={s.recentSearchBorder}>
+                    <div className={`${s.recentSearches} bold500`}>
+                        Your last four searches will be here for quick access
+                    </div>
+                </div>
             </div>
         </div>
     )

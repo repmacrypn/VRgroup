@@ -42,7 +42,6 @@
     height: 100%;
     gap: 50px;
     margin-left: 24px;
-    border-right: 1px solid #E7E8EF;
 }
 
 .logoTitle {
@@ -71,13 +70,15 @@
 
 .filterLabel {
     display: inline-block;
+    font-size: 15px;
 }
 
 .filterResultWrapper {
+    border-left: 1px solid #E7E8EF;
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: 100vh;
 }
 
 .greetStWrapper {
@@ -100,5 +101,28 @@
     text-align: center;
     padding-top: 145px;
     margin: auto;
-    background: url('../../assets/images//emptyState.png') no-repeat 50% 0/188px 121px;
+    background: url('../../assets/images/emptyState.png') no-repeat 50% 0/188px 121px;
+}
+
+.recentSearchWrapper {
+    border: 1px solid #E7E8EF;
+    border-radius: 16px;
+    max-width: 488px;
+    width: 100%;
+    height: 200px;
+    margin: 56px auto 20px auto;
+}
+
+.recentSearchBorder {
+    border-top: 1px solid #E7E8EF;
+    padding-top: 16px;
+    margin-top: 8px;
+}
+
+.recentSearches {
+    max-width: 210px;
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 85px;
+    background: url('../../assets/images/emptySearches.png') no-repeat 50% 0/79px 79px;
 }
