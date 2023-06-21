@@ -5,7 +5,10 @@ import dropDownOnFocus from '../../../resources/images/dropDownOnFocus.png'; */
 import { Button, Select, TextInput } from '@mantine/core'
 import { Briefcase, BuildingSkyscraper, ChevronDown, History, MapPin, Search } from 'tabler-icons-react'
 import { useDispatch, useSelector } from "react-redux"
-import { addRecentSearch, clearCustomers, fetchCountries, fetchIndustries, findCustomers, getUserName, selectItemsPerPage, selectTotalCount, showPopUp } from "../../redux/filterSlice"
+import {
+    addRecentSearch, clearCustomers, fetchCountries, fetchIndustries,
+    findCustomers, getUserName, selectItemsPerPage, selectTotalCount, showPopUp
+} from "../../redux/filterSlice"
 import ReactPaginate from "react-paginate"
 import { EmptyState } from "../common components/emptyState/EmptyState"
 import Preloader from "../common components/preloader/Preloader"
@@ -16,6 +19,9 @@ import '../../styles/fonts.css'
 import { ms } from '../../styles/mantineStyles';
 
 export const FilterContext = React.createContext()
+
+//сделать чтоб каждый раз не требовало кантриз и индастриз + перенести работу с локальным стейтом в нужный компонент + не забыть посмотреть недочет в попапе
+// + сделать проверку на добавление в рисент (типо если такой запрос был, не доюавлять его снова)
 
 const FilterPage = React.memo(() => {
     const isPopUpVis = useSelector(state => state.filter.isPopUpVisible)
@@ -107,7 +113,10 @@ const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, s
             searchValue, selectLocValue, selectIndValue,
             from: 0, to: 0 + itemsPerPage
         }))
-        dispatch(addRecentSearch({ searchValue, selectLocValue, selectIndValue }))
+        dispatch(addRecentSearch({
+            searchValue, locIndex: selectLocValue, selectLocValue: countries[selectLocValue - 1]?.name,
+            indIndex: selectIndValue, selectIndValue: industries[selectIndValue - 1]?.name
+        }))
         setPageNumber(0)
     }
 
@@ -116,12 +125,11 @@ const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, s
             dispatch(clearCustomers())
         }
     }, [dispatch])
-    console.log('ohyel?')
 
     return (
         <div className={s.filterField}>
             <FilterLabel text='Job title'>
-                <Briefcase viewBox="0 -2 24 24" size={14} />
+                <Briefcase viewBox="0 -2 24 24" height={14} width={26} />
             </FilterLabel>
             <TextInput
                 value={searchValue}
@@ -137,7 +145,7 @@ const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, s
                 }}
             />
             <FilterLabel text='Location'>
-                <MapPin viewBox="0 -1 24 24" size={14} />
+                <MapPin viewBox="0 -1 24 24" height={14} width={26} />
             </FilterLabel>
             <FilterPageSelect
                 value={selectLocValue}
@@ -147,7 +155,7 @@ const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, s
                 text='Choose location'
             />
             <FilterLabel text='Industry'>
-                <BuildingSkyscraper viewBox="0 -1 24 24" size={14} />
+                <BuildingSkyscraper viewBox="0 -1 24 24" height={14} width={26} />
             </FilterLabel>
             <FilterPageSelect
                 value={selectIndValue}
@@ -310,7 +318,6 @@ const FilterLabel = ({ children, text }) => {
     return (
         <div className={`${s.filterLabelWrapper}`}>
             {children}
-            {' '}
             <span className={`bold500 ${s.filterLabel}`}>{text}</span>
         </div>
     )
@@ -328,7 +335,7 @@ const GreetingsState = () => {
             </div>
             <div className={s.recentSearchWrapper}>
                 <FilterLabel text='Recent searches'>
-                    <History viewBox="-16 -2 24 24" width={30} height={14} />
+                    <History viewBox="-16 -2 24 24" width={40} height={14} />
                 </FilterLabel>
                 <RecentSearches />
             </div>
@@ -354,16 +361,30 @@ const RecentSearches = () => {
     )
 }
 
-const RecentItem = ({ searchData }) => {
+const RecentItem = ({ searchData, itemsPerPage = 12 }) => {
+    const status = useSelector(state => state.filter.status)
+    const dispatch = useDispatch()
+
+    const getCustomersOnClick = () => {
+        dispatch(findCustomers({
+            searchValue: searchData.searchValue, selectLocValue: searchData.locIndex,
+            selectIndValue: searchData.indIndex, from: 0, to: 0 + itemsPerPage
+        }))
+    }
+
     return (
-        <div className={s.recentSearchData}>
-            <Briefcase viewBox="0 -2 24 24" size={14} />
-            <span>{searchData.searchValue}</span>
-            <MapPin viewBox="0 -1 24 24" size={14} />
-            <span>{searchData.selectLocValue}</span>
-            <BuildingSkyscraper viewBox="0 -1 24 24" size={14} />
-            <span>{searchData.selectIndValue}</span>
-        </div>
+        <button
+            onClick={getCustomersOnClick}
+            disabled={status === 'loading'}
+            className={s.recentSearchData}
+        >
+            <Briefcase viewBox="0 -2 24 24" height={15} width={26} />
+            <span>{searchData.searchValue || 'none'}</span>
+            <MapPin viewBox="0 -1 24 24" height={15} width={26} />
+            <span>{searchData.selectLocValue || 'none'}</span>
+            <BuildingSkyscraper viewBox="0 -1 24 24" height={15} width={26} />
+            <span>{searchData.selectIndValue || 'none'}</span>
+        </button>
     )
 }
 
