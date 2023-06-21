@@ -119,7 +119,7 @@ const FilterPage = React.memo(() => {
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className={s.filterResultWrapper}>
                     <div className={`bold700 ${s.filterTotalField}`}>
                         <span>Total </span>
                         <span className={`bold600 ${s.filterTotalNum}`}>{totalCount || 0}</span>
@@ -179,7 +179,7 @@ const UserTable = ({ itemsPerPage, handlePageChange,
         return <UserTableInfo key={user.id} user={user} />
     })
 
-    if (totalCount === null) return <div>Main filter</div>
+    if (totalCount === null) return <GreetingsState />
     if (status === 'loading') return <Preloader />
     if (totalCount === '0') return <EmptyState />
 
@@ -281,6 +281,20 @@ const FilterLabel = ({ children, text }) => {
             {children}
             {' '}
             <span className={`bold500 ${s.filterLabel}`}>{text}</span>
+        </div>
+    )
+}
+
+const GreetingsState = () => {
+    return (
+        <div className={s.greetStWrapper}>
+            <div className={`${s.filtersTip} bold500`}>
+                Add filters to begin your search
+            </div>
+            <div className={s.greetsEmptyState}>
+                Start your people search by applying
+                any filter in the left panel
+            </div>
         </div>
     )
 }
