@@ -7,6 +7,7 @@ const initialState = {
     customers: [],
     countries: [],
     industries: [],
+    recentSearchArray: [],
     usersFullNameArray: [],
     totalCount: null,
     itemsPerPage: 12,
@@ -19,6 +20,17 @@ const filterSlice = createSlice({
     reducers: {
         showPopUp: (state) => {
             state.isPopUpVisible = true
+        },
+        addRecentSearch: (state, action) => {
+            const array = state.recentSearchArray
+            if (array.length === 4) {
+                array.shift()
+            }
+            array.push(action.payload)
+        },
+        clearCustomers: (state) => {
+            state.customers.length = 0
+            state.totalCount = null
         }
     },
     extraReducers(builder) {
@@ -72,6 +84,6 @@ export const getUserName = createAsyncThunk('filter/getUserName', async (userId)
 export const selectTotalCount = (state) => state.filter.totalCount
 export const selectItemsPerPage = (state) => state.filter.itemsPerPage
 
-export const { showPopUp } = filterSlice.actions
+export const { showPopUp, addRecentSearch, clearCustomers } = filterSlice.actions
 
 export default filterSlice.reducer

@@ -5,7 +5,7 @@ import dropDownOnFocus from '../../../resources/images/dropDownOnFocus.png'; */
 import { Button, Select, TextInput } from '@mantine/core'
 import { Briefcase, BuildingSkyscraper, ChevronDown, History, MapPin, Search } from 'tabler-icons-react'
 import { useDispatch, useSelector } from "react-redux"
-import { fetchCountries, fetchIndustries, findCustomers, getUserName, selectItemsPerPage, selectTotalCount, showPopUp } from "../../redux/filterSlice"
+import { addRecentSearch, clearCustomers, fetchCountries, fetchIndustries, findCustomers, getUserName, selectItemsPerPage, selectTotalCount, showPopUp } from "../../redux/filterSlice"
 import ReactPaginate from "react-paginate"
 import { EmptyState } from "../common components/emptyState/EmptyState"
 import Preloader from "../common components/preloader/Preloader"
@@ -18,10 +18,7 @@ import { ms } from '../../styles/mantineStyles';
 export const FilterContext = React.createContext()
 
 const FilterPage = React.memo(() => {
-    const countries = useSelector(state => state.filter.countries)
-    const industries = useSelector(state => state.filter.industries)
     const isPopUpVis = useSelector(state => state.filter.isPopUpVisible)
-    const status = useSelector(state => state.filter.status)
     const userData = useSelector(selectIsAuth)
     const totalCount = useSelector(selectTotalCount)
     const itemsPerPage = useSelector(selectItemsPerPage)
@@ -36,15 +33,6 @@ const FilterPage = React.memo(() => {
         dispatch(fetchCountries())
         dispatch(fetchIndustries())
     }, [dispatch])
-
-    const mapFetchedFilterData = (fetchedArr) => {
-        return fetchedArr.map((prop) => ({ value: prop.id, label: prop.name }))
-    }
-
-    const fetchCustomersOnClick = () => {
-        dispatch(findCustomers({ searchValue, selectLocValue, selectIndValue, from: 0, to: 0 + itemsPerPage }))
-        setPageNumber(0)
-    }
 
     const handlePageChange = (e) => {
         const newOffset = (e.selected * itemsPerPage) % totalCount;
@@ -68,55 +56,16 @@ const FilterPage = React.memo(() => {
                         <div className={`bold600 ${s.filtersTitle}`}>
                             Filters
                         </div>
-                        <div className={s.filterField}>
-                            <FilterLabel text='Job title'>
-                                <Briefcase viewBox="0 -2 24 24" size={14} />
-                            </FilterLabel>
-                            <TextInput
-                                value={searchValue}
-                                onChange={(e) => setSearchValue(e.target.value)}
-                                icon={<Search color="black" size={16} />}
-                                iconWidth={30}
-                                placeholder="Search by job title"
-                                radius="md"
-                                styles={{
-                                    wrapper: ms.textInput.wrapper,
-                                    icon: ms.textInput.icon,
-                                    input: Object.assign({}, ms.textInput.defaultInput, ms.textInput.filterInput),
-                                }}
-                            />
-                            <FilterLabel text='Location'>
-                                <MapPin viewBox="0 -1 24 24" size={14} />
-                            </FilterLabel>
-                            <FilterPageSelect
-                                value={selectLocValue}
-                                setValue={setSelectLocValue}
-                                processArr={mapFetchedFilterData}
-                                array={countries}
-                                text='Choose location'
-                            />
-                            <FilterLabel text='Industry'>
-                                <BuildingSkyscraper viewBox="0 -1 24 24" size={14} />
-                            </FilterLabel>
-                            <FilterPageSelect
-                                value={selectIndValue}
-                                setValue={setSelectIndValue}
-                                processArr={mapFetchedFilterData}
-                                array={industries}
-                                text='Choose industry'
-                            />
-                            <Button
-                                onClick={fetchCustomersOnClick}
-                                disabled={status === 'loading'}
-                                radius='md'
-                                type="submit"
-                                styles={{
-                                    root: Object.assign({}, ms.button.defaultRoot, ms.button.filterRoot)
-                                }}
-                            >
-                                Find customers
-                            </Button>
-                        </div>
+                        <FilterField
+                            setPageNumber={setPageNumber}
+                            itemsPerPage={itemsPerPage}
+                            searchValue={searchValue}
+                            setSearchValue={setSearchValue}
+                            selectLocValue={selectLocValue}
+                            setSelectLocValue={setSelectLocValue}
+                            selectIndValue={selectIndValue}
+                            setSelectIndValue={setSelectIndValue}
+                        />
                     </div>
                 </div>
                 <div className={s.filterResultWrapper}>
@@ -127,7 +76,6 @@ const FilterPage = React.memo(() => {
                     {
                         isPopUpVis ||
                         <UserTable
-                            status={status}
                             itemsPerPage={itemsPerPage}
                             handlePageChange={handlePageChange}
                             totalCount={totalCount}
@@ -138,6 +86,88 @@ const FilterPage = React.memo(() => {
                 </div>
             </div>
         </FilterContext.Provider>
+    )
+})
+
+const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, setPageNumber,
+    setSelectLocValue, selectIndValue, setSelectIndValue, itemsPerPage }) => {
+
+    const countries = useSelector(state => state.filter.countries)
+    const industries = useSelector(state => state.filter.industries)
+    const status = useSelector(state => state.filter.status)
+
+    const dispatch = useDispatch()
+
+    const mapFetchedFilterData = (fetchedArr) => {
+        return fetchedArr.map((prop) => ({ value: prop.id, label: prop.name }))
+    }
+
+    const fetchCustomersOnClick = () => {
+        dispatch(findCustomers({
+            searchValue, selectLocValue, selectIndValue,
+            from: 0, to: 0 + itemsPerPage
+        }))
+        dispatch(addRecentSearch({ searchValue, selectLocValue, selectIndValue }))
+        setPageNumber(0)
+    }
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearCustomers())
+        }
+    }, [dispatch])
+    console.log('ohyel?')
+
+    return (
+        <div className={s.filterField}>
+            <FilterLabel text='Job title'>
+                <Briefcase viewBox="0 -2 24 24" size={14} />
+            </FilterLabel>
+            <TextInput
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                icon={<Search color="black" size={16} />}
+                iconWidth={30}
+                placeholder="Search by job title"
+                radius="md"
+                styles={{
+                    wrapper: ms.textInput.wrapper,
+                    icon: ms.textInput.icon,
+                    input: Object.assign({}, ms.textInput.defaultInput, ms.textInput.filterInput),
+                }}
+            />
+            <FilterLabel text='Location'>
+                <MapPin viewBox="0 -1 24 24" size={14} />
+            </FilterLabel>
+            <FilterPageSelect
+                value={selectLocValue}
+                setValue={setSelectLocValue}
+                processArr={mapFetchedFilterData}
+                array={countries}
+                text='Choose location'
+            />
+            <FilterLabel text='Industry'>
+                <BuildingSkyscraper viewBox="0 -1 24 24" size={14} />
+            </FilterLabel>
+            <FilterPageSelect
+                value={selectIndValue}
+                setValue={setSelectIndValue}
+                processArr={mapFetchedFilterData}
+                array={industries}
+                text='Choose industry'
+            />
+            <Button
+                onClick={fetchCustomersOnClick}
+                disabled={status === 'loading'}
+                radius='md'
+                type="submit"
+                styles={{
+                    root: Object.assign({}, ms.button.defaultRoot, ms.button.filterRoot)
+                }}
+            >
+                Find customers
+            </Button>
+        </div>
     )
 })
 
@@ -170,10 +200,11 @@ const UpgragePopUp = () => {
 }
 
 const UserTable = ({ itemsPerPage, handlePageChange,
-    totalCount, pageNumber, status }) => {
+    totalCount, pageNumber }) => {
 
     const customers = useSelector(state => state.filter.customers)
     const pageCount = Math.ceil(totalCount / itemsPerPage)
+    const status = useSelector(state => state.filter.status)
 
     const fetchedCustomers = customers.map(user => {
         return <UserTableInfo key={user.id} user={user} />
@@ -299,12 +330,39 @@ const GreetingsState = () => {
                 <FilterLabel text='Recent searches'>
                     <History viewBox="-16 -2 24 24" width={30} height={14} />
                 </FilterLabel>
-                <div className={s.recentSearchBorder}>
+                <RecentSearches />
+            </div>
+        </div>
+    )
+}
+
+const RecentSearches = () => {
+    const recentSearchArray = useSelector(state => state.filter.recentSearchArray)
+
+    const resentResultArray = recentSearchArray.map((searchData) => (<RecentItem searchData={searchData} />))
+
+    return (
+        <div className={s.recentSearchBorder}>
+            {
+                recentSearchArray.length ?
+                    resentResultArray :
                     <div className={`${s.recentSearches} bold500`}>
                         Your last four searches will be here for quick access
                     </div>
-                </div>
-            </div>
+            }
+        </div>
+    )
+}
+
+const RecentItem = ({ searchData }) => {
+    return (
+        <div className={s.recentSearchData}>
+            <Briefcase viewBox="0 -2 24 24" size={14} />
+            <span>{searchData.searchValue}</span>
+            <MapPin viewBox="0 -1 24 24" size={14} />
+            <span>{searchData.selectLocValue}</span>
+            <BuildingSkyscraper viewBox="0 -1 24 24" size={14} />
+            <span>{searchData.selectIndValue}</span>
         </div>
     )
 }

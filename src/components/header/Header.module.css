@@ -22,4 +22,5 @@
 
 .headerNavLink:hover {
     background: #fafbfd;
+    cursor: pointer;
 }

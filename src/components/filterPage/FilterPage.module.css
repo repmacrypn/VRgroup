@@ -127,3 +127,15 @@
     padding-top: 85px;
     background: url('../../assets/images/emptySearches.png') no-repeat 50% 0/79px 79px;
 }
+
+.recentSearchData {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #E7E8EF;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.recentSearchData:hover {
+    border-color: #3626A7;
+}
