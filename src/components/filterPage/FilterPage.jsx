@@ -20,7 +20,7 @@ import { ms } from '../../styles/mantineStyles';
 
 export const FilterContext = React.createContext()
 
-//перенести работу с локальным стейтом в нужный компонент + не забыть посмотреть недочет в попапе
+//перенести работу с локальным стейтом в нужный компонент
 
 const FilterPage = React.memo(() => {
     const isPopUpVis = useSelector(state => state.filter.isPopUpVisible)
@@ -36,8 +36,11 @@ const FilterPage = React.memo(() => {
 
     const handlePageChange = (e) => {
         const newOffset = (e.selected * itemsPerPage) % totalCount;
-        if (newOffset >= 60) dispatch(showPopUp())
-        dispatch(findCustomers({ searchValue, selectLocValue, selectIndValue, from: newOffset, to: newOffset + itemsPerPage }))
+        if (newOffset >= 60) {
+            dispatch(showPopUp(true))
+        } else {
+            dispatch(findCustomers({ searchValue, selectLocValue, selectIndValue, from: newOffset, to: newOffset + itemsPerPage }))
+        }
         setPageNumber(e.selected);
     }
 
@@ -57,6 +60,7 @@ const FilterPage = React.memo(() => {
                             Filters
                         </div>
                         <FilterField
+                            isPopUpVis={isPopUpVis}
                             setPageNumber={setPageNumber}
                             itemsPerPage={itemsPerPage}
                             searchValue={searchValue}
@@ -90,7 +94,7 @@ const FilterPage = React.memo(() => {
 })
 
 const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, setPageNumber,
-    setSelectLocValue, selectIndValue, setSelectIndValue, itemsPerPage }) => {
+    setSelectLocValue, selectIndValue, setSelectIndValue, itemsPerPage, isPopUpVis }) => {
 
     const countries = useSelector(state => state.filter.countries)
     const industries = useSelector(state => state.filter.industries)
@@ -111,6 +115,7 @@ const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, s
             searchValue, locIndex: selectLocValue, selectLocValue: countries[selectLocValue - 1]?.name,
             indIndex: selectIndValue, selectIndValue: industries[selectIndValue - 1]?.name
         }))
+        if (isPopUpVis) dispatch(showPopUp(false))
         setPageNumber(0)
     }
 

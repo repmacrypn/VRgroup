@@ -18,8 +18,8 @@ const filterSlice = createSlice({
     name: 'filter',
     initialState,
     reducers: {
-        showPopUp: (state) => {
-            state.isPopUpVisible = true
+        showPopUp: (state, action) => {
+            state.isPopUpVisible = action.payload
         },
         addRecentSearch: (state, action) => {
             const array = state.recentSearchArray
