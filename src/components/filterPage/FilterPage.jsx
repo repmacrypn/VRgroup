@@ -12,7 +12,7 @@ import {
 import ReactPaginate from "react-paginate"
 import { EmptyState } from "../common components/emptyState/EmptyState"
 import Preloader from "../common components/preloader/Preloader"
-import { Navigate } from "react-router-dom"
+import { NavLink, Navigate } from "react-router-dom"
 import { selectIsAuth } from "../../redux/authSlice"
 import '../../styles/fonts.css'
 /* import { selectIsAuth } from "../../redux/authSlice";*/
@@ -242,9 +242,12 @@ const UpgragePopUp = ({ showPopUp, setPageNumber, itemsPerPage }) => {
             </div>
         </div>
         <div className={`${s.popUpButWrapper} bold600`}>
-            <div className={s.popUpSubButton}>
+            <NavLink
+                className={s.popUpSubButton}
+                to='/upgradeVersionPage'
+            >
                 Upgrade
-            </div>
+            </NavLink>
             <div onClick={onDismissClick} className={s.popUpDismissButton}>
                 Maybe later
             </div>

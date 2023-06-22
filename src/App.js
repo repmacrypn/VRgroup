@@ -8,6 +8,7 @@ import { Header } from './components/header/Header';
 import { ProfilePage } from './components/profilePage/ProfilePage';
 import { useSelector } from 'react-redux';
 import { selectIsAuth } from './redux/authSlice';
+import { UpgradePage } from './components/upgradePage/UpgradePage';
 
 function App() {
   const userData = useSelector(selectIsAuth)
@@ -18,6 +19,7 @@ function App() {
         <Route path='/' element={<Navigate to='/loginPage' />} />
         <Route path='/loginPage' element={<LoginPage />} />
         <Route path='/filterPage' element={<FilterPage />} />
+        <Route path='/upgradeVersionPage' element={<UpgradePage />} />
         <Route path='/profilePage' element={<ProfilePage />} />
         <Route path='*' element={<PageNotFound />} />
       </Routes>

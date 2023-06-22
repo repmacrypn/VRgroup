@@ -189,11 +189,13 @@
 }
 
 .popUpSubButton {
+    display: block;
     background-color: #3626A7;
     border-radius: 8px;
     color: white;
     margin: 10px auto;
     padding: 8px 80px;
+    text-decoration: none;
 }
 
 .popUpSubButton:hover {
