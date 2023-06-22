@@ -23,10 +23,13 @@ const filterSlice = createSlice({
         },
         addRecentSearch: (state, action) => {
             const array = state.recentSearchArray
-            if (array.length === 4) {
-                array.shift()
+            const curDataObj = JSON.stringify(action.payload)
+            const isInArray = array.find(dataObj => JSON.stringify(dataObj) === curDataObj)
+
+            if (!isInArray) {
+                if (array.length === 4) array.shift()
+                array.push(action.payload)
             }
-            array.push(action.payload)
         },
         clearCustomers: (state) => {
             state.customers.length = 0

@@ -20,8 +20,7 @@ import { ms } from '../../styles/mantineStyles';
 
 export const FilterContext = React.createContext()
 
-//сделать чтоб каждый раз не требовало кантриз и индастриз + перенести работу с локальным стейтом в нужный компонент + не забыть посмотреть недочет в попапе
-// + сделать проверку на добавление в рисент (типо если такой запрос был, не доюавлять его снова)
+//перенести работу с локальным стейтом в нужный компонент + не забыть посмотреть недочет в попапе
 
 const FilterPage = React.memo(() => {
     const isPopUpVis = useSelector(state => state.filter.isPopUpVisible)
