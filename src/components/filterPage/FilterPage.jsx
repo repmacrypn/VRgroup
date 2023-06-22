@@ -17,6 +17,7 @@ import { selectIsAuth } from "../../redux/authSlice"
 import '../../styles/fonts.css'
 /* import { selectIsAuth } from "../../redux/authSlice";*/
 import { ms } from '../../styles/mantineStyles';
+import popUpIcon from '../../assets/images/popUpIcon.svg'
 
 export const FilterContext = React.createContext()
 
@@ -211,7 +212,30 @@ const FilterPageSelect = ({ value, setValue, processArr, array, text }) => {
 
 const UpgragePopUp = () => {
     return <div className={s.popUpVisible}>
-        UPGRADE
+        <img
+            height={56}
+            width={56}
+            className={s.popUpIcon}
+            src={popUpIcon}
+            alt='popUpIcon'
+        />
+        <div className={s.popupParWrapper}>
+            <div className={s.popUpTitle}>
+                Upgrade now
+            </div>
+            <div className={`${s.popUpAbstract} regular400`}>
+                You are on limited version which allows
+                viewing up to 60 contacts. Upgrade your plan to view all pages.
+            </div>
+        </div>
+        <div className={`${s.popUpButWrapper} bold600`}>
+            <div className={s.popUpSubButton}>
+                Upgrade
+            </div>
+            <div className={s.popUpDismissButton}>
+                Maybe later
+            </div>
+        </div>
     </div>
 }
 
