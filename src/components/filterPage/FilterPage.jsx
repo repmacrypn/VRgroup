@@ -35,11 +35,6 @@ const FilterPage = React.memo(() => {
     const [selectLocValue, setSelectLocValue] = useState('')
     const [selectIndValue, setSelectIndValue] = useState('')
 
-    useEffect(() => {
-        dispatch(fetchCountries())
-        dispatch(fetchIndustries())
-    }, [dispatch])
-
     const handlePageChange = (e) => {
         const newOffset = (e.selected * itemsPerPage) % totalCount;
         if (newOffset >= 60) dispatch(showPopUp())
@@ -125,6 +120,15 @@ const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, s
             dispatch(clearCustomers())
         }
     }, [dispatch])
+
+    useEffect(() => {
+        if (!countries.length) {
+            dispatch(fetchCountries())
+        }
+        if (!industries.length) {
+            dispatch(fetchIndustries())
+        }
+    }, [dispatch, countries.length, industries.length])
 
     return (
         <div className={s.filterField}>
