@@ -87,7 +87,14 @@ const FilterPage = React.memo(() => {
                             pageNumber={pageNumber}
                         />
                     }
-                    {isPopUpVis && <UpgragePopUp />}
+                    {
+                        isPopUpVis &&
+                        <UpgragePopUp
+                            showPopUp={showPopUp}
+                            setPageNumber={setPageNumber}
+                            itemsPerPage={itemsPerPage}
+                        />
+                    }
                 </div>
             </div>
         </FilterContext.Provider>
@@ -210,7 +217,13 @@ const FilterPageSelect = ({ value, setValue, processArr, array, text }) => {
     )
 }
 
-const UpgragePopUp = () => {
+const UpgragePopUp = ({ showPopUp, setPageNumber, itemsPerPage }) => {
+    const dispatch = useDispatch()
+    const onDismissClick = () => {
+        dispatch(showPopUp(false))
+        setPageNumber(Math.ceil(60 / itemsPerPage - 1))
+    }
+
     return <div className={s.popUpVisible}>
         <img
             height={56}
@@ -232,7 +245,7 @@ const UpgragePopUp = () => {
             <div className={s.popUpSubButton}>
                 Upgrade
             </div>
-            <div className={s.popUpDismissButton}>
+            <div onClick={onDismissClick} className={s.popUpDismissButton}>
                 Maybe later
             </div>
         </div>

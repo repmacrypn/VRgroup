@@ -193,7 +193,7 @@
     border-radius: 8px;
     color: white;
     margin: 10px auto;
-    padding: 10px 80px;
+    padding: 8px 80px;
 }
 
 .popUpSubButton:hover {
@@ -203,8 +203,9 @@
 
 .popUpDismissButton {
     color: #3626A7;
-    margin: 0 auto 20px;
+    margin: 0 auto 10px;
     text-align: center;
+    padding: 8px 0;
 }
 
 .popUpDismissButton:hover {
