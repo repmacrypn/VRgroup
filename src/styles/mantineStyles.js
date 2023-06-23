@@ -96,13 +96,11 @@ export const ms = {
             height: 40,
             marginTop: 5
         },
-        profileEmailInput: {
-            borderBottom: '1px solid #E7E8EF'
-        },
         profileEmailPasswordWrapper: {
             maxWidth: 668,
             width: '94.2%',
-            margin: '0 auto'
+            margin: '0 auto',
+            borderTop: '1px solid #E7E8EF'
         },
         wrapper: {
             maxWidth: 204,
@@ -171,12 +169,20 @@ export const ms = {
             marginTop: 8,
             marginBottom: 16
         },
+        profileRoot: {
+            maxWidth: 204,
+            width: '100%',
+            height: 40,
+            padding: '6px 32px 0',
+            margin: '0 auto 10px'
+        },
         loginRoot: {
             maxWidth: 384,
             width: '100%',
             height: 48,
             padding: '12px 120px',
-            marginTop: 60
+            marginTop: 60,
+            display: 'block'
         }
     }
 }

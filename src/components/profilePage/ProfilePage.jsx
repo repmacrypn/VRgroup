@@ -1,4 +1,4 @@
-import { TextInput } from "@mantine/core"
+import { Button, TextInput } from "@mantine/core"
 import React, { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, Navigate } from "react-router-dom"
@@ -10,6 +10,7 @@ import { ms } from "../../styles/mantineStyles"
 
 export const ProfilePage = () => {
     const userData = useSelector(state => state.auth.userData)
+    const status = useSelector(state => state.auth.status)
     const dispatch = useDispatch()
 
     const [name, setName] = useState(userData?.firstName)
@@ -19,6 +20,10 @@ export const ProfilePage = () => {
 
     const logoutOnClick = () => {
         dispatch(logout())
+    }
+
+    const changeUserDataOnClick = () => {
+
     }
 
     if (!userData) return <Navigate to='/loginPage' />
@@ -77,6 +82,18 @@ export const ProfilePage = () => {
                                 />
                             </div>
                         </div>
+                        <Button
+                            onClick={changeUserDataOnClick}
+                            disabled={status === 'loading'}
+                            radius='md'
+                            type="submit"
+                            styles={{
+                                /* inner: { width: 150, height: 20 }, */
+                                root: Object.assign({}, ms.button.defaultRoot, ms.button.profileRoot)
+                            }}
+                        >
+                            Change user creds
+                        </Button>
                         <div>
                             <TextInput
                                 value={email}

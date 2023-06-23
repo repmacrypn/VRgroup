@@ -72,9 +72,8 @@
 
 .nameSurnameWrapper {
     display: flex;
-    padding: 10px 0;
+    padding: 10px 0 5px;
     margin: 0 10px;
-    border-bottom: 1px solid #E7E8EF;
     justify-content: center;
     gap: 10px;
 }
@@ -86,4 +85,22 @@
 
 .rightSection {
     color: #3626A7
+}
+
+.profileButton {
+    max-width: 204px;
+    width: 100%;
+    height: 40px;
+    padding: 8px 32px;
+    margin: 0 auto 10px;
+    font: normal 600 14px/24px Mulish, sans-serif;
+    background-color: #3626A7;
+    border-radius: 6px;
+    color: white;
+    border: none;
+}
+
+.profileButton:hover {
+    background-color: rgb(40 29 115);
+    cursor: pointer;
 }
