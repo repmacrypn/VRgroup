@@ -82,6 +82,11 @@ export const ms = {
                 width: '100%',
             }, */
         },
+        nameSurnameInput: {
+            maxWidth: 220,
+            height: 40,
+            marginTop: 5
+        },
         wrapper: {
             maxWidth: 204,
             borderBottom: '1px solid #E7E8EF'

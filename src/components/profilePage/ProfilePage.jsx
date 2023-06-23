@@ -1,4 +1,4 @@
-import { Input } from "@mantine/core"
+import { TextInput } from "@mantine/core"
 import React, { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, Navigate } from "react-router-dom"
@@ -6,13 +6,14 @@ import { logout } from "../../redux/authSlice"
 import s from './ProfilePage.module.css'
 import '../../styles/fonts.css'
 import { ArrowLeft, Logout } from "tabler-icons-react"
+import { ms } from "../../styles/mantineStyles"
 
 export const ProfilePage = () => {
     const userData = useSelector(state => state.auth.userData)
     const dispatch = useDispatch()
 
-    const [email, setEmail] = useState('test@nyblecraft.com')
-    const [password, setPassword] = useState('12345678qQ')
+    const [name, setName] = useState(userData?.firstName)
+    const [surname, setSurname] = useState(userData?.lastName)
 
     const logoutOnClick = () => {
         dispatch(logout())
@@ -49,21 +50,37 @@ export const ProfilePage = () => {
                                 <div className={`bold600`}>
                                     First Name
                                 </div>
-                                <div>
-                                    {userData.firstName}
-                                </div>
+                                <TextInput
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    placeholder="Change username..."
+                                    radius="md"
+                                    styles={{
+                                        input: Object.assign({}, ms.textInput.defaultInput, ms.textInput.nameSurnameInput),
+                                    }}
+                                />
                             </div>
                             <div className={s.surnameWrapper}>
                                 <div className={`bold600`}>
                                     Last Name
                                 </div>
-                                <div>
-                                    {userData.lastName}
-                                </div>
+                                <TextInput
+                                    value={surname}
+                                    onChange={(e) => setSurname(e.target.value)}
+                                    placeholder="Change surname..."
+                                    radius="md"
+                                    styles={{
+                                        input: Object.assign({}, ms.textInput.defaultInput, ms.textInput.nameSurnameInput),
+                                    }}
+                                />
                             </div>
                         </div>
-                        <Input value={email} onChange={(e) => setEmail(e.target.value)} />
-                        <Input value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <div>
+                            {userData.email}
+                        </div>
+                        <div>
+                            hidden:)
+                        </div>
                     </div>
                 </div>
                 <div className={s.profileSubscribtion}>
