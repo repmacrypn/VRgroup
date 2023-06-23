@@ -60,7 +60,20 @@ export const authAPI = {
             throw new Error(e.response.data.message)
         }
     },
+    async changeUserCreds(name, surname) {
+        try {
+            const response = await instance.put(`profile`, {
+                "firstName": name,
+                "lastName": surname
+            });
+            return response.data
+        } catch (e) {
+            throw new Error(e.response.data.message)
+        }
+    },
 }
+
+//перенести логику профайлав слайс профайла
 
 export const filterAPI = {
     async findCustomers({ searchValue, selectLocValue, selectIndValue, from, to }) {

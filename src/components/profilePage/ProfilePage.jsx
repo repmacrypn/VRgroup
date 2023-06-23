@@ -2,7 +2,7 @@ import { Button, TextInput } from "@mantine/core"
 import React, { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, Navigate } from "react-router-dom"
-import { logout } from "../../redux/authSlice"
+import { changeUserCreds, logout } from "../../redux/authSlice"
 import s from './ProfilePage.module.css'
 import '../../styles/fonts.css'
 import { ArrowLeft, Edit, Logout } from "tabler-icons-react"
@@ -23,7 +23,7 @@ export const ProfilePage = () => {
     }
 
     const changeUserDataOnClick = () => {
-
+        dispatch(changeUserCreds({ name, surname }))
     }
 
     if (!userData) return <Navigate to='/loginPage' />

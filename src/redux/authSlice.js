@@ -10,9 +10,6 @@ const initialState = {
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {
-
-    },
     extraReducers(builder) {
         builder
             .addCase(login.pending, (state) => {
@@ -33,6 +30,13 @@ const authSlice = createSlice({
                 state.status = 'succeeded'
                 state.userData = null
             })
+            .addCase(changeUserCreds.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(changeUserCreds.fulfilled, (state, action) => {
+                state.status = 'succeeded'
+                state.userData = action.payload
+            })
     }
 })
 
@@ -49,8 +53,10 @@ export const logout = createAsyncThunk('auth/logout', async () => {
     await authAPI.logout()
 })
 
-export const selectIsAuth = (state) => state.auth.userData
+export const changeUserCreds = createAsyncThunk('auth/changeUserCreds', async ({ name, surname }) => {
+    return await authAPI.changeUserCreds(name, surname)
+})
 
-/* export const { } = authSlice.actions */
+export const selectIsAuth = (state) => state.auth.userData
 
 export default authSlice.reducer

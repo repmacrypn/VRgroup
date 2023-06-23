@@ -173,8 +173,9 @@ export const ms = {
             maxWidth: 204,
             width: '100%',
             height: 40,
-            padding: '6px 32px 0',
-            margin: '0 auto 10px'
+            padding: '0 32px',
+            margin: '0 auto 10px',
+            display: 'block'
         },
         loginRoot: {
             maxWidth: 384,
