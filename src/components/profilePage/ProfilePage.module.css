@@ -57,4 +57,15 @@
     background-color: goldenrod;
 }
 
-.nameSurnameWrapper {}
+.nameSurnameWrapper {
+    display: flex;
+    padding: 5px 10px;
+    border-bottom: 1px solid #E7E8EF;
+    justify-content: center;
+    gap: 10px;
+}
+
+.nameSurnameWrapper>div {
+    max-width: 220px;
+    height: 76px;
+}

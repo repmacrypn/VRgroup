@@ -45,13 +45,21 @@ export const ProfilePage = () => {
                             </div>
                         </div>
                         <div className={s.nameSurnameWrapper}>
-                            <div>
-                                <div>First Name</div>
-                                <div>{userData.firstName}</div>
+                            <div className={s.nameWrapper}>
+                                <div className={`bold600`}>
+                                    First Name
+                                </div>
+                                <div>
+                                    {userData.firstName}
+                                </div>
                             </div>
-                            <div>
-                                <div>Last Name</div>
-                                <div>{userData.lastName}</div>
+                            <div className={s.surnameWrapper}>
+                                <div className={`bold600`}>
+                                    Last Name
+                                </div>
+                                <div>
+                                    {userData.lastName}
+                                </div>
                             </div>
                         </div>
                         <Input value={email} onChange={(e) => setEmail(e.target.value)} />
