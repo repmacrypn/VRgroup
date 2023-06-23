@@ -92,7 +92,7 @@
     margin: 113px 0 0 44px;
     padding: 20px 0 0 30px;
     max-width: 165px;
-    background: url('../../assets/images/filterArrow.svg') no-repeat 10px 10px/41px 9px;
+    background: url('../../assets/images/arrowTip.png') no-repeat 10px 10px/41px 9px;
 }
 
 .greetsEmptyState {

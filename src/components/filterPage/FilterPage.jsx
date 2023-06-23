@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import s from './FilterPage.module.css'
-/* import dropDown from '../../../resources/images/dropDown.png';
-import dropDownOnFocus from '../../../resources/images/dropDownOnFocus.png'; */
 import { Button, Select, TextInput } from '@mantine/core'
 import { Briefcase, BuildingSkyscraper, ChevronDown, History, MapPin, Search } from 'tabler-icons-react'
 import { useDispatch, useSelector } from "react-redux"
