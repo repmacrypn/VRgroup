@@ -3,57 +3,45 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-family: 'Mulish', sans-serif;
+    font-style: normal;
+    color: #151515;
 }
 
 .emptyState {
     display: block;
-    margin: 0 auto;
-    margin-top: 120px;
+    margin: 120px auto 20px;
+    padding: 0 7px;
 }
 
 .emptyTitle {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 29px;
-
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
     text-align: center;
+}
 
-    padding: 0;
-    margin: 30px 0;
-
-    color: #343A40;
+.emptyAbstract {
+    line-height: 22px;
+    text-align: center;
+    margin: 20px 0;
+    max-width: 350px;
+    width: 96%;
 }
 
 .emptyButton {
-
     padding: 10px 24px;
-
-    width: 164px;
+    max-width: 164px;
+    width: 100%;
     height: 42px;
-
-    background: #DEECFF;
-
+    background: #F5F6F9;
     border-radius: 8px;
     border: none;
-
-    margin: 0 auto;
-    margin-bottom: 330px;
-}
-
-.emptyButton a {
-    text-decoration: none;
-
-    color: #3B7CD3;
-
-    font-family: 'Open Sans', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 22px;
+    margin: 0 auto 20px;
+    color: #3626A7;
 }
 
 .emptyButton:hover {
     cursor: pointer;
+    background-color: #E7E8EF;
 }

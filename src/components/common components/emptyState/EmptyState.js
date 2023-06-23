@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
-import s from './EmptyState.module.css';
-import emptyState from '../../../assets/images/noResults.svg';
-import { useDispatch, useSelector } from "react-redux";
-import { findCustomers, selectItemsPerPage } from "../../../redux/filterSlice";
-import { FilterContext } from "../../filterPage/FilterPage";
+import React, { useContext } from "react"
+import s from './EmptyState.module.css'
+import emptyState from '../../../assets/images/noResults.svg'
+import { useDispatch, useSelector } from "react-redux"
+import { findCustomers, selectItemsPerPage } from "../../../redux/filterSlice"
+import { FilterContext } from "../../filterPage/FilterPage"
+import '../../../styles/fonts.css'
 
 export const EmptyState = () => {
     const { setSearchValue, setSelectLocValue, setSelectIndValue } = useContext(FilterContext)
@@ -17,7 +18,6 @@ export const EmptyState = () => {
         setSelectLocValue('')
         setSelectIndValue('')
     }
-    //щас ухожу потом подумать как отредачить повторный рендеринг при изменнении селекта + вообще всех компонент при клике на имя + сделать менюшку
 
     return <div className={s.emptyWrapper}>
         <img
@@ -30,11 +30,11 @@ export const EmptyState = () => {
         <div className={s.emptyTitle}>
             No results found
         </div>
-        <div className={s.emptyTitle}>
+        <div className={`${s.emptyAbstract} regular400`}>
             We couldn’t find what you searched for.
             Please try again.
         </div>
-        <button onClick={resetFiltersOnClick} className={s.emptyButton}>
+        <button onClick={resetFiltersOnClick} className={`${s.emptyButton} bold600`}>
             Clear filters
         </button>
     </div>
