@@ -1,0 +1,60 @@
+.logoTitle {
+    color: #3626A7;
+    font-size: 32px;
+    margin: 14px 0 15px;
+    padding: 0 0 15px 24px;
+    border-bottom: 1px solid #E7E8EF;
+}
+
+.profileWrapper {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1204px;
+    width: 100%;
+    margin: 0 auto 20px;
+}
+
+.profileInfoWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.backToMainLink {
+    display: inline-block;
+    color: #9195A4;
+    text-decoration: none;
+    width: 135px;
+}
+
+.profileInfoTable {
+    border: 1px solid #E7E8EF;
+    border-radius: 6px;
+    max-width: 488px;
+    width: 100%;
+}
+
+.profileHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    border-bottom: 1px solid #E7E8EF;
+}
+
+.profileTitle {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.profileAbstract {
+    padding-top: 3px;
+}
+
+.profileSubscribtion {
+    max-width: 696px;
+    width: 100%;
+    background-color: goldenrod;
+}
+
+.nameSurnameWrapper {}
