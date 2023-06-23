@@ -82,10 +82,27 @@ export const ms = {
                 width: '100%',
             }, */
         },
+        profileEmailPasswordInput: {
+            maxWidth: 668,
+            width: '100%',
+            height: 40,
+            border: 'none',
+            '&:hover': {
+                cursor: 'pointer'
+            }
+        },
         nameSurnameInput: {
             maxWidth: 220,
             height: 40,
             marginTop: 5
+        },
+        profileEmailInput: {
+            borderBottom: '1px solid #E7E8EF'
+        },
+        profileEmailPasswordWrapper: {
+            maxWidth: 668,
+            width: '94.2%',
+            margin: '0 auto'
         },
         wrapper: {
             maxWidth: 204,
@@ -97,6 +114,9 @@ export const ms = {
         label: {
             font: 'normal 600 14px/20px Mulish, sans-serif',
             paddingBottom: 8,
+            pointerEvents: 'none'
+        },
+        rightSection: {
             pointerEvents: 'none'
         }
     },

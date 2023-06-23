@@ -5,7 +5,7 @@ import { Link, Navigate } from "react-router-dom"
 import { logout } from "../../redux/authSlice"
 import s from './ProfilePage.module.css'
 import '../../styles/fonts.css'
-import { ArrowLeft, Logout } from "tabler-icons-react"
+import { ArrowLeft, Edit, Logout } from "tabler-icons-react"
 import { ms } from "../../styles/mantineStyles"
 
 export const ProfilePage = () => {
@@ -14,6 +14,8 @@ export const ProfilePage = () => {
 
     const [name, setName] = useState(userData?.firstName)
     const [surname, setSurname] = useState(userData?.lastName)
+    const [email, setEmail] = useState('test@nyblecraft.com')
+    const [password, setPassword] = useState('12345678qQ')
 
     const logoutOnClick = () => {
         dispatch(logout())
@@ -38,7 +40,7 @@ export const ProfilePage = () => {
                                 Account info
                             </div>
                             <div
-                                className={`bold600 ${s.profileAbstract}`}
+                                className={`${s.profileLogOut} bold600`}
                                 onClick={logoutOnClick}
                             >
                                 <Logout viewBox="0 -2 24 24" height={14} width={26} />
@@ -76,10 +78,32 @@ export const ProfilePage = () => {
                             </div>
                         </div>
                         <div>
-                            {userData.email}
-                        </div>
-                        <div>
-                            hidden:)
+                            <TextInput
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Change email..."
+                                variant="unstyled"
+                                rightSectionWidth={115}
+                                rightSection={<RightSection text='Change email' />}
+                                styles={{
+                                    rightSection: ms.textInput.rightSection,
+                                    wrapper: ms.textInput.profileEmailPasswordWrapper,
+                                    input: Object.assign({}, ms.textInput.defaultInput, ms.textInput.profileEmailInput, ms.textInput.profileEmailPasswordInput),
+                                }}
+                            />
+                            <TextInput
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Change password..."
+                                variant="unstyled"
+                                rightSectionWidth={145}
+                                rightSection={<RightSection text='Change password' />}
+                                styles={{
+                                    rightSection: ms.textInput.rightSection,
+                                    wrapper: ms.textInput.profileEmailPasswordWrapper,
+                                    input: Object.assign({}, ms.textInput.defaultInput, ms.textInput.profileEmailPasswordInput),
+                                }}
+                            />
                         </div>
                     </div>
                 </div>
@@ -87,6 +111,15 @@ export const ProfilePage = () => {
                     Subscription
                 </div>
             </div>
+        </div>
+    )
+}
+
+const RightSection = ({ text }) => {
+    return (
+        <div className={`${s.rightSection} bold600`}>
+            <Edit viewBox="0 -2 24 24" height={18} width={26} />
+            {text}
         </div>
     )
 }

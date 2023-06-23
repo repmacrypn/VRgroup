@@ -1,7 +1,7 @@
 .logoTitle {
     color: #3626A7;
     font-size: 32px;
-    margin: 14px 0 15px;
+    margin: 14px 0 13px;
     padding: 0 0 15px 24px;
     border-bottom: 1px solid #E7E8EF;
 }
@@ -17,7 +17,7 @@
 .profileInfoWrapper {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
 }
 
 .backToMainLink {
@@ -25,6 +25,13 @@
     color: #9195A4;
     text-decoration: none;
     width: 135px;
+    padding: 2px 0 3px 0;
+}
+
+.backToMainLink:hover {
+    background-color: #E7E8EF;
+    border-radius: 6px;
+    color: #151515;
 }
 
 .profileInfoTable {
@@ -37,7 +44,7 @@
 .profileHeader {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    padding: 10px 5px 7px 10px;
     border-bottom: 1px solid #E7E8EF;
 }
 
@@ -47,8 +54,14 @@
     line-height: 24px;
 }
 
-.profileAbstract {
-    padding-top: 1px;
+.profileLogOut {
+    padding: 3px 5px 2px 0;
+    cursor: pointer;
+}
+
+.profileLogOut:hover {
+    background-color: #E7E8EF;
+    border-radius: 6px;
 }
 
 .profileSubscribtion {
@@ -69,4 +82,8 @@
 .nameSurnameWrapper>div {
     max-width: 220px;
     height: 70px;
+}
+
+.rightSection {
+    color: #3626A7
 }
