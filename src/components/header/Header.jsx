@@ -9,10 +9,11 @@ export const Header = () => {
     const userAvaName = userData?.firstName.slice(0, 1).toUpperCase() + userData?.lastName?.slice(0, 1).toUpperCase()
 
     return (
-        <div className={s.headerNavLink}>
-            <Link to='/profilePage'>
-                {userAvaName || 'NN'}
-            </Link>
-        </div>
+        <Link
+            className={s.headerNavLink}
+            to='/profilePage'
+        >
+            {userAvaName || 'NN'}
+        </Link>
     )
 }
