@@ -7,8 +7,10 @@
 }
 
 .profileWrapper {
+    padding: 0 10px;
     display: flex;
     justify-content: space-between;
+    gap: 20px;
     max-width: 1204px;
     width: 100%;
     margin: 0 auto 20px;
@@ -64,12 +66,6 @@
     border-radius: 6px;
 }
 
-.profileSubscribtion {
-    max-width: 696px;
-    width: 100%;
-    background-color: goldenrod;
-}
-
 .nameSurnameWrapper {
     display: flex;
     padding: 10px 0 5px;
@@ -81,10 +77,6 @@
 .nameSurnameWrapper>div {
     max-width: 220px;
     height: 70px;
-}
-
-.rightSection {
-    color: #3626A7
 }
 
 .profileButton {
@@ -103,4 +95,44 @@
 .profileButton:hover {
     background-color: rgb(40 29 115);
     cursor: pointer;
+}
+
+.rightSection {
+    color: #3626A7
+}
+
+.subscribtionWrapper {
+    max-width: 720px;
+    width: 100%;
+    margin-top: 45px;
+}
+
+.subscriptionTitle {
+    margin-bottom: 15px;
+}
+
+.subscriptionPlan {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #C9C1FF;
+    border-radius: 6px;
+}
+
+.subPlanTitle {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.subPlanAbstract {
+    max-width: 520px;
+    width: 100%;
+}
+
+.subNavLink {
+    align-self: center;
+    height: 48px;
+    text-decoration: none;
 }

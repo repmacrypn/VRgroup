@@ -1,17 +1,20 @@
 import { Button, TextInput } from "@mantine/core"
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Link, Navigate } from "react-router-dom"
+import { NavLink, Navigate } from "react-router-dom"
 import { changeUserCreds, logout } from "../../redux/authSlice"
 import s from './ProfilePage.module.css'
 import '../../styles/fonts.css'
-import { ArrowLeft, Edit, Logout } from "tabler-icons-react"
+import { ArrowLeft, Edit, Logout, Speedboat } from "tabler-icons-react"
 import { ms } from "../../styles/mantineStyles"
+import { getCurDate } from "../../utilites/getCurDate"
 
 export const ProfilePage = () => {
     const userData = useSelector(state => state.auth.userData)
     const status = useSelector(state => state.auth.status)
     const dispatch = useDispatch()
+
+    const date = useMemo(() => getCurDate(), [])
 
     const [name, setName] = useState(userData?.firstName)
     const [surname, setSurname] = useState(userData?.lastName)
@@ -35,10 +38,7 @@ export const ProfilePage = () => {
             </div>
             <div className={s.profileWrapper}>
                 <div className={s.profileInfoWrapper}>
-                    <Link className={`${s.backToMainLink} bold600`} to='/filterPage'>
-                        <ArrowLeft viewBox="0 -5 24 24" height={18} width={26} />
-                        Back to search
-                    </Link>
+                    <BackToSearch />
                     <div className={s.profileInfoTable}>
                         <div className={s.profileHeader}>
                             <div className={s.profileTitle}>
@@ -86,9 +86,7 @@ export const ProfilePage = () => {
                             onClick={changeUserDataOnClick}
                             disabled={status === 'loading'}
                             radius='md'
-                            type="submit"
                             styles={{
-                                /* inner: { width: 150, height: 20 }, */
                                 root: Object.assign({}, ms.button.defaultRoot, ms.button.profileRoot)
                             }}
                         >
@@ -124,8 +122,35 @@ export const ProfilePage = () => {
                         </div>
                     </div>
                 </div>
-                <div className={s.profileSubscribtion}>
-                    Subscription
+                <div className={s.subscribtionWrapper}>
+                    <div className={`bold700 ${s.subscriptionTitle}`}>
+                        Subscription
+                    </div>
+                    <div className={s.subscriptionPlan}>
+                        <div className={s.subPlanWrapper}>
+                            <div className={s.subPlanTitle}>
+                                Free Plan
+                            </div>
+                            <div lassName={`${s.subPlanAbstract} regular400`}>
+                                You are on a free plan
+                                and your credits will refresh on {date}.
+                            </div>
+                        </div>
+                        <NavLink
+                            className={s.subNavLink}
+                            to='/upgradeVersionPage'
+                        >
+                            <Button
+                                radius='md'
+                                styles={{
+                                    root: Object.assign({}, ms.button.defaultRoot, ms.button.subRoot)
+                                }}
+                            >
+                                <Speedboat color="white" viewBox="0 -1 24 24" height={18} width={24} />
+                                Change plan
+                            </Button>
+                        </NavLink>
+                    </div>
                 </div>
             </div>
         </div>
@@ -138,5 +163,14 @@ const RightSection = ({ text }) => {
             <Edit viewBox="0 -2 24 24" height={18} width={26} />
             {text}
         </div>
+    )
+}
+
+export const BackToSearch = () => {
+    return (
+        <NavLink className={`${s.backToMainLink} bold600`} to='/filterPage'>
+            <ArrowLeft viewBox="0 -5 24 24" height={18} width={26} />
+            Back to search
+        </NavLink>
     )
 }

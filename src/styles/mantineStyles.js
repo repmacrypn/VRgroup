@@ -184,6 +184,13 @@ export const ms = {
             padding: '12px 120px',
             marginTop: 60,
             display: 'block'
+        },
+        subRoot: {
+            maxWidth: 156,
+            width: '100%',
+            height: 48,
+            padding: '12px 20px',
+            display: 'block'
         }
     }
 }
