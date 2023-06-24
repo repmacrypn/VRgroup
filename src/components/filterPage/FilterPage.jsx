@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import s from './FilterPage.module.css'
 import { Button, Select, TextInput } from '@mantine/core'
-import { Briefcase, BuildingSkyscraper, ChevronDown, History, MapPin, Search } from 'tabler-icons-react'
+import { Briefcase, BuildingSkyscraper, ChevronDown, ChevronsDown, History, MapPin, Search } from 'tabler-icons-react'
 import { useDispatch, useSelector } from "react-redux"
 import {
     addRecentSearch, clearCustomers, fetchCountries, fetchIndustries,
@@ -16,6 +16,7 @@ import '../../styles/fonts.css'
 /* import { selectIsAuth } from "../../redux/authSlice";*/
 import { ms } from '../../styles/mantineStyles';
 import popUpIcon from '../../assets/images/popUpIcon.svg'
+import { nanoid } from "@reduxjs/toolkit"
 
 export const FilterContext = React.createContext()
 
@@ -260,6 +261,22 @@ const UpgragePopUp = ({ showPopUp, setPageNumber, itemsPerPage }) => {
 const UserTable = ({ itemsPerPage, handlePageChange,
     totalCount, pageNumber }) => {
 
+    const tableHeadings = [
+        { name: 'Full name', id: nanoid() },
+        { name: 'Job title', id: nanoid() },
+        { name: 'Industry', id: nanoid() },
+        { name: 'Location', id: nanoid() }
+    ]
+    const completedHeadings = tableHeadings.map(header => (
+        <th
+            className={`${s.tableHeader} bold600`}
+            key={header.id}
+        >
+            {header.name}
+            <ChevronsDown viewBox="0 -1 24 24" height={16} width={26} />
+        </th>
+    ))
+
     const customers = useSelector(state => state.filter.customers)
     const pageCount = Math.ceil(totalCount / itemsPerPage)
     const status = useSelector(state => state.filter.status)
@@ -276,7 +293,16 @@ const UserTable = ({ itemsPerPage, handlePageChange,
 
     return (
         <>
-            <div>{fetchedCustomers}</div>
+            <table>
+                <thead>
+                    <tr>
+                        {completedHeadings}
+                    </tr>
+                </thead>
+                <tbody>
+                    {fetchedCustomers}
+                </tbody>
+            </table>
             <ReactPaginate
                 previousLabel="<"
                 nextLabel=">"
@@ -294,7 +320,7 @@ const UserTable = ({ itemsPerPage, handlePageChange,
 
 const UserTableInfo = ({ user }) => {
     const wrapperRef = useRef(null)
-    const [isVisible, setIsVisible] = useState(false)
+    /* const [isVisible, setIsVisible] = useState(false) */
 
     const dispatch = useDispatch()
     const usersFullNameArray = useSelector(state => state.filter.usersFullNameArray)
@@ -308,7 +334,7 @@ const UserTableInfo = ({ user }) => {
         dispatch(getUserName(userId))
     }, [dispatch])
 
-    const handleOutsideClick = (e) => {
+    /* const handleOutsideClick = (e) => {
         if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
             setIsVisible(false)
         }
@@ -319,32 +345,38 @@ const UserTableInfo = ({ user }) => {
         return () => {
             document.removeEventListener('click', handleOutsideClick)
         }
-    })
+    }) */
     console.log('parent')
 
     return (
-        <div ref={wrapperRef}>
-            <div onClick={() => setIsVisible(true)}>
-                <button
-                    disabled={getCurUserName(user.id)}
-                    onClick={(e) => getUserNameOnClick(e, user.id)}>
-                    {getCurUserName(user.id) || 'get Full Name'}
-                </button>
-                <div>{user.job_title}</div>
-                <div>{user.industry}</div>
-                <div>{user.country}</div>
-                <br></br>
-            </div>
-            <UserShortInfo
-                setIsVisible={setIsVisible}
-                isVisible={isVisible}
-                user={user}
-                getCurUserName={getCurUserName}
-                getUserNameOnClick={getUserNameOnClick}
-            />
-        </div>
+        <>
+            <tr
+                //вот здесь вместо банального сетания будем делать диспатч нужного юзера (shortTableInfo)
+                /* onClick={() => setIsVisible(true)} */
+                ref={wrapperRef}
+            >
+                <td>
+                    <button
+                        disabled={getCurUserName(user.id)}
+                        onClick={(e) => getUserNameOnClick(e, user.id)}>
+                        {getCurUserName(user.id) || 'get Full Name'}
+                    </button>
+                </td>
+                <td>{user.job_title}</td>
+                <td>{user.industry}</td>
+                <td>{user.country}</td>
+            </tr>
+        </>
     )
 }
+
+{/* < UserShortInfo
+    setIsVisible={setIsVisible}
+    isVisible={isVisible}
+    user={user}
+    getCurUserName={getCurUserName}
+    getUserNameOnClick={getUserNameOnClick}
+/> */}
 
 const UserShortInfo = ({ user, isVisible, setIsVisible, getCurUserName, getUserNameOnClick }) => {
     console.log('child')

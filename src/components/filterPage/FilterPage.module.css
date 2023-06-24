@@ -221,3 +221,7 @@
     background-color: #C5BEF9;
     border-radius: 8px;
 }
+
+.tableHeader {
+    padding: 5px 10px;
+}
