@@ -73,8 +73,12 @@ const FilterPage = React.memo(() => {
                 </div>
                 <div className={s.filterResultWrapper}>
                     <div className={`bold700 ${s.filterTotalField}`}>
-                        <span>Total </span>
-                        <span className={`bold600 ${s.filterTotalNum}`}>{totalCount || 0}</span>
+                        <span>
+                            Total
+                        </span>
+                        <span className={`bold600 ${s.filterTotalNum}`}>
+                            {totalCount || 0}
+                        </span>
                     </div>
                     {
                         isPopUpVis ||
