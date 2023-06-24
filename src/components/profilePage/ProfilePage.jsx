@@ -98,7 +98,7 @@ export const ProfilePage = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Change email..."
                                 variant="unstyled"
-                                rightSectionWidth={115}
+                                rightSectionWidth={125}
                                 rightSection={<RightSection text='Change email' />}
                                 styles={{
                                     rightSection: ms.textInput.rightSection,
@@ -111,7 +111,7 @@ export const ProfilePage = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Change password..."
                                 variant="unstyled"
-                                rightSectionWidth={145}
+                                rightSectionWidth={155}
                                 rightSection={<RightSection text='Change password' />}
                                 styles={{
                                     rightSection: ms.textInput.rightSection,
@@ -131,7 +131,7 @@ export const ProfilePage = () => {
                             <div className={s.subPlanTitle}>
                                 Free Plan
                             </div>
-                            <div lassName={`${s.subPlanAbstract} regular400`}>
+                            <div className={`${s.subPlanAbstract} regular400`}>
                                 You are on a free plan
                                 and your credits will refresh on {date}.
                             </div>
