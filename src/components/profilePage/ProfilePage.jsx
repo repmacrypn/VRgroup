@@ -5,7 +5,7 @@ import { NavLink, Navigate } from "react-router-dom"
 import { changeUserCreds, logout } from "../../redux/authSlice"
 import s from './ProfilePage.module.css'
 import '../../styles/fonts.css'
-import { ArrowLeft, Edit, Logout, Speedboat } from "tabler-icons-react"
+import { ArrowLeft, Edit, Logout, Speedboat, UserPlus } from "tabler-icons-react"
 import { ms } from "../../styles/mantineStyles"
 import { getCurDate } from "../../utilites/getCurDate"
 
@@ -146,7 +146,7 @@ export const ProfilePage = () => {
                                     root: Object.assign({}, ms.button.defaultRoot, ms.button.subRoot)
                                 }}
                             >
-                                <Speedboat color="white" viewBox="0 -1 24 24" height={18} width={24} />
+                                <UserPlus color="white" viewBox="0 0 24 24" height={18} width={24} />
                                 Change plan
                             </Button>
                         </NavLink>
