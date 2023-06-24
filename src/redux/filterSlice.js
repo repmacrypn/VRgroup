@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, nanoid } from '@reduxjs/toolkit'
 import { filterAPI } from '../api/api'
 
 const initialState = {
@@ -21,14 +21,24 @@ const filterSlice = createSlice({
         showPopUp: (state, action) => {
             state.isPopUpVisible = action.payload
         },
-        addRecentSearch: (state, action) => {
-            const array = state.recentSearchArray
-            const curDataObj = JSON.stringify(action.payload)
-            const isInArray = array.find(dataObj => JSON.stringify(dataObj) === curDataObj)
+        addRecentSearch: {
+            reducer(state, action) {
+                const array = state.recentSearchArray
+                const curDataObj = JSON.stringify(action.payload)
+                const isInArray = array.find(dataObj => JSON.stringify(dataObj) === curDataObj)
 
-            if (!isInArray) {
-                if (array.length === 4) array.shift()
-                array.push(action.payload)
+                if (!isInArray) {
+                    if (array.length === 4) array.shift()
+                    array.push(action.payload)
+                }
+            },
+            prepare(payloadObj) {
+                return {
+                    payload: {
+                        id: nanoid(),
+                        ...payloadObj
+                    }
+                }
             }
         },
         clearCustomers: (state) => {

@@ -73,10 +73,10 @@ const FilterPage = React.memo(() => {
                 </div>
                 <div className={s.filterResultWrapper}>
                     <div className={`bold700 ${s.filterTotalField}`}>
-                        <span>
+                        <span className={s.totalTitle}>
                             Total
                         </span>
-                        <span className={`bold600 ${s.filterTotalNum}`}>
+                        <span className={`${s.filterTotalNum}`}>
                             {totalCount || 0}
                         </span>
                     </div>
@@ -396,7 +396,7 @@ const GreetingsState = () => {
 const RecentSearches = () => {
     const recentSearchArray = useSelector(state => state.filter.recentSearchArray)
 
-    const resentResultArray = recentSearchArray.map((searchData) => (<RecentItem searchData={searchData} />))
+    const resentResultArray = recentSearchArray.map((searchData) => (<RecentItem key={searchData.id} searchData={searchData} />))
 
     return (
         <div className={s.recentSearchBorder}>

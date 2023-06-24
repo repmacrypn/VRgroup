@@ -5,7 +5,7 @@ import { NavLink, Navigate } from "react-router-dom"
 import { changeUserCreds, logout } from "../../redux/authSlice"
 import s from './ProfilePage.module.css'
 import '../../styles/fonts.css'
-import { ArrowLeft, Edit, Logout, Speedboat, UserPlus } from "tabler-icons-react"
+import { ArrowLeft, Edit, Logout, UserPlus } from "tabler-icons-react"
 import { ms } from "../../styles/mantineStyles"
 import { getCurDate } from "../../utilites/getCurDate"
 

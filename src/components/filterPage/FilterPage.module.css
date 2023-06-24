@@ -23,15 +23,20 @@
     width: 100%;
 }
 
+.totalTitle {
+    display: inline-block;
+}
+
 .filterTotalNum {
     display: inline-block;
     background: rgba(54, 38, 167, 0.1);
     border-radius: 26px;
-    padding: 4px 36px;
+    padding: 2px 36px;
     margin: 0 0 8px 6px;
     color: #3626A7;
     text-align: center;
     font-size: 19px;
+    font-weight: 600;
 }
 
 .filterFieldWrapper {
