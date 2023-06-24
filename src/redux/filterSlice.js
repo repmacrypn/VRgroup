@@ -11,7 +11,7 @@ const initialState = {
     usersFullNameArray: [],
     totalCount: null,
     itemsPerPage: 12,
-    isPopUpVisible: false
+    isPopUpVisible: false,
 }
 
 const filterSlice = createSlice({
@@ -36,15 +36,15 @@ const filterSlice = createSlice({
                 return {
                     payload: {
                         id: nanoid(),
-                        ...payloadObj
-                    }
+                        ...payloadObj,
+                    },
                 }
-            }
+            },
         },
         clearCustomers: (state) => {
             state.customers.length = 0
             state.totalCount = null
-        }
+        },
     },
     extraReducers(builder) {
         builder
@@ -73,7 +73,7 @@ const filterSlice = createSlice({
                 state.status = 'succeeded'
                 state.usersFullNameArray.push(action.payload)
             })
-    }
+    },
 })
 
 export const fetchCountries = createAsyncThunk('filter/fetchCountries', async () => {

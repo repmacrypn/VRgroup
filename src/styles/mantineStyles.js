@@ -17,7 +17,7 @@ export const ms = {
         },
         wrapper: {
             maxWidth: 204,
-            borderBottom: '1px solid #E7E8EF'
+            borderBottom: '1px solid #E7E8EF',
         },
         dropdown: {
             border: 'none',
@@ -34,19 +34,19 @@ export const ms = {
             font: 'normal 400 14px/20px Mulish, sans-serif',
             color: '#151515',
             '&[data-selected]': {
-                backgroundColor: "#20156d",
-                color: "white",
+                backgroundColor: '#20156d',
+                color: 'white',
                 padding: '8px 12px',
                 font: 'normal 500 14px/20px Mulish, sans-serif',
             },
             '&[data-hovered]': {
-                backgroundColor: "#948ad3",
+                backgroundColor: '#948ad3',
                 padding: '8px 12px',
             },
         },
         rightSection: {
             pointerEvents: 'none',
-            marginBottom: 16
+            marginBottom: 16,
         },
     },
     textInput: {
@@ -59,7 +59,7 @@ export const ms = {
                 borderColor: '#3626A7',
             },
             '&:focus': {
-                borderColor: '#3626A7'
+                borderColor: '#3626A7',
             },
             /* [`@media (max-width: 1130px) and (min-width: 320px)`]: {
                 width: '100%',
@@ -88,35 +88,35 @@ export const ms = {
             height: 40,
             border: 'none',
             '&:hover': {
-                cursor: 'pointer'
-            }
+                cursor: 'pointer',
+            },
         },
         nameSurnameInput: {
             maxWidth: 220,
             height: 40,
-            marginTop: 5
+            marginTop: 5,
         },
         profileEmailPasswordWrapper: {
             maxWidth: 668,
             width: '94.2%',
             margin: '0 auto',
-            borderTop: '1px solid #E7E8EF'
+            borderTop: '1px solid #E7E8EF',
         },
         wrapper: {
             maxWidth: 204,
-            borderBottom: '1px solid #E7E8EF'
+            borderBottom: '1px solid #E7E8EF',
         },
         icon: {
-            marginBottom: 16
+            marginBottom: 16,
         },
         label: {
             font: 'normal 600 14px/20px Mulish, sans-serif',
             paddingBottom: 8,
-            pointerEvents: 'none'
+            pointerEvents: 'none',
         },
         rightSection: {
-            pointerEvents: 'none'
-        }
+            pointerEvents: 'none',
+        },
     },
     passwordInput: {
         input: {
@@ -138,7 +138,7 @@ export const ms = {
             paddingRight: 30,
             border: '1px solid #EBEBED',
             '&:focus': {
-                borderColor: '#3626A7'
+                borderColor: '#3626A7',
             },
             '&:hover': {
                 borderColor: '#3626A7',
@@ -147,19 +147,19 @@ export const ms = {
         label: {
             font: 'normal 600 14px/20px Mulish, sans-serif',
             paddingBottom: 8,
-            pointerEvents: 'none'
+            pointerEvents: 'none',
         },
         rightSection: {
-            marginRight: 7
-        }
+            marginRight: 7,
+        },
     },
     button: {
         defaultRoot: {
             font: 'normal 600 14px/24px Mulish, sans-serif',
             backgroundColor: '#3626A7',
             '&:hover': {
-                backgroundColor: 'rgb(40 29 115)'
-            }
+                backgroundColor: 'rgb(40 29 115)',
+            },
         },
         filterRoot: {
             maxWidth: 204,
@@ -167,7 +167,7 @@ export const ms = {
             height: 40,
             padding: '12px 52px',
             marginTop: 8,
-            marginBottom: 16
+            marginBottom: 16,
         },
         profileRoot: {
             maxWidth: 204,
@@ -175,7 +175,7 @@ export const ms = {
             height: 40,
             padding: '0 32px',
             margin: '0 auto 10px',
-            display: 'block'
+            display: 'block',
         },
         loginRoot: {
             maxWidth: 384,
@@ -183,14 +183,14 @@ export const ms = {
             height: 48,
             padding: '12px 120px',
             marginTop: 60,
-            display: 'block'
+            display: 'block',
         },
         subRoot: {
             maxWidth: 156,
             width: '100%',
             height: 48,
             padding: '12px 20px',
-            display: 'block'
-        }
-    }
+            display: 'block',
+        },
+    },
 }

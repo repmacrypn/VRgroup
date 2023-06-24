@@ -1,5 +1,5 @@
-import React from "react";
-import { BackToSearch } from "../profilePage/ProfilePage";
+import React from 'react'
+import { BackToSearch } from '../profilePage/ProfilePage'
 import '../../styles/fonts.css'
 import s from './UpgradePage.module.css'
 

@@ -1,22 +1,26 @@
-import React, { useState, useEffect, useRef, useCallback } from "react"
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import s from './FilterPage.module.css'
 import { Button, Select, TextInput } from '@mantine/core'
-import { Briefcase, BuildingSkyscraper, ChevronDown, ChevronsDown, History, MapPin, Search } from 'tabler-icons-react'
-import { useDispatch, useSelector } from "react-redux"
+import {
+    Briefcase, BuildingSkyscraper, ChevronDown,
+    ChevronsDown, History, MapPin, Search,
+} from 'tabler-icons-react'
+import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
 import {
     addRecentSearch, clearCustomers, fetchCountries, fetchIndustries,
-    findCustomers, getUserName, selectItemsPerPage, selectTotalCount, showPopUp
-} from "../../redux/filterSlice"
-import ReactPaginate from "react-paginate"
-import { EmptyState } from "../common components/emptyState/EmptyState"
-import Preloader from "../common components/preloader/Preloader"
-import { NavLink, Navigate } from "react-router-dom"
-import { selectIsAuth } from "../../redux/authSlice"
+    findCustomers, getUserName, selectItemsPerPage, selectTotalCount, showPopUp,
+} from '../../redux/filterSlice'
+import ReactPaginate from 'react-paginate'
+import { EmptyState } from '../common components/emptyState/EmptyState'
+import Preloader from '../common components/preloader/Preloader'
+import { NavLink, Navigate } from 'react-router-dom'
+import { selectIsAuth } from '../../redux/authSlice'
 import '../../styles/fonts.css'
 /* import { selectIsAuth } from "../../redux/authSlice";*/
-import { ms } from '../../styles/mantineStyles';
+import { ms } from '../../styles/mantineStyles'
 import popUpIcon from '../../assets/images/popUpIcon.svg'
-import { nanoid } from "@reduxjs/toolkit"
+import { nanoid } from '@reduxjs/toolkit'
 
 export const FilterContext = React.createContext()
 
@@ -35,13 +39,13 @@ const FilterPage = React.memo(() => {
     const [selectIndValue, setSelectIndValue] = useState('')
 
     const handlePageChange = (e) => {
-        const newOffset = (e.selected * itemsPerPage) % totalCount;
+        const newOffset = (e.selected * itemsPerPage) % totalCount
         if (newOffset >= 60) {
             dispatch(showPopUp(true))
         } else {
             dispatch(findCustomers({ searchValue, selectLocValue, selectIndValue, from: newOffset, to: newOffset + itemsPerPage }))
         }
-        setPageNumber(e.selected);
+        setPageNumber(e.selected)
     }
 
     if (!userData) return <Navigate to='/loginPage' />
@@ -120,11 +124,11 @@ const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, s
     const fetchCustomersOnClick = () => {
         dispatch(findCustomers({
             searchValue, selectLocValue, selectIndValue,
-            from: 0, to: 0 + itemsPerPage
+            from: 0, to: 0 + itemsPerPage,
         }))
         dispatch(addRecentSearch({
             searchValue, locIndex: selectLocValue, selectLocValue: countries[selectLocValue - 1]?.name,
-            indIndex: selectIndValue, selectIndValue: industries[selectIndValue - 1]?.name
+            indIndex: selectIndValue, selectIndValue: industries[selectIndValue - 1]?.name,
         }))
         if (isPopUpVis) dispatch(showPopUp(false))
         setPageNumber(0)
@@ -189,7 +193,7 @@ const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, s
                 radius='md'
                 type="submit"
                 styles={{
-                    root: Object.assign({}, ms.button.defaultRoot, ms.button.filterRoot)
+                    root: Object.assign({}, ms.button.defaultRoot, ms.button.filterRoot),
                 }}
             >
                 Find customers
@@ -197,6 +201,18 @@ const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, s
         </div>
     )
 })
+
+FilterField.propTypes = {
+    searchValue: PropTypes.string,
+    setSearchValue: PropTypes.func,
+    setPageNumber: PropTypes.func,
+    setSelectLocValue: PropTypes.func,
+    setSelectIndValue: PropTypes.func,
+    itemsPerPage: PropTypes.number,
+    isPopUpVis: PropTypes.bool,
+    selectIndValue: PropTypes.string,
+    selectLocValue: PropTypes.string,
+}
 
 const FilterPageSelect = ({ value, setValue, processArr, array, text }) => {
     return (
@@ -214,10 +230,18 @@ const FilterPageSelect = ({ value, setValue, processArr, array, text }) => {
                 dropdown: ms.select.dropdown,
                 item: ms.select.item,
                 rightSection: ms.select.rightSection,
-                wrapper: ms.select.wrapper
+                wrapper: ms.select.wrapper,
             }}
         />
     )
+}
+
+FilterPageSelect.propTypes = {
+    value: PropTypes.string,
+    setValue: PropTypes.func,
+    processArr: PropTypes.array,
+    array: PropTypes.array,
+    text: PropTypes.string,
 }
 
 const UpgragePopUp = ({ showPopUp, setPageNumber, itemsPerPage }) => {
@@ -258,14 +282,22 @@ const UpgragePopUp = ({ showPopUp, setPageNumber, itemsPerPage }) => {
     </div>
 }
 
+UpgragePopUp.propTypes = {
+    showPopUp: PropTypes.func,
+    setPageNumber: PropTypes.func,
+    itemsPerPage: PropTypes.number,
+}
+
 const UserTable = ({ itemsPerPage, handlePageChange,
     totalCount, pageNumber }) => {
+
+    //закинуть useRef на айтемсперпэйдж и передать в рисент компоненту
 
     const tableHeadings = [
         { name: 'Full name', id: nanoid() },
         { name: 'Job title', id: nanoid() },
         { name: 'Industry', id: nanoid() },
-        { name: 'Location', id: nanoid() }
+        { name: 'Location', id: nanoid() },
     ]
     const completedHeadings = tableHeadings.map(header => (
         <th
@@ -288,8 +320,6 @@ const UserTable = ({ itemsPerPage, handlePageChange,
     if (totalCount === null) return <GreetingsState />
     if (status === 'loading') return <Preloader />
     if (totalCount === '0') return <EmptyState />
-
-    console.log('qq table')
 
     return (
         <>
@@ -316,6 +346,13 @@ const UserTable = ({ itemsPerPage, handlePageChange,
             />
         </>
     )
+}
+
+UserTable.propTypes = {
+    handlePageChange: PropTypes.func,
+    totalCount: PropTypes.number,
+    pageNumber: PropTypes.number,
+    itemsPerPage: PropTypes.number,
 }
 
 const UserTableInfo = ({ user }) => {
@@ -346,7 +383,6 @@ const UserTableInfo = ({ user }) => {
             document.removeEventListener('click', handleOutsideClick)
         }
     }) */
-    console.log('parent')
 
     return (
         <>
@@ -370,6 +406,10 @@ const UserTableInfo = ({ user }) => {
     )
 }
 
+UserTableInfo.propTypes = {
+    user: PropTypes.object,
+}
+
 {/* < UserShortInfo
     setIsVisible={setIsVisible}
     isVisible={isVisible}
@@ -379,7 +419,6 @@ const UserTableInfo = ({ user }) => {
 /> */}
 
 const UserShortInfo = ({ user, isVisible, setIsVisible, getCurUserName, getUserNameOnClick }) => {
-    console.log('child')
     return (
         <div className={`${s[`userShortInfo${isVisible}`]}`}>
             <button
@@ -396,6 +435,20 @@ const UserShortInfo = ({ user, isVisible, setIsVisible, getCurUserName, getUserN
     )
 }
 
+UserShortInfo.propTypes = {
+    user: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        job_title: PropTypes.string.isRequired,
+        industry: PropTypes.string.isRequired,
+        country: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+    }),
+    isVisible: PropTypes.bool,
+    setIsVisible: PropTypes.func,
+    getCurUserName: PropTypes.func,
+    getUserNameOnClick: PropTypes.func,
+}
+
 const FilterLabel = ({ children, text }) => {
     return (
         <div className={`${s.filterLabelWrapper}`}>
@@ -403,6 +456,11 @@ const FilterLabel = ({ children, text }) => {
             <span className={`bold500 ${s.filterLabel}`}>{text}</span>
         </div>
     )
+}
+
+FilterLabel.propTypes = {
+    children: PropTypes.node,
+    text: PropTypes.string,
 }
 
 const GreetingsState = () => {
@@ -450,7 +508,7 @@ const RecentItem = ({ searchData, itemsPerPage = 12 }) => {
     const getCustomersOnClick = () => {
         dispatch(findCustomers({
             searchValue: searchData.searchValue, selectLocValue: searchData.locIndex,
-            selectIndValue: searchData.indIndex, from: 0, to: 0 + itemsPerPage
+            selectIndValue: searchData.indIndex, from: 0, to: 0 + itemsPerPage,
         }))
     }
 
@@ -469,5 +527,19 @@ const RecentItem = ({ searchData, itemsPerPage = 12 }) => {
         </button>
     )
 }
+
+RecentItem.propTypes = {
+    searchData: PropTypes.shape({
+        locIndex: PropTypes.number.isRequired,
+        indIndex: PropTypes.number.isRequired,
+        searchValue: PropTypes.string.isRequired,
+        selectLocValue: PropTypes.string.isRequired,
+        selectIndValue: PropTypes.string.isRequired,
+    }),
+    itemsPerPage: PropTypes.number,
+}
+
+FilterPage.displayName = 'FilterPage'
+FilterField.displayName = 'FilterField'
 
 export default FilterPage

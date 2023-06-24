@@ -1,9 +1,9 @@
-import React, { useContext } from "react"
+import React, { useContext } from 'react'
 import s from './EmptyState.module.css'
 import emptyState from '../../../assets/images/noResults.svg'
-import { useDispatch, useSelector } from "react-redux"
-import { findCustomers, selectItemsPerPage } from "../../../redux/filterSlice"
-import { FilterContext } from "../../filterPage/FilterPage"
+import { useDispatch, useSelector } from 'react-redux'
+import { findCustomers, selectItemsPerPage } from '../../../redux/filterSlice'
+import { FilterContext } from '../../filterPage/FilterPage'
 import '../../../styles/fonts.css'
 
 export const EmptyState = () => {

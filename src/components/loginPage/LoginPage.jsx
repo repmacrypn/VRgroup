@@ -1,10 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { TextInput, Button, PasswordInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import s from './LoginPage.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../redux/authSlice'
-import { Navigate } from "react-router-dom"
+import { Navigate } from 'react-router-dom'
 import { selectIsAuth } from '../../redux/authSlice'
 import '../../styles/fonts.css'
 import { ms } from '../../styles/mantineStyles'
@@ -47,11 +48,11 @@ const LoginForm = () => {
     const form = useForm({
         initialValues: {
             email: '',
-            password: ''
+            password: '',
         },
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-        }
+        },
     })
 
     const onSubmitButtonClick = ({ email, password }) => {
@@ -72,7 +73,7 @@ const LoginForm = () => {
                 {...form.getInputProps('email')}
                 styles={{
                     input: Object.assign({}, ms.textInput.defaultInput, ms.textInput.emailInput),
-                    label: ms.textInput.label
+                    label: ms.textInput.label,
                 }}
             />
             <PasswordInput
@@ -99,7 +100,7 @@ const LoginForm = () => {
                 radius='md'
                 type="submit"
                 styles={{
-                    root: Object.assign({}, ms.button.defaultRoot, ms.button.loginRoot)
+                    root: Object.assign({}, ms.button.defaultRoot, ms.button.loginRoot),
                 }}
             >
                 Login
@@ -111,8 +112,14 @@ const LoginForm = () => {
 const LoginData = () => {
     return (
         <div className={s.loginDataWrapper}>
-            <LoginDataProp title='Email: ' value='test@nyblecraft.com' />
-            <LoginDataProp title='Password: ' value='12345678qQ' />
+            <LoginDataProp
+                title='Email: '
+                value='test@nyblecraft.com'
+            />
+            <LoginDataProp
+                title='Password: '
+                value='12345678qQ'
+            />
         </div>
     )
 }
@@ -128,6 +135,11 @@ const LoginDataProp = ({ title, value }) => {
             </span>
         </div>
     )
+}
+
+LoginDataProp.propTypes = {
+    title: PropTypes.string,
+    value: PropTypes.string,
 }
 
 export default LoginPage

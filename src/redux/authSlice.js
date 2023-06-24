@@ -4,7 +4,7 @@ import { authAPI } from '../api/api'
 const initialState = {
     status: 'idle',
     error: null,
-    userData: null
+    userData: null,
 }
 
 const authSlice = createSlice({
@@ -37,7 +37,7 @@ const authSlice = createSlice({
                 state.status = 'succeeded'
                 state.userData = action.payload
             })
-    }
+    },
 })
 
 export const login = createAsyncThunk('auth/login', async ({ email, password }) => {

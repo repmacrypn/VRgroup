@@ -1,13 +1,14 @@
-import { Button, TextInput } from "@mantine/core"
-import React, { useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { NavLink, Navigate } from "react-router-dom"
-import { changeUserCreds, logout } from "../../redux/authSlice"
+import { Button, TextInput } from '@mantine/core'
+import React, { useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { NavLink, Navigate } from 'react-router-dom'
+import { changeUserCreds, logout } from '../../redux/authSlice'
 import s from './ProfilePage.module.css'
 import '../../styles/fonts.css'
-import { ArrowLeft, Edit, Logout, UserPlus } from "tabler-icons-react"
-import { ms } from "../../styles/mantineStyles"
-import { getCurDate } from "../../utilites/getCurDate"
+import { ArrowLeft, Edit, Logout, UserPlus } from 'tabler-icons-react'
+import { ms } from '../../styles/mantineStyles'
+import { getCurDate } from '../../utilites/getCurDate'
+import PropTypes from 'prop-types'
 
 export const ProfilePage = () => {
     const userData = useSelector(state => state.auth.userData)
@@ -32,7 +33,7 @@ export const ProfilePage = () => {
     if (!userData) return <Navigate to='/loginPage' />
 
     return (
-        <div className={`defaultFontS`}>
+        <div className={'defaultFontS'}>
             <div className={`bold900 ${s.logoTitle}`}>
                 VRgroup
             </div>
@@ -54,7 +55,7 @@ export const ProfilePage = () => {
                         </div>
                         <div className={s.nameSurnameWrapper}>
                             <div className={s.nameWrapper}>
-                                <div className={`bold600`}>
+                                <div className={'bold600'}>
                                     First Name
                                 </div>
                                 <TextInput
@@ -68,7 +69,7 @@ export const ProfilePage = () => {
                                 />
                             </div>
                             <div className={s.surnameWrapper}>
-                                <div className={`bold600`}>
+                                <div className={'bold600'}>
                                     Last Name
                                 </div>
                                 <TextInput
@@ -87,7 +88,7 @@ export const ProfilePage = () => {
                             disabled={status === 'loading'}
                             radius='md'
                             styles={{
-                                root: Object.assign({}, ms.button.defaultRoot, ms.button.profileRoot)
+                                root: Object.assign({}, ms.button.defaultRoot, ms.button.profileRoot),
                             }}
                         >
                             Change user creds
@@ -143,7 +144,7 @@ export const ProfilePage = () => {
                             <Button
                                 radius='md'
                                 styles={{
-                                    root: Object.assign({}, ms.button.defaultRoot, ms.button.subRoot)
+                                    root: Object.assign({}, ms.button.defaultRoot, ms.button.subRoot),
                                 }}
                             >
                                 <UserPlus color="white" viewBox="0 0 24 24" height={18} width={24} />
@@ -164,6 +165,10 @@ const RightSection = ({ text }) => {
             {text}
         </div>
     )
+}
+
+RightSection.propTypes = {
+    text: PropTypes.string,
 }
 
 export const BackToSearch = () => {
