@@ -305,7 +305,12 @@ const UserTable = ({ itemsPerPage, handlePageChange,
             key={header.id}
         >
             {header.name}
-            <SquareArrowDown viewBox="0 -3 24 24" height={16} width={26} />
+            <SquareArrowDown
+                className={s.icon}
+                viewBox="0 -5 24 24"
+                height={16}
+                width={26}
+            />
         </th>
     ))
 
@@ -393,9 +398,12 @@ const UserTableInfo = ({ user }) => {
             >
                 <td>
                     <button
+                        className={`${s.tableAccessNameButton} bold500`}
                         disabled={getCurUserName(user.id)}
                         onClick={(e) => getUserNameOnClick(e, user.id)}>
-                        {getCurUserName(user.id) || 'get Full Name'}
+                        <div className='bold500'>
+                            {getCurUserName(user.id) || 'Get the name'}
+                        </div>
                     </button>
                 </td>
                 <td>{user.job_title}</td>
