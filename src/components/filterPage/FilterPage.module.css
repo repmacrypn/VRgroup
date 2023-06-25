@@ -243,17 +243,29 @@
 }
 
 .buttonPar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.iconWrapper {
     position: relative;
-    display: inline-block;
-    padding: 5px 0 5px 25px;
-    background: url('../../assets/images/iconUser.svg') no-repeat 0 1px/20px 26px;
+    width: 22px;
+    height: 22px;
+    margin-right: 4px;
+}
+
+.userIcon {
+    height: 20px;
+    width: 20px;
+    background: url('../../assets/images/iconUser.svg') no-repeat 0 0/20px 20px;
 }
 
 .verifyIcon {
     z-index: 2;
     position: absolute;
-    top: 0;
-    left: 11px;
+    top: -4px;
+    left: 10px;
     height: 12px;
     width: 12px;
     background: url('../../assets/images/verifyIcon.svg') no-repeat 0 0/12px 12px;
