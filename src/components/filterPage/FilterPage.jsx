@@ -401,7 +401,8 @@ const UserTableInfo = ({ user }) => {
                         className={`${s.tableAccessNameButton} bold500`}
                         disabled={getCurUserName(user.id)}
                         onClick={(e) => getUserNameOnClick(e, user.id)}>
-                        <div className='bold500'>
+                        <div className={`${s.buttonPar} bold500`}>
+                            <div className={s.verifyIcon}></div>
                             {getCurUserName(user.id) || 'Get the name'}
                         </div>
                     </button>
