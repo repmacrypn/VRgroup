@@ -3,7 +3,7 @@ import s from './FilterPage.module.css'
 import { Button, Select, TextInput } from '@mantine/core'
 import {
     Briefcase, BuildingSkyscraper, ChevronDown,
-    ChevronsDown, History, MapPin, Search,
+    History, MapPin, Search, SquareArrowDown,
 } from 'tabler-icons-react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
@@ -239,7 +239,7 @@ const FilterPageSelect = ({ value, setValue, processArr, array, text }) => {
 FilterPageSelect.propTypes = {
     value: PropTypes.string,
     setValue: PropTypes.func,
-    processArr: PropTypes.array,
+    processArr: PropTypes.func,
     array: PropTypes.array,
     text: PropTypes.string,
 }
@@ -301,11 +301,11 @@ const UserTable = ({ itemsPerPage, handlePageChange,
     ]
     const completedHeadings = tableHeadings.map(header => (
         <th
-            className={`${s.tableHeader} bold600`}
+            className={`${s.tableHeaderTitle}`}
             key={header.id}
         >
             {header.name}
-            <ChevronsDown viewBox="0 -1 24 24" height={16} width={26} />
+            <SquareArrowDown viewBox="0 -3 24 24" height={16} width={26} />
         </th>
     ))
 
@@ -323,9 +323,9 @@ const UserTable = ({ itemsPerPage, handlePageChange,
 
     return (
         <>
-            <table>
+            <table className={s.usersTable}>
                 <thead>
-                    <tr>
+                    <tr className={s.tableHeaderRow}>
                         {completedHeadings}
                     </tr>
                 </thead>
@@ -350,7 +350,7 @@ const UserTable = ({ itemsPerPage, handlePageChange,
 
 UserTable.propTypes = {
     handlePageChange: PropTypes.func,
-    totalCount: PropTypes.number,
+    totalCount: PropTypes.string,
     pageNumber: PropTypes.number,
     itemsPerPage: PropTypes.number,
 }
@@ -418,7 +418,7 @@ UserTableInfo.propTypes = {
     getUserNameOnClick={getUserNameOnClick}
 /> */}
 
-const UserShortInfo = ({ user, isVisible, setIsVisible, getCurUserName, getUserNameOnClick }) => {
+/* const UserShortInfo = ({ user, isVisible, setIsVisible, getCurUserName, getUserNameOnClick }) => {
     return (
         <div className={`${s[`userShortInfo${isVisible}`]}`}>
             <button
@@ -447,7 +447,7 @@ UserShortInfo.propTypes = {
     setIsVisible: PropTypes.func,
     getCurUserName: PropTypes.func,
     getUserNameOnClick: PropTypes.func,
-}
+} */
 
 const FilterLabel = ({ children, text }) => {
     return (
@@ -530,11 +530,11 @@ const RecentItem = ({ searchData, itemsPerPage = 12 }) => {
 
 RecentItem.propTypes = {
     searchData: PropTypes.shape({
-        locIndex: PropTypes.number.isRequired,
-        indIndex: PropTypes.number.isRequired,
-        searchValue: PropTypes.string.isRequired,
-        selectLocValue: PropTypes.string.isRequired,
-        selectIndValue: PropTypes.string.isRequired,
+        locIndex: PropTypes.string,
+        indIndex: PropTypes.string,
+        searchValue: PropTypes.string,
+        selectLocValue: PropTypes.string,
+        selectIndValue: PropTypes.string,
     }),
     itemsPerPage: PropTypes.number,
 }
