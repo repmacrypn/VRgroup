@@ -366,10 +366,24 @@ const UserTableInfo = ({ user }) => {
 
     const dispatch = useDispatch()
     const usersFullNameArray = useSelector(state => state.filter.usersFullNameArray)
+    let name = usersFullNameArray.find(obj => obj.userId === user.id)?.userName
 
-    const getCurUserName = useCallback((id) => {
-        return usersFullNameArray.find(obj => obj.userId === id)?.userName
-    }, [usersFullNameArray])
+    name ?
+        name = <div>{name}</div> :
+        name = (
+            <button
+                className={`${s.tableAccessNameButton} bold500`}
+                /* disabled={getCurUserName(user.id)} */
+                onClick={(e) => getUserNameOnClick(e, user.id)}>
+                <div className={`${s.buttonPar} bold500`}>
+                    <div className={s.iconWrapper}>
+                        <div className={s.userIcon}></div>
+                        <div className={s.verifyIcon}></div>
+                    </div>
+                    Get the name
+                </div>
+            </button>
+        )
 
     const getUserNameOnClick = useCallback((e, userId) => {
         e.stopPropagation()
@@ -396,20 +410,7 @@ const UserTableInfo = ({ user }) => {
                 /* onClick={() => setIsVisible(true)} */
                 ref={wrapperRef}
             >
-                <td>
-                    <button
-                        className={`${s.tableAccessNameButton} bold500`}
-                        disabled={getCurUserName(user.id)}
-                        onClick={(e) => getUserNameOnClick(e, user.id)}>
-                        <div className={`${s.buttonPar} bold500`}>
-                            <div className={s.iconWrapper}>
-                                <div className={s.userIcon}></div>
-                                <div className={s.verifyIcon}></div>
-                            </div>
-                            {getCurUserName(user.id) || 'Get the name'}
-                        </div>
-                    </button>
-                </td>
+                <td>{name}</td>
                 <td>{user.job_title}</td>
                 <td>{user.industry}</td>
                 <td>{user.country}</td>

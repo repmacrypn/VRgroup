@@ -91,7 +91,11 @@ export const findCustomers = createAsyncThunk('filter/findCustomers',
 
 export const getUserName = createAsyncThunk('filter/getUserName', async (userId) => {
     const data = await filterAPI.getUserName(userId)
-    return { userId, userName: data }
+    const regExp = /(?=[A-Z])/g
+    const namesArr = data.split(regExp)
+    const resultString = namesArr.join(' ')
+
+    return { userId, userName: resultString }
 })
 
 export const selectTotalCount = (state) => state.filter.totalCount

@@ -236,10 +236,7 @@
 
 .tableAccessNameButton:hover {
     cursor: pointer;
-}
-
-.tableAccessNameButton:disabled {
-    cursor: inherit;
+    background-color: rgba(54, 38, 167, 0.1);
 }
 
 .buttonPar {
@@ -272,7 +269,7 @@
 }
 
 .icon {
-    overflow: visible;
+    overflow: visible !important;
 }
 
 .usersTable {
