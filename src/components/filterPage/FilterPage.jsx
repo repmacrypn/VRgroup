@@ -291,8 +291,9 @@ UpgragePopUp.propTypes = {
 const UserTable = ({ itemsPerPage, handlePageChange,
     totalCount, pageNumber }) => {
 
+    const [isVisible, setIsVisible] = useState(false)
+    const [curUser, setCurUser] = useState({})
     //закинуть useRef на айтемсперпэйдж и передать в рисент компоненту
-
     const tableHeadings = [
         { name: 'Full name', id: nanoid() },
         { name: 'Job title', id: nanoid() },
@@ -314,12 +315,22 @@ const UserTable = ({ itemsPerPage, handlePageChange,
         </th>
     ))
 
+    const status = useSelector(state => state.filter.status)
     const customers = useSelector(state => state.filter.customers)
     const pageCount = Math.ceil(totalCount / itemsPerPage)
-    const status = useSelector(state => state.filter.status)
+
+    const getUserShortInfo = (userId) => {
+        const customer = customers.find(obj => obj.id === userId)
+        setCurUser(customer)
+        setIsVisible(true)
+    }
 
     const fetchedCustomers = customers.map(user => {
-        return <UserTableInfo key={user.id} user={user} />
+        return <UserTableInfo
+            getUserShortInfo={getUserShortInfo}
+            key={user.id}
+            user={user}
+        />
     })
 
     if (totalCount === null) return <GreetingsState />
@@ -338,6 +349,13 @@ const UserTable = ({ itemsPerPage, handlePageChange,
                     {fetchedCustomers}
                 </tbody>
             </table>
+            {
+                isVisible &&
+                < UserShortInfo
+                    setIsVisible={setIsVisible}
+                    user={curUser}
+                />
+            }
             <ReactPaginate
                 previousLabel="<"
                 nextLabel=">"
@@ -360,20 +378,23 @@ UserTable.propTypes = {
     itemsPerPage: PropTypes.number,
 }
 
-const UserTableInfo = ({ user }) => {
+const UserTableInfo = ({ user, getUserShortInfo }) => {
     const wrapperRef = useRef(null)
-    /* const [isVisible, setIsVisible] = useState(false) */
 
     const dispatch = useDispatch()
     const usersFullNameArray = useSelector(state => state.filter.usersFullNameArray)
     let name = usersFullNameArray.find(obj => obj.userId === user.id)?.userName
+
+    const getUserNameOnClick = useCallback((e, userId) => {
+        e.stopPropagation()
+        dispatch(getUserName(userId))
+    }, [dispatch])
 
     name ?
         name = <div>{name}</div> :
         name = (
             <button
                 className={`${s.tableAccessNameButton} bold500`}
-                /* disabled={getCurUserName(user.id)} */
                 onClick={(e) => getUserNameOnClick(e, user.id)}>
                 <div className={`${s.buttonPar} bold500`}>
                     <div className={s.iconWrapper}>
@@ -384,11 +405,6 @@ const UserTableInfo = ({ user }) => {
                 </div>
             </button>
         )
-
-    const getUserNameOnClick = useCallback((e, userId) => {
-        e.stopPropagation()
-        dispatch(getUserName(userId))
-    }, [dispatch])
 
     /* const handleOutsideClick = (e) => {
         if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
@@ -404,41 +420,32 @@ const UserTableInfo = ({ user }) => {
     }) */
 
     return (
-        <>
-            <tr
-                //вот здесь вместо банального сетания будем делать диспатч нужного юзера (shortTableInfo)
-                /* onClick={() => setIsVisible(true)} */
-                ref={wrapperRef}
-            >
-                <td>{name}</td>
-                <td>{user.job_title}</td>
-                <td>{user.industry}</td>
-                <td>{user.country}</td>
-            </tr>
-        </>
+        <tr
+            className={s.userTableRow}
+            onClick={() => getUserShortInfo(user.id)}
+            ref={wrapperRef}
+        >
+            <td>{name}</td>
+            <td>{user.job_title}</td>
+            <td>{user.industry}</td>
+            <td>{user.country}</td>
+        </tr>
     )
 }
 
+//короче смотри как сделать чтоб shortInfo был не в td а как отдельный нормальный
+// компонент: передаем колбэк в виде пропсов который срабатывает при клике на tr
+// и с ним наверх id и там же наверху сетаем висибл в тру 
+
 UserTableInfo.propTypes = {
     user: PropTypes.object,
+    getUserShortInfo: PropTypes.func,
 }
 
-{/* < UserShortInfo
-    setIsVisible={setIsVisible}
-    isVisible={isVisible}
-    user={user}
-    getCurUserName={getCurUserName}
-    getUserNameOnClick={getUserNameOnClick}
-/> */}
-
-/* const UserShortInfo = ({ user, isVisible, setIsVisible, getCurUserName, getUserNameOnClick }) => {
+const UserShortInfo = ({ user, setIsVisible }) => {
     return (
-        <div className={`${s[`userShortInfo${isVisible}`]}`}>
-            <button
-                disabled={getCurUserName(user.id)}
-                onClick={(e) => getUserNameOnClick(e, user.id)}>
-                {getCurUserName(user.id) || 'get Full Name'}
-            </button>
+        <div className={s.userShortInfo}>
+            <button>get access to the name</button>
             <div>{user.job_title}</div>
             <div>{user.industry}</div>
             <div>{user.country}</div>
@@ -456,11 +463,8 @@ UserShortInfo.propTypes = {
         country: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
     }),
-    isVisible: PropTypes.bool,
     setIsVisible: PropTypes.func,
-    getCurUserName: PropTypes.func,
-    getUserNameOnClick: PropTypes.func,
-} */
+}
 
 const FilterLabel = ({ children, text }) => {
     return (
