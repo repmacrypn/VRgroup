@@ -380,6 +380,7 @@
 .moveButton {
     border: 1px solid #E7E8EF;
     border-radius: 6px;
+    padding-bottom: 2.5px;
 }
 
 .active {
