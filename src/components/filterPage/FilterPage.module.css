@@ -1,8 +1,3 @@
-.active {
-    font-weight: bold;
-    color: rgb(18, 96, 18)
-}
-
 .filterPageWrapper {
     display: flex;
     height: 100%;
@@ -356,4 +351,43 @@
 .closeButton:hover {
     cursor: pointer;
     background-color: #fcfcfc;
+}
+
+.pagination {
+    margin: 0 auto;
+}
+
+.navLi {
+    display: inline-block;
+    list-style: none;
+    margin: 0 2px 20px;
+}
+
+.navA {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+}
+
+.navA:hover {
+    border: 1px solid #3626A7;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.moveButton {
+    border: 1px solid #E7E8EF;
+    border-radius: 6px;
+}
+
+.active {
+    border: 1px solid #26A761;
+    border-radius: 6px;
+}
+
+.active:hover {
+    border-color: green;
+    cursor: pointer;
 }

@@ -3,6 +3,8 @@ import s from './FilterPage.module.css'
 import { Button, Select, TextInput } from '@mantine/core'
 import {
     Briefcase, BuildingSkyscraper, ChevronDown,
+    ChevronLeft,
+    ChevronRight,
     History, MapPin, Search, SquareArrowDown, UserCircle, X,
 } from 'tabler-icons-react'
 import PropTypes from 'prop-types'
@@ -394,15 +396,38 @@ const UserTable = ({ itemsPerPage, handlePageChange,
                 </table>
             </div>
             <ReactPaginate
-                previousLabel="<"
-                nextLabel=">"
+                previousLabel={
+                    <ChevronLeft
+                        className={s.icon}
+                        viewBox="0 0 24 24"
+                        height={14}
+                        width={20}
+                    />
+                }
+                nextLabel={
+                    <ChevronRight
+                        className={s.icon}
+                        viewBox="-2 0 24 24"
+                        height={14}
+                        width={20}
+                    />
+                }
                 breakLabel="..."
                 pageCount={pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
+                marginPagesDisplayed={1}
+                pageRangeDisplayed={4}
                 onPageChange={handlePageChange}
-                activeClassName={s.active}
                 forcePage={pageNumber}
+                containerClassName={s.pagination}
+                breakClassName={s.navLi}
+                previousClassName={s.navLi}
+                nextClassName={s.navLi}
+                pageClassName={s.navLi}
+                activeLinkClassName={s.active}
+                breakLinkClassName={s.navA}
+                pageLinkClassName={s.navA}
+                previousLinkClassName={`${s.navA} ${s.moveButton}`}
+                nextLinkClassName={`${s.navA} ${s.moveButton}`}
             />
         </>
     )
