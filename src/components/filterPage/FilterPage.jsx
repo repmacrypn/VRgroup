@@ -514,10 +514,9 @@ const UserShortInfo = ({ user, setIsVisible, usersFullNameArray,
                 <X
                     className={s.icon}
                     color='#3626A7'
-                    viewBox="-8 -7 24 24"
-                    height={20}
-                    width={20}
-                    size={6}
+                    viewBox="-11 -7 24 24"
+                    height={16}
+                    width={16}
                 />
             </div>
         </div>

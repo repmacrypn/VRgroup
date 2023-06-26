@@ -324,7 +324,7 @@
     max-width: 408px;
     width: 100%;
     border-radius: 6px;
-    margin: 20px auto;
+    margin: 45px auto;
     border: 1px solid #E7E8EF;
 }
 
@@ -342,8 +342,18 @@
 
 .closeButton {
     position: absolute;
+    top: 6px;
+    left: -16px;
+    z-index: 10;
     width: 32px;
     height: 32px;
     border-radius: 50%;
     border: 1px solid #E7E8EF;
+    background-color: white;
+    box-shadow: -4px 0 20px -6px #6F717A;
+}
+
+.closeButton:hover {
+    cursor: pointer;
+    background-color: #fcfcfc;
 }
