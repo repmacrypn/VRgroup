@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useContext } from 'react'
 import s from './FilterPage.module.css'
 import { Button, Select, TextInput } from '@mantine/core'
 import {
@@ -291,15 +291,30 @@ UpgragePopUp.propTypes = {
 const UserTable = ({ itemsPerPage, handlePageChange,
     totalCount, pageNumber }) => {
 
+    const wrapperRef = useRef(null)
+
+    const handleOutsideClick = (e) => {
+        if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+            setIsVisible(false)
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', handleOutsideClick)
+        return () => {
+            document.removeEventListener('click', handleOutsideClick)
+        }
+    })
+
     const [isVisible, setIsVisible] = useState(false)
     const [curUser, setCurUser] = useState({})
-    //закинуть useRef на айтемсперпэйдж и передать в рисент компоненту
     const tableHeadings = [
         { name: 'Full name', id: nanoid() },
         { name: 'Job title', id: nanoid() },
         { name: 'Industry', id: nanoid() },
         { name: 'Location', id: nanoid() },
     ]
+
     const completedHeadings = tableHeadings.map(header => (
         <th
             className={`${s.tableHeaderTitle}`}
@@ -326,36 +341,44 @@ const UserTable = ({ itemsPerPage, handlePageChange,
     }
 
     const fetchedCustomers = customers.map(user => {
-        return <UserTableInfo
-            getUserShortInfo={getUserShortInfo}
-            key={user.id}
-            user={user}
-        />
+        return (
+            <UserTableInfo
+                getUserShortInfo={getUserShortInfo}
+                key={user.id}
+                user={user}
+            />
+        )
     })
 
-    if (totalCount === null) return <GreetingsState />
+    if (totalCount === null) return (
+        <FilterContext.Provider value={itemsPerPage}>
+            <GreetingsState />
+        </FilterContext.Provider>
+    )
     if (status === 'loading') return <Preloader />
     if (totalCount === '0') return <EmptyState />
 
     return (
         <>
-            <table className={s.usersTable}>
-                <thead>
-                    <tr className={s.tableHeaderRow}>
-                        {completedHeadings}
-                    </tr>
-                </thead>
-                <tbody>
-                    {fetchedCustomers}
-                </tbody>
-            </table>
-            {
-                isVisible &&
-                < UserShortInfo
-                    setIsVisible={setIsVisible}
-                    user={curUser}
-                />
-            }
+            <div ref={wrapperRef}>
+                {
+                    isVisible &&
+                    <UserShortInfo
+                        setIsVisible={setIsVisible}
+                        user={curUser}
+                    />
+                }
+                <table className={s.usersTable}>
+                    <thead>
+                        <tr className={s.tableHeaderRow}>
+                            {completedHeadings}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {fetchedCustomers}
+                    </tbody>
+                </table>
+            </div>
             <ReactPaginate
                 previousLabel="<"
                 nextLabel=">"
@@ -379,8 +402,6 @@ UserTable.propTypes = {
 }
 
 const UserTableInfo = ({ user, getUserShortInfo }) => {
-    const wrapperRef = useRef(null)
-
     const dispatch = useDispatch()
     const usersFullNameArray = useSelector(state => state.filter.usersFullNameArray)
     let name = usersFullNameArray.find(obj => obj.userId === user.id)?.userName
@@ -406,24 +427,10 @@ const UserTableInfo = ({ user, getUserShortInfo }) => {
             </button>
         )
 
-    /* const handleOutsideClick = (e) => {
-        if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
-            setIsVisible(false)
-        }
-    }
-
-    useEffect(() => {
-        document.addEventListener('click', handleOutsideClick)
-        return () => {
-            document.removeEventListener('click', handleOutsideClick)
-        }
-    }) */
-
     return (
         <tr
             className={s.userTableRow}
             onClick={() => getUserShortInfo(user.id)}
-            ref={wrapperRef}
         >
             <td>{name}</td>
             <td>{user.job_title}</td>
@@ -433,10 +440,6 @@ const UserTableInfo = ({ user, getUserShortInfo }) => {
     )
 }
 
-//короче смотри как сделать чтоб shortInfo был не в td а как отдельный нормальный
-// компонент: передаем колбэк в виде пропсов который срабатывает при клике на tr
-// и с ним наверх id и там же наверху сетаем висибл в тру 
-
 UserTableInfo.propTypes = {
     user: PropTypes.object,
     getUserShortInfo: PropTypes.func,
@@ -445,7 +448,9 @@ UserTableInfo.propTypes = {
 const UserShortInfo = ({ user, setIsVisible }) => {
     return (
         <div className={s.userShortInfo}>
-            <button>get access to the name</button>
+            <button>
+                get access to the name
+            </button>
             <div>{user.job_title}</div>
             <div>{user.industry}</div>
             <div>{user.country}</div>
@@ -503,7 +508,12 @@ const GreetingsState = () => {
 const RecentSearches = () => {
     const recentSearchArray = useSelector(state => state.filter.recentSearchArray)
 
-    const resentResultArray = recentSearchArray.map((searchData) => (<RecentItem key={searchData.id} searchData={searchData} />))
+    const resentResultArray = recentSearchArray.map((searchData) => (
+        <RecentItem
+            key={searchData.id}
+            searchData={searchData}
+        />
+    ))
 
     return (
         <div className={s.recentSearchBorder}>
@@ -518,7 +528,8 @@ const RecentSearches = () => {
     )
 }
 
-const RecentItem = ({ searchData, itemsPerPage = 12 }) => {
+const RecentItem = ({ searchData }) => {
+    const itemsPerPage = useContext(FilterContext)
     const status = useSelector(state => state.filter.status)
     const dispatch = useDispatch()
 
@@ -553,7 +564,6 @@ RecentItem.propTypes = {
         selectLocValue: PropTypes.string,
         selectIndValue: PropTypes.string,
     }),
-    itemsPerPage: PropTypes.number,
 }
 
 FilterPage.displayName = 'FilterPage'
