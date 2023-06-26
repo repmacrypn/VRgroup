@@ -304,7 +304,7 @@
     padding: 12px;
 }
 
-.userShortInfo {
+.userShortInfoWrapper {
     position: fixed;
     z-index: 5;
     top: 0px;
@@ -314,4 +314,28 @@
     height: 100%;
     background: white;
     box-shadow: 4px 0 20px 0 #6F717A;
+}
+
+.userShortInfoName {
+    margin: 15px 0 15px 12px;
+}
+
+.userShortInfo {
+    max-width: 408px;
+    width: 100%;
+    border-radius: 6px;
+    margin: 20px auto;
+    border: 1px solid #E7E8EF;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-top: 1px solid #E7E8EF;
+    padding: 15px 12px;
+}
+
+.userInfoTitle {
+    color: #9195A4;
 }

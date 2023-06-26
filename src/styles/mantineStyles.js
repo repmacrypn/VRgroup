@@ -161,6 +161,14 @@ export const ms = {
                 backgroundColor: 'rgb(40 29 115)',
             },
         },
+        shortInfoRoot: {
+            maxWidth: 376,
+            width: '100%',
+            height: 46,
+            padding: '12px 52px',
+            margin: ' 15px auto',
+            display: 'block',
+        },
         filterRoot: {
             maxWidth: 204,
             width: '100%',

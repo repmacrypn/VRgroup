@@ -3,7 +3,7 @@ import s from './FilterPage.module.css'
 import { Button, Select, TextInput } from '@mantine/core'
 import {
     Briefcase, BuildingSkyscraper, ChevronDown,
-    History, MapPin, Search, SquareArrowDown,
+    History, MapPin, Search, SquareArrowDown, UserCircle,
 } from 'tabler-icons-react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
@@ -462,28 +462,68 @@ const UserShortInfo = ({ user, setIsVisible, usersFullNameArray,
     let name = usersFullNameArray.find(obj => obj.userId === user.id)?.userName
 
     name ?
-        name = <div>{name}</div> :
         name = (
-            <button
-                className={`${s.tableAccessNameButton} bold500`}
-                onClick={(e) => getUserNameOnClick(e, user.id)}>
-                <div className={`${s.buttonPar} bold500`}>
-                    <div className={s.iconWrapper}>
-                        <div className={s.userIcon}></div>
-                        <div className={s.verifyIcon}></div>
-                    </div>
-                    Get access to name
-                </div>
-            </button>
+            <div className={`${s.userShortInfoName} bold700`}>
+                {name}
+            </div>
+        ) :
+        name = (
+            <Button
+                onClick={(e) => getUserNameOnClick(e, user.id)}
+                radius='md'
+                styles={{
+                    root: Object.assign({}, ms.button.defaultRoot, ms.button.shortInfoRoot),
+                }}
+            >
+                <UserCircle
+                    className={s.icon}
+                    viewBox="0 -1 24 24"
+                    height={18}
+                    width={28}
+                />
+                Get access to name
+            </Button>
         )
 
     return (
-        <div className={s.userShortInfo}>
-            {name}
-            <div>{user.job_title}</div>
-            <div>{user.industry}</div>
-            <div>{user.country}</div>
-            <div>{user.description}</div>
+        <div className={s.userShortInfoWrapper}>
+            <div className={s.userShortInfo}>
+                {name}
+                <div className={`${s.userInfo} regular400`}>
+                    <div>
+                        <div className={s.userInfoTitle}>
+                            Job title
+                        </div>
+                        <div>
+                            {user.job_title}
+                        </div>
+                    </div>
+                    <div>
+                        <div className={s.userInfoTitle}>
+                            Industry
+                        </div>
+                        <div>
+                            {user.industry}
+                        </div>
+                    </div>
+                    <div>
+                        <div className={s.userInfoTitle}>
+                            Location
+                        </div>
+                        <div>
+                            {user.country}
+                        </div>
+                    </div>
+                    <div>
+                        <div className={s.userInfoTitle}>
+                            Description
+                        </div>
+                        <div>
+                            {user.description}
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div onClick={() => setIsVisible(false)}>X</div>
         </div>
     )
