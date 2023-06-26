@@ -3,7 +3,7 @@ import s from './FilterPage.module.css'
 import { Button, Select, TextInput } from '@mantine/core'
 import {
     Briefcase, BuildingSkyscraper, ChevronDown,
-    History, MapPin, Search, SquareArrowDown, UserCircle,
+    History, MapPin, Search, SquareArrowDown, UserCircle, X,
 } from 'tabler-icons-react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
@@ -490,41 +490,36 @@ const UserShortInfo = ({ user, setIsVisible, usersFullNameArray,
             <div className={s.userShortInfo}>
                 {name}
                 <div className={`${s.userInfo} regular400`}>
-                    <div>
-                        <div className={s.userInfoTitle}>
-                            Job title
-                        </div>
-                        <div>
-                            {user.job_title}
-                        </div>
-                    </div>
-                    <div>
-                        <div className={s.userInfoTitle}>
-                            Industry
-                        </div>
-                        <div>
-                            {user.industry}
-                        </div>
-                    </div>
-                    <div>
-                        <div className={s.userInfoTitle}>
-                            Location
-                        </div>
-                        <div>
-                            {user.country}
-                        </div>
-                    </div>
-                    <div>
-                        <div className={s.userInfoTitle}>
-                            Description
-                        </div>
-                        <div>
-                            {user.description}
-                        </div>
-                    </div>
+                    <UserShortData
+                        text='Job title'
+                        value={user.job_title}
+                    />
+                    <UserShortData
+                        text='Industry'
+                        value={user.industry}
+                    />
+                    <UserShortData
+                        text='Location'
+                        value={user.country}
+                    />
+                    <UserShortData
+                        text='Description'
+                        value={user.description}
+                    />
                 </div>
             </div>
-            <div onClick={() => setIsVisible(false)}>X</div>
+            <div
+                className={s.closeButton}
+                onClick={() => setIsVisible(false)}>
+                <X
+                    className={s.icon}
+                    color='#3626A7'
+                    viewBox="-8 -7 24 24"
+                    height={20}
+                    width={20}
+                    size={6}
+                />
+            </div>
         </div>
     )
 }
@@ -540,6 +535,24 @@ UserShortInfo.propTypes = {
     setIsVisible: PropTypes.func,
     getUserNameOnClick: PropTypes.func,
     usersFullNameArray: PropTypes.array,
+}
+
+const UserShortData = ({ text, value }) => {
+    return (
+        <div>
+            <div className={s.userInfoTitle}>
+                {text}
+            </div>
+            <div>
+                {value}
+            </div>
+        </div>
+    )
+}
+
+UserShortData.propTypes = {
+    text: PropTypes.string,
+    value: PropTypes.string,
 }
 
 const FilterLabel = ({ children, text }) => {

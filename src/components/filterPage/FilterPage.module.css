@@ -339,3 +339,11 @@
 .userInfoTitle {
     color: #9195A4;
 }
+
+.closeButton {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #E7E8EF;
+}
