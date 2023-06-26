@@ -292,6 +292,19 @@ const UserTable = ({ itemsPerPage, handlePageChange,
     totalCount, pageNumber }) => {
 
     const wrapperRef = useRef(null)
+    const [isVisible, setIsVisible] = useState(false)
+    const [curUser, setCurUser] = useState({})
+
+    const status = useSelector(state => state.filter.status)
+    const customers = useSelector(state => state.filter.customers)
+    const pageCount = Math.ceil(totalCount / itemsPerPage)
+
+    const tableHeadings = [
+        { name: 'Full name', id: nanoid() },
+        { name: 'Job title', id: nanoid() },
+        { name: 'Industry', id: nanoid() },
+        { name: 'Location', id: nanoid() },
+    ]
 
     const handleOutsideClick = (e) => {
         if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
@@ -305,15 +318,6 @@ const UserTable = ({ itemsPerPage, handlePageChange,
             document.removeEventListener('click', handleOutsideClick)
         }
     })
-
-    const [isVisible, setIsVisible] = useState(false)
-    const [curUser, setCurUser] = useState({})
-    const tableHeadings = [
-        { name: 'Full name', id: nanoid() },
-        { name: 'Job title', id: nanoid() },
-        { name: 'Industry', id: nanoid() },
-        { name: 'Location', id: nanoid() },
-    ]
 
     const completedHeadings = tableHeadings.map(header => (
         <th
@@ -329,10 +333,6 @@ const UserTable = ({ itemsPerPage, handlePageChange,
             />
         </th>
     ))
-
-    const status = useSelector(state => state.filter.status)
-    const customers = useSelector(state => state.filter.customers)
-    const pageCount = Math.ceil(totalCount / itemsPerPage)
 
     const getUserShortInfo = (userId) => {
         const customer = customers.find(obj => obj.id === userId)
