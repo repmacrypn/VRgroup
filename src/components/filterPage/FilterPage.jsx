@@ -291,12 +291,17 @@ UpgragePopUp.propTypes = {
 const UserTable = ({ itemsPerPage, handlePageChange,
     totalCount, pageNumber }) => {
 
+    //сделать нормальным доступ к имени (более менее красивым)
+
     const wrapperRef = useRef(null)
     const [isVisible, setIsVisible] = useState(false)
     const [curUser, setCurUser] = useState({})
 
+    const dispatch = useDispatch()
     const status = useSelector(state => state.filter.status)
+    const usersFullNameArray = useSelector(state => state.filter.usersFullNameArray)
     const customers = useSelector(state => state.filter.customers)
+
     const pageCount = Math.ceil(totalCount / itemsPerPage)
 
     const tableHeadings = [
@@ -334,6 +339,11 @@ const UserTable = ({ itemsPerPage, handlePageChange,
         </th>
     ))
 
+    const getUserNameOnClick = useCallback((e, userId) => {
+        e.stopPropagation()
+        dispatch(getUserName(userId))
+    }, [dispatch])
+
     const getUserShortInfo = (userId) => {
         const customer = customers.find(obj => obj.id === userId)
         setCurUser(customer)
@@ -343,9 +353,11 @@ const UserTable = ({ itemsPerPage, handlePageChange,
     const fetchedCustomers = customers.map(user => {
         return (
             <UserTableInfo
+                getUserNameOnClick={getUserNameOnClick}
                 getUserShortInfo={getUserShortInfo}
                 key={user.id}
                 user={user}
+                usersFullNameArray={usersFullNameArray}
             />
         )
     })
@@ -366,6 +378,8 @@ const UserTable = ({ itemsPerPage, handlePageChange,
                     <UserShortInfo
                         setIsVisible={setIsVisible}
                         user={curUser}
+                        usersFullNameArray={usersFullNameArray}
+                        getUserNameOnClick={getUserNameOnClick}
                     />
                 }
                 <table className={s.usersTable}>
@@ -401,15 +415,10 @@ UserTable.propTypes = {
     itemsPerPage: PropTypes.number,
 }
 
-const UserTableInfo = ({ user, getUserShortInfo }) => {
-    const dispatch = useDispatch()
-    const usersFullNameArray = useSelector(state => state.filter.usersFullNameArray)
-    let name = usersFullNameArray.find(obj => obj.userId === user.id)?.userName
+const UserTableInfo = ({ user, getUserShortInfo,
+    usersFullNameArray, getUserNameOnClick }) => {
 
-    const getUserNameOnClick = useCallback((e, userId) => {
-        e.stopPropagation()
-        dispatch(getUserName(userId))
-    }, [dispatch])
+    let name = usersFullNameArray.find(obj => obj.userId === user.id)?.userName
 
     name ?
         name = <div>{name}</div> :
@@ -443,14 +452,34 @@ const UserTableInfo = ({ user, getUserShortInfo }) => {
 UserTableInfo.propTypes = {
     user: PropTypes.object,
     getUserShortInfo: PropTypes.func,
+    getUserNameOnClick: PropTypes.func,
+    usersFullNameArray: PropTypes.array,
 }
 
-const UserShortInfo = ({ user, setIsVisible }) => {
+const UserShortInfo = ({ user, setIsVisible, usersFullNameArray,
+    getUserNameOnClick }) => {
+
+    let name = usersFullNameArray.find(obj => obj.userId === user.id)?.userName
+
+    name ?
+        name = <div>{name}</div> :
+        name = (
+            <button
+                className={`${s.tableAccessNameButton} bold500`}
+                onClick={(e) => getUserNameOnClick(e, user.id)}>
+                <div className={`${s.buttonPar} bold500`}>
+                    <div className={s.iconWrapper}>
+                        <div className={s.userIcon}></div>
+                        <div className={s.verifyIcon}></div>
+                    </div>
+                    Get access to name
+                </div>
+            </button>
+        )
+
     return (
         <div className={s.userShortInfo}>
-            <button>
-                get access to the name
-            </button>
+            {name}
             <div>{user.job_title}</div>
             <div>{user.industry}</div>
             <div>{user.country}</div>
@@ -469,6 +498,8 @@ UserShortInfo.propTypes = {
         description: PropTypes.string.isRequired,
     }),
     setIsVisible: PropTypes.func,
+    getUserNameOnClick: PropTypes.func,
+    usersFullNameArray: PropTypes.array,
 }
 
 const FilterLabel = ({ children, text }) => {
