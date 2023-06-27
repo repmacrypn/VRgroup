@@ -1,15 +1,18 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
+import { Button } from '@mantine/core'
+import { useDispatch, useSelector } from 'react-redux'
 import s from './EmptyState.module.css'
 import emptyState from '../../../assets/images/noResults.svg'
-import { useDispatch, useSelector } from 'react-redux'
-import { findCustomers, selectItemsPerPage } from '../../../redux/filterSlice'
+import { findCustomers, selectItemsPerPage, status } from '../../../redux/filterSlice'
 import { FilterContext } from '../../filterPage/FilterPage'
 import '../../../styles/fonts.css'
+import { ms } from '../../../styles/mantineStyles'
 
 export const EmptyState = () => {
     const { setSearchValue, setSelectLocValue, setSelectIndValue } = useContext(FilterContext)
     const itemsPerPage = useSelector(selectItemsPerPage)
+    const isLoading = useSelector(status)
     const dispatch = useDispatch()
 
     const resetFiltersOnClick = () => {
@@ -21,10 +24,11 @@ export const EmptyState = () => {
 
     return <EmptyStateInfo
         resetFiltersOnClick={resetFiltersOnClick}
+        isLoading={isLoading}
     />
 }
 
-const EmptyStateInfo = ({ resetFiltersOnClick }) => {
+const EmptyStateInfo = ({ resetFiltersOnClick, isLoading }) => {
     return (
         <div className={s.emptyWrapper}>
             <img
@@ -41,16 +45,21 @@ const EmptyStateInfo = ({ resetFiltersOnClick }) => {
                 We couldn’t find what you searched for.
                 Please try again.
             </div>
-            <button
+            <Button
                 onClick={resetFiltersOnClick}
-                className={`${s.emptyButton} bold600`}
+                disabled={isLoading === 'loading'}
+                radius='md'
+                styles={{
+                    root: ms.button.emptyRoot,
+                }}
             >
                 Clear filters
-            </button>
+            </Button>
         </div>
     )
 }
 
 EmptyStateInfo.propTypes = {
     resetFiltersOnClick: PropTypes.func,
+    isLoading: PropTypes.string,
 }

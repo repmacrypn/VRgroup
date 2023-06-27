@@ -200,5 +200,20 @@ export const ms = {
             padding: '12px 20px',
             display: 'block',
         },
+        emptyRoot: {
+            font: 'normal 600 14px/20px Mulish, sans-serif',
+            color: '#3626A7',
+            backgroundColor: '#F5F6F9',
+            '&:hover': {
+                backgroundColor: '#E7E8EF',
+            },
+            padding: '10px 24px',
+            maxWidth: '164px',
+            width: '100%',
+            height: '42px',
+            borderRadius: '6px',
+            border: 'none',
+            margin: '0 auto 20px',
+        },
     },
 }

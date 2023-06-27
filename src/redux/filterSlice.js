@@ -100,6 +100,7 @@ export const getUserName = createAsyncThunk('filter/getUserName', async (userId)
 
 export const selectTotalCount = (state) => state.filter.totalCount
 export const selectItemsPerPage = (state) => state.filter.itemsPerPage
+export const status = (state) => state.filter.status
 
 export const { showPopUp, addRecentSearch, clearCustomers } = filterSlice.actions
 
