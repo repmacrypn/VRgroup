@@ -74,8 +74,6 @@ export const authAPI = {
     },
 }
 
-//перенести логику профайлав слайс профайла
-
 export const filterAPI = {
     async findCustomers({ searchValue, selectLocValue, selectIndValue, from, to }) {
         try {

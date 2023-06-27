@@ -1,5 +1,5 @@
 .upgradeWrapper {
-    padding: 30px;
+    padding: 30px 10px;
 }
 
 .upgradeTitle {
@@ -10,11 +10,10 @@
 }
 
 .upgradeAbstract {
-    margin-top: 20px;
+    padding: 20px;
+    margin: 20px auto 0;
     border-radius: 6px;
     border: 1px solid #E7E8EF;
-    height: 400px;
     background-color: #C9C1FF;
-    padding: 30px;
     font-size: 22px;
 }

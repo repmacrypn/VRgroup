@@ -1,49 +1,66 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Eye, EyeOff } from 'tabler-icons-react'
 import { TextInput, Button, PasswordInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import s from './LoginPage.module.css'
-import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../../redux/authSlice'
 import { Navigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import s from './LoginPage.module.css'
+import { status, login } from '../../redux/authSlice'
 import { selectIsAuth } from '../../redux/authSlice'
 import '../../styles/fonts.css'
 import { ms } from '../../styles/mantineStyles'
-import { Eye, EyeOff } from 'tabler-icons-react'
 
 function LoginPage() {
     const isAuth = useSelector(selectIsAuth)
-
     if (isAuth) return <Navigate to='/filterPage' />
+
+    console.log('1 login props (top)')
 
     return (
         <div className={`${s.loginPageWrapper} defaultFontS`}>
-            <div className={s.loginFormWrapper}>
-                <div className={`${s.loginPageTitle} bold800`}>
-                    Login
-                </div>
-                <div className={`${s.loginPageAbstract} regular400`}>
-                    Welcome! Login to your account - find more potential customers.
-                </div>
-                <LoginData />
-                <LoginForm />
+            <LoginDataField />
+            <LoginIntroField />
+        </div>
+    )
+}
+
+const LoginDataField = () => {
+    console.log('2 login props (mid) left')
+
+    return (
+        <div className={s.loginFormWrapper}>
+            <div className={`${s.loginPageTitle} bold800`}>
+                Login
             </div>
-            <div className={s.loginIntroPic}>
-                <div className={`${s.logo} bold800`}>
-                    VRgroup
-                </div>
-                <div className={`${s.logoSlogan} bold800`}>
-                    Find and contact every potential customer in the world
-                </div>
+            <div className={`${s.loginPageAbstract} regular400`}>
+                Welcome! Login to your account - find more potential customers.
+            </div>
+            <LoginData />
+            <LoginForm />
+        </div>
+    )
+}
+
+const LoginIntroField = () => {
+    console.log('2 login props (mid) right')
+
+    return (
+        <div className={s.loginIntroPic}>
+            <div className={`${s.logo} bold800`}>
+                VRgroup
+            </div>
+            <div className={`${s.logoSlogan} bold800`}>
+                Find and contact every potential customer in the world
             </div>
         </div>
     )
 }
 
 const LoginForm = () => {
-    const error = useSelector(state => state.auth.error)
-    const isLoading = useSelector(state => state.auth.status)
     const dispatch = useDispatch()
+    const error = useSelector(state => state.auth.error)
+    const isLoading = useSelector(status)
 
     const form = useForm({
         initialValues: {
@@ -58,6 +75,8 @@ const LoginForm = () => {
     const onSubmitButtonClick = ({ email, password }) => {
         dispatch(login({ email, password }))
     }
+
+    console.log('2 login props (middle)')
 
     return (
         <form
@@ -110,6 +129,7 @@ const LoginForm = () => {
 }
 
 const LoginData = () => {
+    console.log('3 login props (middle)')
     return (
         <div className={s.loginDataWrapper}>
             <LoginDataProp
@@ -125,6 +145,8 @@ const LoginData = () => {
 }
 
 const LoginDataProp = ({ title, value }) => {
+
+    console.log('4 login props (bottom)')
     return (
         <div>
             <span className='bold600'>

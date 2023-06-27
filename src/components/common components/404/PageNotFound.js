@@ -1,11 +1,15 @@
 import React from 'react'
 import s from './PageNotFound.module.css'
-/* import '../../../styles/defaultStyles.css' */
+import { BackToSearch } from '../../profilePage/ProfilePage'
+import '../../../styles/fonts.css'
 
 const PageNotFound = () => {
     return (
-        <div className={`titleSSemiBold ${s.demoMessageAlert}`}>
-            404 NOT FOUND xD
+        <div className={`defaultfontS ${s.demoMessageAlertWrapper}`}>
+            <BackToSearch />
+            <div className={`bold700 ${s.demoMessageAlert}`}>
+                404 NOT FOUND
+            </div>
         </div>
     )
 }

@@ -58,5 +58,6 @@ export const changeUserCreds = createAsyncThunk('auth/changeUserCreds', async ({
 })
 
 export const selectIsAuth = (state) => state.auth.userData
+export const status = (state) => state.auth.status
 
 export default authSlice.reducer
