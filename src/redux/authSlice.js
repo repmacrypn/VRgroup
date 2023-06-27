@@ -20,14 +20,21 @@ const authSlice = createSlice({
                 state.userData = action.payload
             })
             .addCase(login.rejected, (state, action) => {
+                let errorMessage = action.error.message
+
+                if (errorMessage === 'Cannot read properties of undefined (reading \'data\')') {
+                    errorMessage = 'Bad internet connection. Try again later'
+                }
+
                 state.status = 'failed'
-                state.error = action.error.message
+                state.error = errorMessage
             })
             .addCase(logout.pending, (state) => {
                 state.status = 'loading'
             })
             .addCase(logout.fulfilled, (state) => {
                 state.status = 'succeeded'
+                state.error = null
                 state.userData = null
             })
             .addCase(changeUserCreds.pending, (state) => {
