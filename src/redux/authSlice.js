@@ -5,6 +5,7 @@ const initialState = {
     status: 'idle',
     error: null,
     userData: null,
+    isAuth: false,
 }
 
 const authSlice = createSlice({
@@ -18,6 +19,7 @@ const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.userData = action.payload
+                state.isAuth = true
             })
             .addCase(login.rejected, (state, action) => {
                 let errorMessage = action.error.message
@@ -36,6 +38,7 @@ const authSlice = createSlice({
                 state.status = 'succeeded'
                 state.error = null
                 state.userData = null
+                state.isAuth = false
             })
             .addCase(changeUserCreds.pending, (state) => {
                 state.status = 'loading'
@@ -64,7 +67,8 @@ export const changeUserCreds = createAsyncThunk('auth/changeUserCreds', async ({
     return await authAPI.changeUserCreds(name, surname)
 })
 
-export const selectIsAuth = (state) => state.auth.userData
+export const selectIsAuth = (state) => state.auth.isAuth
+export const selectUserData = (state) => state.auth.userData
 export const status = (state) => state.auth.status
 
 export default authSlice.reducer

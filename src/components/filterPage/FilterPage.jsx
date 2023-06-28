@@ -30,7 +30,7 @@ export const FilterContext = React.createContext()
 
 const FilterPage = React.memo(() => {
     const isPopUpVis = useSelector(state => state.filter.isPopUpVisible)
-    const userData = useSelector(selectIsAuth)
+    const isAuth = useSelector(selectIsAuth)
     const totalCount = useSelector(selectTotalCount)
     const itemsPerPage = useSelector(selectItemsPerPage)
     const dispatch = useDispatch()
@@ -50,7 +50,7 @@ const FilterPage = React.memo(() => {
         setPageNumber(e.selected)
     }
 
-    if (!userData) return <Navigate to='/loginPage' />
+    if (!isAuth) return <Navigate to='/loginPage' />
 
     return (
         <FilterContext.Provider
