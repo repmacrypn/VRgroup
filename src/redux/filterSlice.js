@@ -12,6 +12,10 @@ const initialState = {
     totalCount: null,
     itemsPerPage: 12,
     isPopUpVisible: false,
+    pageNumber: 0,
+    filterData: {},
+    currentUser: {},
+    isShortInfoVisible: false,
 }
 
 const filterSlice = createSlice({
@@ -23,9 +27,13 @@ const filterSlice = createSlice({
         },
         addRecentSearch: {
             reducer(state, action) {
+                const currentDataObj = action.payload
                 const array = state.recentSearchArray
-                const curDataObj = JSON.stringify(action.payload)
-                const isInArray = array.find(dataObj => JSON.stringify(dataObj) === curDataObj)
+                const isInArray = array.find(dataObj => {
+                    return dataObj.searchValue === currentDataObj.searchValue &&
+                        dataObj.locIndex === currentDataObj.locIndex &&
+                        dataObj.indIndex === currentDataObj.indIndex
+                })
 
                 if (!isInArray) {
                     if (array.length === 4) array.shift()
@@ -44,6 +52,18 @@ const filterSlice = createSlice({
         clearCustomers: (state) => {
             state.customers.length = 0
             state.totalCount = null
+        },
+        setPageNumber: (state, action) => {
+            state.pageNumber = action.payload
+        },
+        setFilterData: (state, action) => {
+            state.filterData = action.payload
+        },
+        setCurrentUser: (state, action) => {
+            state.currentUser = action.payload
+        },
+        setIsVisible: (state, action) => {
+            state.isShortInfoVisible = action.payload
         },
     },
     extraReducers(builder) {
@@ -98,10 +118,11 @@ export const getUserName = createAsyncThunk('filter/getUserName', async (userId)
     return { userId, userName: resultString }
 })
 
-export const selectTotalCount = (state) => state.filter.totalCount
-export const selectItemsPerPage = (state) => state.filter.itemsPerPage
+export const selectUserName = (state, userId) =>
+    state.filter.usersFullNameArray.find(obj => obj.userId === userId)?.userName
 export const status = (state) => state.filter.status
 
-export const { showPopUp, addRecentSearch, clearCustomers } = filterSlice.actions
+export const { showPopUp, addRecentSearch, setCurrentUser, setIsVisible,
+    clearCustomers, setPageNumber, setFilterData } = filterSlice.actions
 
 export default filterSlice.reducer

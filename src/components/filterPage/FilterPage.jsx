@@ -1,123 +1,114 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from 'react'
-import s from './FilterPage.module.css'
-import { Button, Select, TextInput } from '@mantine/core'
+import { nanoid } from '@reduxjs/toolkit'
 import {
-    Briefcase, BuildingSkyscraper, ChevronDown,
-    ChevronLeft,
-    ChevronRight,
+    Briefcase, BuildingSkyscraper, ChevronDown, ChevronLeft, ChevronRight,
     History, MapPin, Search, SquareArrowDown, UserCircle, X,
 } from 'tabler-icons-react'
+import { Button, Select, TextInput } from '@mantine/core'
 import PropTypes from 'prop-types'
+import { NavLink, Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import ReactPaginate from 'react-paginate'
+import s from './FilterPage.module.css'
 import {
     addRecentSearch, clearCustomers, fetchCountries, fetchIndustries,
-    findCustomers, getUserName, selectItemsPerPage, selectTotalCount, showPopUp,
+    findCustomers, getUserName, status, selectUserName, setCurrentUser,
+    setFilterData, setIsVisible, setPageNumber, showPopUp,
 } from '../../redux/filterSlice'
-import ReactPaginate from 'react-paginate'
 import { EmptyState } from '../common components/emptyState/EmptyState'
 import Preloader from '../common components/preloader/Preloader'
-import { NavLink, Navigate } from 'react-router-dom'
 import { selectIsAuth } from '../../redux/authSlice'
 import '../../styles/fonts.css'
-/* import { selectIsAuth } from "../../redux/authSlice";*/
 import { ms } from '../../styles/mantineStyles'
 import popUpIcon from '../../assets/images/popUpIcon.svg'
-import { nanoid } from '@reduxjs/toolkit'
 
-export const FilterContext = React.createContext()
+//если будет не лень то поразделяй компоненту фильтра на отдельные части (баттон инпуты и тп чтобы состояние лоадинга не меняло всю комп-ту)
+//пофиксить филтер филд при срабатывании попапа и др (чтобы он брал дефолтное состоянние из стейта)
+// также нужно будет сделать хрень чтоб при выходе из компоненты данные из стейта тоже обновлялись (я про филтер филд)
+export const FilterContext = React.createContext(null)
 
-//перенести работу с локальным стейтом в нужный компонент
-
-const FilterPage = React.memo(() => {
-    const isPopUpVis = useSelector(state => state.filter.isPopUpVisible)
+const FilterPage = () => {
     const isAuth = useSelector(selectIsAuth)
-    const totalCount = useSelector(selectTotalCount)
-    const itemsPerPage = useSelector(selectItemsPerPage)
-    const dispatch = useDispatch()
-
-    const [pageNumber, setPageNumber] = useState(0)
-    const [searchValue, setSearchValue] = useState('')
-    const [selectLocValue, setSelectLocValue] = useState('')
-    const [selectIndValue, setSelectIndValue] = useState('')
-
-    const handlePageChange = (e) => {
-        const newOffset = (e.selected * itemsPerPage) % totalCount
-        if (newOffset >= 60) {
-            dispatch(showPopUp(true))
-        } else {
-            dispatch(findCustomers({ searchValue, selectLocValue, selectIndValue, from: newOffset, to: newOffset + itemsPerPage }))
-        }
-        setPageNumber(e.selected)
-    }
+    const isPopUpVis = useSelector(state => state.filter.isPopUpVisible)
+    const itemsPerPage = useSelector(state => state.filter.itemsPerPage)
 
     if (!isAuth) return <Navigate to='/loginPage' />
 
     return (
-        <FilterContext.Provider
-            value={{ setSearchValue, setSelectLocValue, setSelectIndValue }}
-        >
-            <div className={`defaultFontS ${s.filterPageWrapper}`}>
-                <div className={s.filterFieldWrapper}>
-                    <div className={`bold900 ${s.logoTitle}`}>
-                        VRgroup
-                    </div>
-                    <div>
-                        <div className={`bold600 ${s.filtersTitle}`}>
-                            Filters
-                        </div>
-                        <FilterField
-                            isPopUpVis={isPopUpVis}
-                            setPageNumber={setPageNumber}
-                            itemsPerPage={itemsPerPage}
-                            searchValue={searchValue}
-                            setSearchValue={setSearchValue}
-                            selectLocValue={selectLocValue}
-                            setSelectLocValue={setSelectLocValue}
-                            selectIndValue={selectIndValue}
-                            setSelectIndValue={setSelectIndValue}
-                        />
-                    </div>
+        <div className={`defaultFontS ${s.filterPageWrapper}`}>
+            <div className={s.filterFieldWrapper}>
+                <div className={`bold900 ${s.logoTitle}`}>
+                    VRgroup
                 </div>
-                <div className={s.filterResultWrapper}>
-                    <div className={`bold700 ${s.filterTotalField}`}>
-                        <span className={s.totalTitle}>
-                            Total
-                        </span>
-                        <span className={`${s.filterTotalNum}`}>
-                            {totalCount || 0}
-                        </span>
+                <div>
+                    <div className={`bold600 ${s.filtersTitle}`}>
+                        Filters
                     </div>
-                    {
-                        isPopUpVis ||
-                        <UserTable
-                            itemsPerPage={itemsPerPage}
-                            handlePageChange={handlePageChange}
-                            totalCount={totalCount}
-                            pageNumber={pageNumber}
-                        />
-                    }
-                    {
-                        isPopUpVis &&
-                        <UpgragePopUp
-                            showPopUp={showPopUp}
-                            setPageNumber={setPageNumber}
-                            itemsPerPage={itemsPerPage}
-                        />
-                    }
+                    <FilterField
+                        isPopUpVis={isPopUpVis}
+                        itemsPerPage={itemsPerPage}
+                    />
                 </div>
             </div>
-        </FilterContext.Provider>
+            <FilterContext.Provider value={itemsPerPage}>
+                <ResultData isPopUpVis={isPopUpVis} />
+            </FilterContext.Provider>
+        </div>
     )
-})
+}
 
-const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, setPageNumber,
-    setSelectLocValue, selectIndValue, setSelectIndValue, itemsPerPage, isPopUpVis }) => {
+const ResultData = ({ isPopUpVis }) => {
+    const totalCount = useSelector(state => state.filter.totalCount)
 
-    const countries = useSelector(state => state.filter.countries)
-    const industries = useSelector(state => state.filter.industries)
-    const status = useSelector(state => state.filter.status)
+    return (
+        <div className={s.filterResultWrapper}>
+            <Total totalCount={totalCount} />
+            {
+                isPopUpVis ||
+                <UserTable
+                    totalCount={totalCount}
+                />
+            }
+            {
+                isPopUpVis &&
+                <UpgragePopUp />
+            }
+        </div>
+    )
+}
+
+ResultData.propTypes = {
+    isPopUpVis: PropTypes.bool,
+}
+
+const Total = ({ totalCount }) => {
+
+    return (
+        <div className={`bold700 ${s.filterTotalField}`}>
+            <span className={s.totalTitle}>
+                Total
+            </span>
+            <span className={`${s.filterTotalNum}`}>
+                {totalCount || 0}
+            </span>
+        </div>
+    )
+}
+
+Total.propTypes = {
+    totalCount: PropTypes.string,
+}
+
+const FilterField = ({ itemsPerPage, isPopUpVis }) => {
 
     const dispatch = useDispatch()
+    const countries = useSelector(state => state.filter.countries)
+    const industries = useSelector(state => state.filter.industries)
+    const isLoading = useSelector(status)
+
+    const [searchValue, setSearchValue] = useState('')
+    const [selectLocValue, setSelectLocValue] = useState('')
+    const [selectIndValue, setSelectIndValue] = useState('')
 
     const mapFetchedFilterData = (fetchedArr) => {
         return fetchedArr.map((prop) => ({ value: prop.id, label: prop.name }))
@@ -132,8 +123,9 @@ const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, s
             searchValue, locIndex: selectLocValue, selectLocValue: countries[selectLocValue - 1]?.name,
             indIndex: selectIndValue, selectIndValue: industries[selectIndValue - 1]?.name,
         }))
+        dispatch(setFilterData({ searchValue, selectLocValue, selectIndValue }))
+        dispatch(setPageNumber(0))
         if (isPopUpVis) dispatch(showPopUp(false))
-        setPageNumber(0)
     }
 
     useEffect(() => {
@@ -146,10 +138,13 @@ const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, s
         if (!countries.length) {
             dispatch(fetchCountries())
         }
+    }, [dispatch, countries.length])
+
+    useEffect(() => {
         if (!industries.length) {
             dispatch(fetchIndustries())
         }
-    }, [dispatch, countries.length, industries.length])
+    }, [dispatch, industries.length])
 
     return (
         <div className={s.filterField}>
@@ -191,7 +186,7 @@ const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, s
             />
             <Button
                 onClick={fetchCustomersOnClick}
-                disabled={status === 'loading'}
+                disabled={isLoading === 'loading'}
                 radius='md'
                 type="submit"
                 styles={{
@@ -202,21 +197,14 @@ const FilterField = React.memo(({ searchValue, setSearchValue, selectLocValue, s
             </Button>
         </div>
     )
-})
-
-FilterField.propTypes = {
-    searchValue: PropTypes.string,
-    setSearchValue: PropTypes.func,
-    setPageNumber: PropTypes.func,
-    setSelectLocValue: PropTypes.func,
-    setSelectIndValue: PropTypes.func,
-    itemsPerPage: PropTypes.number,
-    isPopUpVis: PropTypes.bool,
-    selectIndValue: PropTypes.string,
-    selectLocValue: PropTypes.string,
 }
 
-const FilterPageSelect = ({ value, setValue, processArr, array, text }) => {
+FilterField.propTypes = {
+    itemsPerPage: PropTypes.number,
+    isPopUpVis: PropTypes.bool,
+}
+
+const FilterPageSelect = React.memo(({ value, setValue, processArr, array, text }) => {
     return (
         <Select
             value={value}
@@ -236,7 +224,9 @@ const FilterPageSelect = ({ value, setValue, processArr, array, text }) => {
             }}
         />
     )
-}
+})
+
+FilterPageSelect.displayName = 'FilterPageSelect'
 
 FilterPageSelect.propTypes = {
     value: PropTypes.string,
@@ -246,76 +236,83 @@ FilterPageSelect.propTypes = {
     text: PropTypes.string,
 }
 
-const UpgragePopUp = ({ showPopUp, setPageNumber, itemsPerPage }) => {
+const FilterLabel = React.memo(({ children, text }) => {
+    return (
+        <div className={`${s.filterLabelWrapper}`}>
+            {children}
+            <span className={`bold500 ${s.filterLabel}`}>{text}</span>
+        </div>
+    )
+})
+
+FilterLabel.displayName = 'FilterLabel'
+
+FilterLabel.propTypes = {
+    children: PropTypes.node,
+    text: PropTypes.string,
+}
+
+const UpgragePopUp = () => {
     const dispatch = useDispatch()
-    const onDismissClick = () => {
+    const itemsPerPage = useContext(FilterContext)
+
+    const onConfirmClick = () => {
         dispatch(showPopUp(false))
-        setPageNumber(Math.ceil(60 / itemsPerPage - 1))
+        dispatch(setPageNumber(0))
     }
 
-    return <div className={s.popUpVisible}>
-        <img
-            height={56}
-            width={56}
-            className={s.popUpIcon}
-            src={popUpIcon}
-            alt='popUpIcon'
-        />
-        <div className={s.popupParWrapper}>
-            <div className={s.popUpTitle}>
-                Upgrade now
+    const onDismissClick = () => {
+        dispatch(showPopUp(false))
+        dispatch(setPageNumber(Math.ceil(60 / itemsPerPage - 1)))
+    }
+
+    return (
+        <div className={s.popUpVisible}>
+            <img
+                height={56}
+                width={56}
+                className={s.popUpIcon}
+                src={popUpIcon}
+                alt='popUpIcon'
+            />
+            <div className={s.popupParWrapper}>
+                <div className={s.popUpTitle}>
+                    Upgrade now
+                </div>
+                <div className={`${s.popUpAbstract} regular400`}>
+                    You are on limited version which allows
+                    viewing up to 60 contacts. Upgrade your plan to view all pages.
+                </div>
             </div>
-            <div className={`${s.popUpAbstract} regular400`}>
-                You are on limited version which allows
-                viewing up to 60 contacts. Upgrade your plan to view all pages.
+            <div className={`${s.popUpButWrapper} bold600`}>
+                <NavLink
+                    onClick={onConfirmClick}
+                    className={s.popUpSubButton}
+                    to='/upgradeVersionPage'
+                >
+                    Upgrade
+                </NavLink>
+                <div onClick={onDismissClick} className={s.popUpDismissButton}>
+                    Maybe later
+                </div>
             </div>
         </div>
-        <div className={`${s.popUpButWrapper} bold600`}>
-            <NavLink
-                className={s.popUpSubButton}
-                to='/upgradeVersionPage'
-            >
-                Upgrade
-            </NavLink>
-            <div onClick={onDismissClick} className={s.popUpDismissButton}>
-                Maybe later
-            </div>
-        </div>
-    </div>
+    )
 }
 
-UpgragePopUp.propTypes = {
-    showPopUp: PropTypes.func,
-    setPageNumber: PropTypes.func,
-    itemsPerPage: PropTypes.number,
-}
-
-const UserTable = ({ itemsPerPage, handlePageChange,
-    totalCount, pageNumber }) => {
-
-    //сделать нормальным доступ к имени (более менее красивым)
-
+const UserTable = ({ totalCount }) => {
     const wrapperRef = useRef(null)
-    const [isVisible, setIsVisible] = useState(false)
-    const [curUser, setCurUser] = useState({})
-
     const dispatch = useDispatch()
-    const status = useSelector(state => state.filter.status)
-    const usersFullNameArray = useSelector(state => state.filter.usersFullNameArray)
-    const customers = useSelector(state => state.filter.customers)
+    const isLoading = useSelector(status)
 
-    const pageCount = Math.ceil(totalCount / itemsPerPage)
-
-    const tableHeadings = [
-        { name: 'Full name', id: nanoid() },
-        { name: 'Job title', id: nanoid() },
-        { name: 'Industry', id: nanoid() },
-        { name: 'Location', id: nanoid() },
-    ]
+    const getUserNameOnClick = useCallback((e, userId) => {
+        e.stopPropagation()
+        dispatch(getUserName(userId))
+    }, [dispatch])
 
     const handleOutsideClick = (e) => {
         if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
-            setIsVisible(false)
+            dispatch(setIsVisible(false))
         }
     }
 
@@ -325,6 +322,47 @@ const UserTable = ({ itemsPerPage, handlePageChange,
             document.removeEventListener('click', handleOutsideClick)
         }
     })
+
+    if (totalCount === null) return <GreetingsState />
+    if (isLoading === 'loading') return <Preloader />
+    if (totalCount === '0') return <EmptyState />
+
+    return (
+        <>
+            <div ref={wrapperRef}>
+                <FilterContext.Provider value={getUserNameOnClick}>
+                    <IsShortInfoNeeded />
+                    <UserTableData />
+                </FilterContext.Provider>
+            </div>
+            <Pagination
+                totalCount={totalCount}
+            />
+        </>
+    )
+}
+
+UserTable.propTypes = {
+    totalCount: PropTypes.string,
+}
+
+const UserTableData = () => {
+    const customers = useSelector(state => state.filter.customers)
+    const fetchedCustomers = customers.map(user => {
+        return (
+            <UserTableInfo
+                key={user.id}
+                user={user}
+            />
+        )
+    })
+
+    const tableHeadings = [
+        { name: 'Full name', id: nanoid() },
+        { name: 'Job title', id: nanoid() },
+        { name: 'Industry', id: nanoid() },
+        { name: 'Location', id: nanoid() },
+    ]
 
     const completedHeadings = tableHeadings.map(header => (
         <th
@@ -341,109 +379,98 @@ const UserTable = ({ itemsPerPage, handlePageChange,
         </th>
     ))
 
-    const getUserNameOnClick = useCallback((e, userId) => {
-        e.stopPropagation()
-        dispatch(getUserName(userId))
-    }, [dispatch])
+    return (
+        <table className={s.usersTable}>
+            <thead>
+                <tr className={s.tableHeaderRow}>
+                    {completedHeadings}
+                </tr>
+            </thead>
+            <tbody>
+                {fetchedCustomers}
+            </tbody>
+        </table>
+    )
+}
 
-    const getUserShortInfo = (userId) => {
-        const customer = customers.find(obj => obj.id === userId)
-        setCurUser(customer)
-        setIsVisible(true)
+const IsShortInfoNeeded = () => {
+    const isVisible = useSelector(state => state.filter.isShortInfoVisible)
+    return isVisible && <UserShortInfo />
+}
+
+const Pagination = ({ totalCount }) => {
+    const dispatch = useDispatch()
+    const filterData = useSelector(state => state.filter.filterData)
+
+    const itemsPerPage = useContext(FilterContext)
+    const pageCount = Math.ceil(totalCount / itemsPerPage)
+    const pageNumber = useSelector(state => state.filter.pageNumber)
+
+    const handlePageChange = (e) => {
+        const newOffset = (e.selected * itemsPerPage) % totalCount
+        if (newOffset >= 60) {
+            dispatch(showPopUp(true))
+        } else {
+            dispatch(findCustomers({
+                searchValue: filterData.searchValue, selectLocValue: filterData.selectLocValue,
+                selectIndValue: filterData.selectIndValue, from: newOffset, to: newOffset + itemsPerPage,
+            }))
+        }
+        dispatch(setPageNumber(e.selected))
     }
 
-    const fetchedCustomers = customers.map(user => {
-        return (
-            <UserTableInfo
-                getUserNameOnClick={getUserNameOnClick}
-                getUserShortInfo={getUserShortInfo}
-                key={user.id}
-                user={user}
-                usersFullNameArray={usersFullNameArray}
-            />
-        )
-    })
-
-    if (totalCount === null) return (
-        <FilterContext.Provider value={itemsPerPage}>
-            <GreetingsState />
-        </FilterContext.Provider>
-    )
-    if (status === 'loading') return <Preloader />
-    if (totalCount === '0') return <EmptyState />
-
     return (
-        <>
-            <div ref={wrapperRef}>
-                {
-                    isVisible &&
-                    <UserShortInfo
-                        setIsVisible={setIsVisible}
-                        user={curUser}
-                        usersFullNameArray={usersFullNameArray}
-                        getUserNameOnClick={getUserNameOnClick}
-                    />
-                }
-                <table className={s.usersTable}>
-                    <thead>
-                        <tr className={s.tableHeaderRow}>
-                            {completedHeadings}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {fetchedCustomers}
-                    </tbody>
-                </table>
-            </div>
-            <ReactPaginate
-                previousLabel={
-                    <ChevronLeft
-                        className={s.icon}
-                        viewBox="0 0 24 24"
-                        height={14}
-                        width={20}
-                    />
-                }
-                nextLabel={
-                    <ChevronRight
-                        className={s.icon}
-                        viewBox="-2 0 24 24"
-                        height={14}
-                        width={20}
-                    />
-                }
-                breakLabel="..."
-                pageCount={pageCount}
-                marginPagesDisplayed={1}
-                pageRangeDisplayed={4}
-                onPageChange={handlePageChange}
-                forcePage={pageNumber}
-                containerClassName={s.pagination}
-                breakClassName={s.navLi}
-                previousClassName={s.navLi}
-                nextClassName={s.navLi}
-                pageClassName={s.navLi}
-                activeLinkClassName={s.active}
-                breakLinkClassName={s.navA}
-                pageLinkClassName={s.navA}
-                previousLinkClassName={`${s.navA} ${s.moveButton}`}
-                nextLinkClassName={`${s.navA} ${s.moveButton}`}
-            />
-        </>
+        <ReactPaginate
+            previousLabel={
+                <ChevronLeft
+                    className={s.icon}
+                    viewBox="0 0 24 24"
+                    height={14}
+                    width={20}
+                />
+            }
+            nextLabel={
+                <ChevronRight
+                    className={s.icon}
+                    viewBox="-2 0 24 24"
+                    height={14}
+                    width={20}
+                />
+            }
+            breakLabel="..."
+            pageCount={pageCount}
+            marginPagesDisplayed={1}
+            pageRangeDisplayed={4}
+            onPageChange={handlePageChange}
+            forcePage={pageNumber}
+            containerClassName={s.pagination}
+            breakClassName={s.navLi}
+            previousClassName={s.navLi}
+            nextClassName={s.navLi}
+            pageClassName={s.navLi}
+            activeLinkClassName={s.active}
+            breakLinkClassName={s.navA}
+            pageLinkClassName={s.navA}
+            previousLinkClassName={`${s.navA} ${s.moveButton}`}
+            nextLinkClassName={`${s.navA} ${s.moveButton}`}
+        />
     )
 }
 
-UserTable.propTypes = {
-    handlePageChange: PropTypes.func,
+Pagination.propTypes = {
     totalCount: PropTypes.string,
-    pageNumber: PropTypes.number,
-    itemsPerPage: PropTypes.number,
 }
 
-const UserTableInfo = ({ user, getUserShortInfo,
-    usersFullNameArray, getUserNameOnClick }) => {
+const UserTableInfo = ({ user }) => {
+    const dispatch = useDispatch()
+    let name = useSelector(state => selectUserName(state, user.id))
 
-    let name = usersFullNameArray.find(obj => obj.userId === user.id)?.userName
+    const getUserNameOnClick = useContext(FilterContext)
+
+    const getUserShortInfo = () => {
+        dispatch(setCurrentUser(user))
+        dispatch(setIsVisible(true))
+    }
 
     name ?
         name = <div>{name}</div> :
@@ -464,7 +491,7 @@ const UserTableInfo = ({ user, getUserShortInfo,
     return (
         <tr
             className={s.userTableRow}
-            onClick={() => getUserShortInfo(user.id)}
+            onClick={getUserShortInfo}
         >
             <td>{name}</td>
             <td>{user.job_title}</td>
@@ -475,16 +502,19 @@ const UserTableInfo = ({ user, getUserShortInfo,
 }
 
 UserTableInfo.propTypes = {
-    user: PropTypes.object,
-    getUserShortInfo: PropTypes.func,
-    getUserNameOnClick: PropTypes.func,
-    usersFullNameArray: PropTypes.array,
+    user: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        job_title: PropTypes.string.isRequired,
+        industry: PropTypes.string.isRequired,
+        country: PropTypes.string.isRequired,
+    }),
 }
 
-const UserShortInfo = ({ user, setIsVisible, usersFullNameArray,
-    getUserNameOnClick }) => {
+const UserShortInfo = () => {
+    const user = useSelector(state => state.filter.currentUser)
+    let name = useSelector(state => selectUserName(state, user.id))
 
-    let name = usersFullNameArray.find(obj => obj.userId === user.id)?.userName
+    const getUserNameOnClick = useContext(FilterContext)
 
     name ?
         name = (
@@ -533,35 +563,36 @@ const UserShortInfo = ({ user, setIsVisible, usersFullNameArray,
                     />
                 </div>
             </div>
-            <div
-                className={s.closeButton}
-                onClick={() => setIsVisible(false)}>
-                <X
-                    className={s.icon}
-                    color='#3626A7'
-                    viewBox="-11 -7 24 24"
-                    height={16}
-                    width={16}
-                />
-            </div>
+            <CloseButton />
         </div>
     )
 }
 
-UserShortInfo.propTypes = {
-    user: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        job_title: PropTypes.string.isRequired,
-        industry: PropTypes.string.isRequired,
-        country: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-    }),
-    setIsVisible: PropTypes.func,
-    getUserNameOnClick: PropTypes.func,
-    usersFullNameArray: PropTypes.array,
-}
+const CloseButton = React.memo(() => {
+    const dispatch = useDispatch()
 
-const UserShortData = ({ text, value }) => {
+    const closeOnClick = () => {
+        dispatch(setIsVisible(false))
+    }
+
+    return (
+        <div
+            className={s.closeButton}
+            onClick={closeOnClick}>
+            <X
+                className={s.icon}
+                color='#3626A7'
+                viewBox="-11 -7 24 24"
+                height={16}
+                width={16}
+            />
+        </div>
+    )
+})
+
+CloseButton.displayName = 'CloseButton'
+
+const UserShortData = React.memo(({ text, value }) => {
     return (
         <div>
             <div className={s.userInfoTitle}>
@@ -572,25 +603,13 @@ const UserShortData = ({ text, value }) => {
             </div>
         </div>
     )
-}
+})
+
+UserShortData.displayName = 'UserShortData'
 
 UserShortData.propTypes = {
     text: PropTypes.string,
     value: PropTypes.string,
-}
-
-const FilterLabel = ({ children, text }) => {
-    return (
-        <div className={`${s.filterLabelWrapper}`}>
-            {children}
-            <span className={`bold500 ${s.filterLabel}`}>{text}</span>
-        </div>
-    )
-}
-
-FilterLabel.propTypes = {
-    children: PropTypes.node,
-    text: PropTypes.string,
 }
 
 const GreetingsState = () => {
@@ -615,8 +634,7 @@ const GreetingsState = () => {
 
 const RecentSearches = () => {
     const recentSearchArray = useSelector(state => state.filter.recentSearchArray)
-
-    const resentResultArray = recentSearchArray.map((searchData) => (
+    const recentResultArray = recentSearchArray.map((searchData) => (
         <RecentItem
             key={searchData.id}
             searchData={searchData}
@@ -627,7 +645,7 @@ const RecentSearches = () => {
         <div className={s.recentSearchBorder}>
             {
                 recentSearchArray.length ?
-                    resentResultArray :
+                    recentResultArray :
                     <div className={`${s.recentSearches} bold500`}>
                         Your last four searches will be here for quick access
                     </div>
@@ -637,9 +655,9 @@ const RecentSearches = () => {
 }
 
 const RecentItem = ({ searchData }) => {
-    const itemsPerPage = useContext(FilterContext)
-    const status = useSelector(state => state.filter.status)
     const dispatch = useDispatch()
+    const isLoading = useSelector(status)
+    const itemsPerPage = useContext(FilterContext)
 
     const getCustomersOnClick = () => {
         dispatch(findCustomers({
@@ -651,7 +669,7 @@ const RecentItem = ({ searchData }) => {
     return (
         <button
             onClick={getCustomersOnClick}
-            disabled={status === 'loading'}
+            disabled={isLoading === 'loading'}
             className={s.recentSearchData}
         >
             <Briefcase viewBox="0 -2 24 24" height={15} width={26} />
@@ -673,8 +691,5 @@ RecentItem.propTypes = {
         selectIndValue: PropTypes.string,
     }),
 }
-
-FilterPage.displayName = 'FilterPage'
-FilterField.displayName = 'FilterField'
 
 export default FilterPage

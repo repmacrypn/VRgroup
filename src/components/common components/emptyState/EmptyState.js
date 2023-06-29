@@ -4,28 +4,28 @@ import { Button } from '@mantine/core'
 import { useDispatch, useSelector } from 'react-redux'
 import s from './EmptyState.module.css'
 import emptyState from '../../../assets/images/noResults.svg'
-import { findCustomers, selectItemsPerPage, status } from '../../../redux/filterSlice'
-import { FilterContext } from '../../filterPage/FilterPage'
+import { findCustomers, setFilterData, status } from '../../../redux/filterSlice'
 import '../../../styles/fonts.css'
 import { ms } from '../../../styles/mantineStyles'
+import { FilterContext } from '../../filterPage/FilterPage'
 
 export const EmptyState = () => {
-    const { setSearchValue, setSelectLocValue, setSelectIndValue } = useContext(FilterContext)
-    const itemsPerPage = useSelector(selectItemsPerPage)
-    const isLoading = useSelector(status)
+    const itemsPerPage = useContext(FilterContext)
+
     const dispatch = useDispatch()
+    const isLoading = useSelector(status)
 
     const resetFiltersOnClick = () => {
         dispatch(findCustomers({ searchValue: '', selectLocValue: '', selectIndValue: '', from: 0, to: 0 + itemsPerPage }))
-        setSearchValue('')
-        setSelectLocValue('')
-        setSelectIndValue('')
+        dispatch(setFilterData('', '', ''))
     }
 
-    return <EmptyStateInfo
-        resetFiltersOnClick={resetFiltersOnClick}
-        isLoading={isLoading}
-    />
+    return (
+        <EmptyStateInfo
+            resetFiltersOnClick={resetFiltersOnClick}
+            isLoading={isLoading}
+        />
+    )
 }
 
 const EmptyStateInfo = ({ resetFiltersOnClick, isLoading }) => {
