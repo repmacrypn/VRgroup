@@ -13,7 +13,11 @@ const initialState = {
     itemsPerPage: 12,
     isPopUpVisible: false,
     pageNumber: 0,
-    filterData: {},
+    filterData: {
+        searchValue: '',
+        selectLocValue: '',
+        selectIndValue: '',
+    },
     currentUser: {},
     isShortInfoVisible: false,
 }

@@ -22,10 +22,6 @@ import '../../styles/fonts.css'
 import { ms } from '../../styles/mantineStyles'
 import popUpIcon from '../../assets/images/popUpIcon.svg'
 
-//если будет не лень то поразделяй компоненту фильтра на отдельные части (баттон инпуты и тп чтобы состояние лоадинга не меняло всю комп-ту)
-//пофиксить филтер филд при срабатывании попапа и др (чтобы он брал дефолтное состоянние из стейта)
-// также нужно будет сделать хрень чтоб при выходе из компоненты данные из стейта тоже обновлялись (я про филтер филд)
-// и еще пофиксить баг с кликов вне зрени чтоб оно закрывало шорт инфо
 export const FilterContext = React.createContext(null)
 
 const FilterPage = () => {
@@ -36,25 +32,24 @@ const FilterPage = () => {
     if (!isAuth) return <Navigate to='/loginPage' />
 
     return (
-        <div className={`defaultFontS ${s.filterPageWrapper}`}>
-            <div className={s.filterFieldWrapper}>
-                <div className={`bold900 ${s.logoTitle}`}>
-                    VRgroup
-                </div>
-                <div>
-                    <div className={`bold600 ${s.filtersTitle}`}>
-                        Filters
+        <FilterContext.Provider value={itemsPerPage}>
+            <div className={`defaultFontS ${s.filterPageWrapper}`}>
+                <div className={s.filterFieldWrapper}>
+                    <div className={`bold900 ${s.logoTitle}`}>
+                        VRgroup
                     </div>
-                    <FilterField
-                        isPopUpVis={isPopUpVis}
-                        itemsPerPage={itemsPerPage}
-                    />
+                    <div>
+                        <div className={`bold600 ${s.filtersTitle}`}>
+                            Filters
+                        </div>
+                        <FilterField
+                            isPopUpVis={isPopUpVis}
+                        />
+                    </div>
                 </div>
-            </div>
-            <FilterContext.Provider value={itemsPerPage}>
                 <ResultData isPopUpVis={isPopUpVis} />
-            </FilterContext.Provider>
-        </div>
+            </div>
+        </FilterContext.Provider>
     )
 }
 
@@ -100,38 +95,25 @@ Total.propTypes = {
     totalCount: PropTypes.string,
 }
 
-const FilterField = ({ itemsPerPage, isPopUpVis }) => {
+const FilterField = ({ isPopUpVis }) => {
 
     const dispatch = useDispatch()
     const countries = useSelector(state => state.filter.countries)
     const industries = useSelector(state => state.filter.industries)
-    const isLoading = useSelector(status)
+    const filterData = useSelector(state => state.filter.filterData)
 
-    const [searchValue, setSearchValue] = useState('')
-    const [selectLocValue, setSelectLocValue] = useState('')
-    const [selectIndValue, setSelectIndValue] = useState('')
+    const [searchValue, setSearchValue] = useState(filterData.searchValue)
+    const [selectLocValue, setSelectLocValue] = useState(filterData.selectLocValue)
+    const [selectIndValue, setSelectIndValue] = useState(filterData.selectIndValue)
 
     const mapFetchedFilterData = (fetchedArr) => {
         return fetchedArr.map((prop) => ({ value: prop.id, label: prop.name }))
     }
 
-    const fetchCustomersOnClick = () => {
-        dispatch(findCustomers({
-            searchValue, selectLocValue, selectIndValue,
-            from: 0, to: 0 + itemsPerPage,
-        }))
-        dispatch(addRecentSearch({
-            searchValue, locIndex: selectLocValue, selectLocValue: countries[selectLocValue - 1]?.name,
-            indIndex: selectIndValue, selectIndValue: industries[selectIndValue - 1]?.name,
-        }))
-        dispatch(setFilterData({ searchValue, selectLocValue, selectIndValue }))
-        dispatch(setPageNumber(0))
-        if (isPopUpVis) dispatch(showPopUp(false))
-    }
-
     useEffect(() => {
         return () => {
             dispatch(clearCustomers())
+            dispatch(setFilterData({ searchValue: '', selectLocValue: '', selectIndValue: '' }))
         }
     }, [dispatch])
 
@@ -185,23 +167,65 @@ const FilterField = ({ itemsPerPage, isPopUpVis }) => {
                 array={industries}
                 text='Choose industry'
             />
-            <Button
-                onClick={fetchCustomersOnClick}
-                disabled={isLoading === 'loading'}
-                radius='md'
-                type="submit"
-                styles={{
-                    root: Object.assign({}, ms.button.defaultRoot, ms.button.filterRoot),
-                }}
-            >
-                Find customers
-            </Button>
+            <FilterButton
+                isPopUpVis={isPopUpVis}
+                searchValue={searchValue}
+                selectLocValue={selectLocValue}
+                selectIndValue={selectIndValue}
+                countries={countries}
+                industries={industries}
+            />
         </div>
     )
 }
 
 FilterField.propTypes = {
-    itemsPerPage: PropTypes.number,
+    isPopUpVis: PropTypes.bool,
+}
+
+const FilterButton = ({ searchValue, selectLocValue,
+    selectIndValue, countries, industries, isPopUpVis }) => {
+    const dispatch = useDispatch()
+    const isLoading = useSelector(status)
+    const itemsPerPage = useContext(FilterContext)
+    const isShortInfoVisible = useSelector(state => state.filter.isShortInfoVisible)
+
+    const fetchCustomersOnClick = () => {
+        dispatch(findCustomers({
+            searchValue, selectLocValue, selectIndValue,
+            from: 0, to: 0 + itemsPerPage,
+        }))
+        dispatch(addRecentSearch({
+            searchValue, locIndex: selectLocValue, selectLocValue: countries[selectLocValue - 1]?.name,
+            indIndex: selectIndValue, selectIndValue: industries[selectIndValue - 1]?.name,
+        }))
+        dispatch(setFilterData({ searchValue, selectLocValue, selectIndValue }))
+        dispatch(setPageNumber(0))
+        if (isPopUpVis) dispatch(showPopUp(false))
+        if (isShortInfoVisible) dispatch(setIsVisible(false))
+    }
+
+    return (
+        <Button
+            onClick={fetchCustomersOnClick}
+            disabled={isLoading === 'loading'}
+            radius='md'
+            type="submit"
+            styles={{
+                root: Object.assign({}, ms.button.defaultRoot, ms.button.filterRoot),
+            }}
+        >
+            Find customers
+        </Button>
+    )
+}
+
+FilterButton.propTypes = {
+    searchValue: PropTypes.string,
+    selectLocValue: PropTypes.string,
+    selectIndValue: PropTypes.string,
+    countries: PropTypes.array,
+    industries: PropTypes.array,
     isPopUpVis: PropTypes.bool,
 }
 

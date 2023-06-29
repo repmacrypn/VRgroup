@@ -17,7 +17,7 @@ export const EmptyState = () => {
 
     const resetFiltersOnClick = () => {
         dispatch(findCustomers({ searchValue: '', selectLocValue: '', selectIndValue: '', from: 0, to: 0 + itemsPerPage }))
-        dispatch(setFilterData('', '', ''))
+        dispatch(setFilterData({ searchValue: '', selectLocValue: '', selectIndValue: '' }))
     }
 
     return (
