@@ -46,9 +46,6 @@ const LoginForm = () => {
             email: '',
             password: '',
         },
-        validate: {
-            email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-        },
     })
 
     const onSubmitButtonClick = ({ email, password }) => {
@@ -98,14 +95,18 @@ LoginDataProp.propTypes = {
 
 const LoginIntroField = () => {
     return (
-        <div className={s.loginIntroPic}>
-            <div className={`${s.logo} bold800`}>
-                VRgroup
+        <>
+            <div className={s.loginIntroPic}>
+                <div className={s.logoWrapper}>
+                    <div className={`${s.logo} bold800`}>
+                        VRgroup
+                    </div>
+                    <div className={`${s.logoSlogan} bold800`}>
+                        Find and contact every potential customer in the world
+                    </div>
+                </div>
             </div>
-            <div className={`${s.logoSlogan} bold800`}>
-                Find and contact every potential customer in the world
-            </div>
-        </div>
+        </>
     )
 }
 

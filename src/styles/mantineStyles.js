@@ -189,7 +189,7 @@ export const ms = {
             maxWidth: 384,
             width: '100%',
             height: 48,
-            padding: '12px 120px',
+            padding: '12px 20px',
             marginTop: 60,
             display: 'block',
         },

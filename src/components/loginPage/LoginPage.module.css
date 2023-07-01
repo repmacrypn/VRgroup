@@ -10,12 +10,30 @@
     flex-grow: 0;
     max-width: 50%;
     margin: 0 auto;
+    padding: 0 10px;
 }
 
 .loginIntroPic {
     position: relative;
     width: 50%;
-    background: url('../../assets/images/loginbg.jpg') no-repeat 0 0/100% 100%;
+    background: #F5F6F9 url('../../assets/images/loginbg.jpg') no-repeat 0 0/100% 80%;
+}
+
+.logoWrapper {
+    position: absolute;
+    bottom: 150px;
+    right: 12%;
+}
+
+.logo {
+    color: #3626A7;
+    font-size: 50px;
+    margin: 0 10px 20px;
+}
+
+.logoSlogan {
+    max-width: 550px;
+    margin: 0 10px;
 }
 
 .loginPageTitle {
@@ -43,17 +61,38 @@
     margin: 28px 0;
 }
 
-.logo {
-    color: #3626A7;
-    font-size: 50px;
-    position: absolute;
-    bottom: 160px;
-    left: 40px;
+@media (max-width: 1056px) and (min-width: 320px) {
+    .loginIntroPic {
+        background-size: 100% 70%;
+    }
 }
 
-.logoSlogan {
-    position: absolute;
-    bottom: 50px;
-    left: 40px;
-    max-width: 550px;
+@media (max-width: 950px) and (min-width: 320px) {
+    .loginIntroPic {
+        background-size: 100% 70%;
+    }
+}
+
+@media (max-width: 850px) and (min-width: 320px) {
+    .loginIntroPic {
+        background-size: 100% 60%;
+        background-position: 0 100px;
+    }
+}
+
+@media (max-width: 783px) and (min-width: 320px) {
+    .loginIntroPic {
+        background-position: 0 170px;
+        background-size: 100% 50%;
+    }
+}
+
+@media (max-width: 690px) and (min-width: 320px) {
+    .loginIntroPic {
+        display: none
+    }
+
+    .loginFormWrapper {
+        max-width: 88%;
+    }
 }
