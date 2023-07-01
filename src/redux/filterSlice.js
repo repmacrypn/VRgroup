@@ -3,7 +3,6 @@ import { filterAPI } from '../api/api'
 
 const initialState = {
     status: 'idle',
-    error: null,
     customers: [],
     countries: [],
     industries: [],
@@ -18,6 +17,7 @@ const initialState = {
         selectLocValue: '',
         selectIndValue: '',
     },
+    isFiltersClear: false,
     currentUser: {},
     isShortInfoVisible: false,
 }
@@ -69,6 +69,9 @@ const filterSlice = createSlice({
         setIsVisible: (state, action) => {
             state.isShortInfoVisible = action.payload
         },
+        clearFilters: (state) => {
+            state.isFiltersClear = !state.isFiltersClear
+        },
     },
     extraReducers(builder) {
         builder
@@ -80,10 +83,6 @@ const filterSlice = createSlice({
                 state.status = 'succeeded'
                 state.customers = data
                 state.totalCount = total
-            })
-            .addCase(findCustomers.rejected, (state, action) => {
-                state.status = 'failed'
-                state.error = action.error.message
             })
             .addCase(fetchCountries.fulfilled, (state, action) => {
                 state.status = 'succeeded'
@@ -124,9 +123,11 @@ export const getUserName = createAsyncThunk('filter/getUserName', async (userId)
 
 export const selectUserName = (state, userId) =>
     state.filter.usersFullNameArray.find(obj => obj.userId === userId)?.userName
-export const status = (state) => state.filter.status
 
-export const { showPopUp, addRecentSearch, setCurrentUser, setIsVisible,
+export const status = (state) => state.filter.status
+export const selectIsShortInfoVisible = (state) => state.filter.isShortInfoVisible
+
+export const { showPopUp, addRecentSearch, setCurrentUser, setIsVisible, clearFilters,
     clearCustomers, setPageNumber, setFilterData } = filterSlice.actions
 
 export default filterSlice.reducer

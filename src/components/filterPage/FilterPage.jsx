@@ -13,7 +13,7 @@ import s from './FilterPage.module.css'
 import {
     addRecentSearch, clearCustomers, fetchCountries, fetchIndustries,
     findCustomers, getUserName, status, selectUserName, setCurrentUser,
-    setFilterData, setIsVisible, setPageNumber, showPopUp,
+    setIsVisible, setPageNumber, showPopUp, selectIsShortInfoVisible, setFilterData, clearFilters,
 } from '../../redux/filterSlice'
 import { EmptyState } from '../common components/emptyState/EmptyState'
 import Preloader from '../common components/preloader/Preloader'
@@ -61,9 +61,7 @@ const ResultData = ({ isPopUpVis }) => {
             <Total totalCount={totalCount} />
             {
                 isPopUpVis ||
-                <UserTable
-                    totalCount={totalCount}
-                />
+                <UserTable totalCount={totalCount} />
             }
             {
                 isPopUpVis &&
@@ -78,7 +76,6 @@ ResultData.propTypes = {
 }
 
 const Total = ({ totalCount }) => {
-
     return (
         <div className={`bold700 ${s.filterTotalField}`}>
             <span className={s.totalTitle}>
@@ -96,15 +93,14 @@ Total.propTypes = {
 }
 
 const FilterField = ({ isPopUpVis }) => {
-
     const dispatch = useDispatch()
     const countries = useSelector(state => state.filter.countries)
     const industries = useSelector(state => state.filter.industries)
-    const filterData = useSelector(state => state.filter.filterData)
+    const isClear = useSelector(state => state.filter.isFiltersClear)
 
-    const [searchValue, setSearchValue] = useState(filterData.searchValue)
-    const [selectLocValue, setSelectLocValue] = useState(filterData.selectLocValue)
-    const [selectIndValue, setSelectIndValue] = useState(filterData.selectIndValue)
+    const [searchValue, setSearchValue] = useState('')
+    const [selectLocValue, setSelectLocValue] = useState('')
+    const [selectIndValue, setSelectIndValue] = useState('')
 
     const mapFetchedFilterData = (fetchedArr) => {
         return fetchedArr.map((prop) => ({ value: prop.id, label: prop.name }))
@@ -128,6 +124,12 @@ const FilterField = ({ isPopUpVis }) => {
             dispatch(fetchIndustries())
         }
     }, [dispatch, industries.length])
+
+    useEffect(() => {
+        setSearchValue('')
+        setSelectLocValue('')
+        setSelectIndValue('')
+    }, [isClear])
 
     return (
         <div className={s.filterField}>
@@ -185,10 +187,11 @@ FilterField.propTypes = {
 
 const FilterButton = ({ searchValue, selectLocValue,
     selectIndValue, countries, industries, isPopUpVis }) => {
+
     const dispatch = useDispatch()
     const isLoading = useSelector(status)
     const itemsPerPage = useContext(FilterContext)
-    const isShortInfoVisible = useSelector(state => state.filter.isShortInfoVisible)
+    const isShortInfoVisible = useSelector(selectIsShortInfoVisible)
 
     const fetchCustomersOnClick = () => {
         dispatch(findCustomers({
@@ -329,6 +332,7 @@ const UserTable = ({ totalCount }) => {
     const wrapperRef = useRef(null)
     const dispatch = useDispatch()
     const isLoading = useSelector(status)
+    const isShortInfoVisible = useSelector(selectIsShortInfoVisible)
 
     const getUserNameOnClick = useCallback((e, userId) => {
         e.stopPropagation()
@@ -336,7 +340,7 @@ const UserTable = ({ totalCount }) => {
     }, [dispatch])
 
     const handleOutsideClick = (e) => {
-        if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+        if (wrapperRef.current && !wrapperRef.current.contains(e.target) && isShortInfoVisible) {
             dispatch(setIsVisible(false))
         }
     }
@@ -356,7 +360,7 @@ const UserTable = ({ totalCount }) => {
         <>
             <div ref={wrapperRef}>
                 <FilterContext.Provider value={getUserNameOnClick}>
-                    <IsShortInfoNeeded />
+                    {isShortInfoVisible && <UserShortInfo />}
                     <UserTableData />
                 </FilterContext.Provider>
             </div>
@@ -416,11 +420,6 @@ const UserTableData = () => {
             </tbody>
         </table>
     )
-}
-
-const IsShortInfoNeeded = () => {
-    const isVisible = useSelector(state => state.filter.isShortInfoVisible)
-    return isVisible && <UserShortInfo />
 }
 
 const Pagination = ({ totalCount }) => {
@@ -488,13 +487,14 @@ Pagination.propTypes = {
 
 const UserTableInfo = ({ user }) => {
     const dispatch = useDispatch()
+    const isShortInfoVisible = useSelector(selectIsShortInfoVisible)
     let name = useSelector(state => selectUserName(state, user.id))
 
     const getUserNameOnClick = useContext(FilterContext)
 
     const getUserShortInfo = () => {
         dispatch(setCurrentUser(user))
-        dispatch(setIsVisible(true))
+        if (!isShortInfoVisible) dispatch(setIsVisible(true))
     }
 
     name ?
@@ -685,6 +685,7 @@ const RecentItem = ({ searchData }) => {
     const itemsPerPage = useContext(FilterContext)
 
     const getCustomersOnClick = () => {
+        dispatch(clearFilters())
         dispatch(findCustomers({
             searchValue: searchData.searchValue, selectLocValue: searchData.locIndex,
             selectIndValue: searchData.indIndex, from: 0, to: 0 + itemsPerPage,

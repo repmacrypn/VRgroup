@@ -4,7 +4,7 @@ import { Button } from '@mantine/core'
 import { useDispatch, useSelector } from 'react-redux'
 import s from './EmptyState.module.css'
 import emptyState from '../../../assets/images/noResults.svg'
-import { findCustomers, setFilterData, status } from '../../../redux/filterSlice'
+import { clearFilters, findCustomers, setFilterData, status } from '../../../redux/filterSlice'
 import '../../../styles/fonts.css'
 import { ms } from '../../../styles/mantineStyles'
 import { FilterContext } from '../../filterPage/FilterPage'
@@ -16,8 +16,9 @@ export const EmptyState = () => {
     const isLoading = useSelector(status)
 
     const resetFiltersOnClick = () => {
-        dispatch(findCustomers({ searchValue: '', selectLocValue: '', selectIndValue: '', from: 0, to: 0 + itemsPerPage }))
+        dispatch(clearFilters())
         dispatch(setFilterData({ searchValue: '', selectLocValue: '', selectIndValue: '' }))
+        dispatch(findCustomers({ searchValue: '', selectLocValue: '', selectIndValue: '', from: 0, to: 0 + itemsPerPage }))
     }
 
     return (
