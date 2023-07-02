@@ -14,10 +14,16 @@ export const ms = {
             '&:focus': {
                 borderColor: '#3626A7',
             },
+            ['@media (max-width: 770px) and (min-width: 320px)']: {
+                marginBottom: 10,
+            },
         },
         wrapper: {
             maxWidth: 204,
             borderBottom: '1px solid #E7E8EF',
+            ['@media (max-width: 770px) and (min-width: 320px)']: {
+                borderBottom: 'none',
+            },
         },
         dropdown: {
             border: 'none',
@@ -46,7 +52,6 @@ export const ms = {
         },
         rightSection: {
             pointerEvents: 'none',
-            marginBottom: 16,
         },
     },
     textInput: {
@@ -61,18 +66,15 @@ export const ms = {
             '&:focus': {
                 borderColor: '#3626A7',
             },
-            /* [`@media (max-width: 1130px) and (min-width: 320px)`]: {
-                width: '100%',
-            }, */
         },
         filterInput: {
             maxWidth: 204,
-            width: 204,
+            width: '100%',
             height: 40,
             marginBottom: 16,
-            /* [`@media (max-width: 1130px) and (min-width: 320px)`]: {
-                width: '100%',
-            }, */
+            ['@media (max-width: 770px) and (min-width: 320px)']: {
+                marginBottom: 10,
+            },
         },
         emailInput: {
             maxWidth: 384,
@@ -102,9 +104,15 @@ export const ms = {
         wrapper: {
             maxWidth: 204,
             borderBottom: '1px solid #E7E8EF',
+            ['@media (max-width: 770px) and (min-width: 320px)']: {
+                borderBottom: 'none',
+            },
         },
         icon: {
             marginBottom: 16,
+            ['@media (max-width: 770px) and (min-width: 320px)']: {
+                marginBottom: 0,
+            },
         },
         label: {
             font: 'normal 600 14px/20px Mulish, sans-serif',
@@ -170,9 +178,14 @@ export const ms = {
             maxWidth: 204,
             width: '100%',
             height: 40,
-            padding: '12px 52px',
+            padding: '12px 32px',
             marginTop: 8,
             marginBottom: 16,
+            ['@media (max-width: 770px) and (min-width: 320px)']: {
+                width: '60%',
+                maxWidth: '100%',
+                margin: '0 auto 18px',
+            },
         },
         profileRoot: {
             maxWidth: 204,

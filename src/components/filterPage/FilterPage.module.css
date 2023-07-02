@@ -3,6 +3,17 @@
     height: 100%;
 }
 
+.filterFieldWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 228px;
+    width: 100%;
+    height: 100%;
+    gap: 50px;
+    margin-left: 24px;
+}
+
 .filterTotalField {
     margin: 24px auto 0 0;
     padding: 0 0 16px 24px;
@@ -26,34 +37,53 @@
     font-weight: 600;
 }
 
-.filterFieldWrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    max-width: 228px;
-    width: 100%;
-    height: 100%;
-    gap: 50px;
-    margin-left: 24px;
-}
-
 .logoTitle {
     color: #3626A7;
     font-size: 32px;
-    margin-top: 15px;
+    margin-top: 12px;
 }
 
 .filterLabelWrapper {
-    margin-top: 8px;
+    margin: 8px 0;
 }
 
 .filtersTitle {
+    display: flex;
+    justify-content: space-between;
     font-size: 18px;
     padding-bottom: 16px;
     padding-left: 24px;
     margin-left: -24px;
     border-bottom: 1px solid #E7E8EF;
     margin-bottom: 8px;
+}
+
+.burgerContainer {
+    display: inline-block;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+    width: 26px;
+    height: 3px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+.changetrue .bar1 {
+    transform: translate(0, 2px) rotate(-45deg);
+}
+
+.changetrue .bar2 {
+    opacity: 0;
+}
+
+.changetrue .bar3 {
+    transform: translate(0, -16px) rotate(45deg);
 }
 
 .filterField {
@@ -391,4 +421,46 @@
 .active:hover {
     border-color: green;
     cursor: pointer;
+}
+
+@media (max-width: 770px) and (min-width: 320px) {
+    .filterPageWrapper {
+        flex-direction: column;
+    }
+
+    .filterFieldWrapper {
+        justify-content: flex-start;
+        max-width: 100%;
+        gap: 20px;
+        margin-left: 0;
+    }
+
+    .filtersTitle {
+        padding: 16px 0 12px 24px;
+        border-top: 1px solid #E7E8EF;
+        border-bottom: none;
+        margin: 0;
+    }
+
+    .logoTitle {
+        margin-left: 24px;
+    }
+
+    .filterField {
+        flex-direction: column;
+        gap: 8px;
+        border-bottom: 1px solid #E7E8EF;
+    }
+
+    .filterDataWrapper {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 0 10px;
+    }
+
+
+    .filterLabelWrapper {
+        text-align: center;
+    }
 }

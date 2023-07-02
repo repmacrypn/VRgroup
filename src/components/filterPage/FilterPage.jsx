@@ -39,9 +39,7 @@ const FilterPage = () => {
                         VRgroup
                     </div>
                     <div>
-                        <div className={`bold600 ${s.filtersTitle}`}>
-                            Filters
-                        </div>
+                        <FilterBurger />
                         <FilterField
                             isPopUpVis={isPopUpVis}
                         />
@@ -50,6 +48,26 @@ const FilterPage = () => {
                 <ResultData isPopUpVis={isPopUpVis} />
             </div>
         </FilterContext.Provider>
+    )
+}
+
+const FilterBurger = () => {
+    const [isVisible, setIsVisible] = useState(false)
+
+    return (
+        <div className={`bold600 ${s.filtersTitle}`}>
+            <div>
+                Filters
+            </div>
+            <div
+                className={`${s.burgerContainer} ${s[`change${isVisible}`]}`}
+                onClick={() => setIsVisible(value => !value)}
+            >
+                <div className={s.bar1}></div>
+                <div className={s.bar2}></div>
+                <div className={s.bar3}></div>
+            </div>
+        </div>
     )
 }
 
@@ -133,42 +151,50 @@ const FilterField = ({ isPopUpVis }) => {
 
     return (
         <div className={s.filterField}>
-            <FilterLabel text='Job title'>
-                <Briefcase viewBox="0 -2 24 24" height={14} width={26} />
-            </FilterLabel>
-            <TextInput
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                icon={<Search color="black" size={16} />}
-                iconWidth={30}
-                placeholder="Search by job title"
-                radius="md"
-                styles={{
-                    wrapper: ms.textInput.wrapper,
-                    icon: ms.textInput.icon,
-                    input: Object.assign({}, ms.textInput.defaultInput, ms.textInput.filterInput),
-                }}
-            />
-            <FilterLabel text='Location'>
-                <MapPin viewBox="0 -1 24 24" height={14} width={26} />
-            </FilterLabel>
-            <FilterPageSelect
-                value={selectLocValue}
-                setValue={setSelectLocValue}
-                processArr={mapFetchedFilterData}
-                array={countries}
-                text='Choose location'
-            />
-            <FilterLabel text='Industry'>
-                <BuildingSkyscraper viewBox="0 -1 24 24" height={14} width={26} />
-            </FilterLabel>
-            <FilterPageSelect
-                value={selectIndValue}
-                setValue={setSelectIndValue}
-                processArr={mapFetchedFilterData}
-                array={industries}
-                text='Choose industry'
-            />
+            <div className={s.filterDataWrapper}>
+                <div>
+                    <FilterLabel text='Job title'>
+                        <Briefcase viewBox="0 -2 24 24" height={14} width={26} />
+                    </FilterLabel>
+                    <TextInput
+                        value={searchValue}
+                        onChange={(e) => setSearchValue(e.target.value)}
+                        icon={<Search color="black" size={16} />}
+                        iconWidth={30}
+                        placeholder="Search by job title"
+                        radius="md"
+                        styles={{
+                            wrapper: ms.textInput.wrapper,
+                            icon: ms.textInput.icon,
+                            input: Object.assign({}, ms.textInput.defaultInput, ms.textInput.filterInput),
+                        }}
+                    />
+                </div>
+                <div>
+                    <FilterLabel text='Location'>
+                        <MapPin viewBox="0 -1 24 24" height={14} width={26} />
+                    </FilterLabel>
+                    <FilterPageSelect
+                        value={selectLocValue}
+                        setValue={setSelectLocValue}
+                        processArr={mapFetchedFilterData}
+                        array={countries}
+                        text='Choose location'
+                    />
+                </div>
+                <div>
+                    <FilterLabel text='Industry'>
+                        <BuildingSkyscraper viewBox="0 -1 24 24" height={14} width={26} />
+                    </FilterLabel>
+                    <FilterPageSelect
+                        value={selectIndValue}
+                        setValue={setSelectIndValue}
+                        processArr={mapFetchedFilterData}
+                        array={industries}
+                        text='Choose industry'
+                    />
+                </div>
+            </div>
             <FilterButton
                 isPopUpVis={isPopUpVis}
                 searchValue={searchValue}
