@@ -191,6 +191,7 @@ export const ms = {
             height: 48,
             padding: '12px 20px',
             marginTop: 60,
+            marginBottom: 20,
             display: 'block',
         },
         subRoot: {
