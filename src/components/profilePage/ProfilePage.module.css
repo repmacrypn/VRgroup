@@ -136,3 +136,18 @@
     height: 48px;
     text-decoration: none;
 }
+
+@media (max-width: 1100px) and (min-width: 320px) {
+    .profileWrapper {
+        flex-direction: column-reverse;
+        justify-content: flex-start;
+        align-items: center;
+        /* max-width: 1204px;
+        width: 100%;
+        margin: 0 auto 20px; */
+    }
+
+    .subscribtionWrapper {
+        margin-top: 0;
+    }
+}

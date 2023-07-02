@@ -87,9 +87,6 @@ export const ms = {
             width: '100%',
             height: 40,
             border: 'none',
-            '&:hover': {
-                cursor: 'pointer',
-            },
         },
         nameSurnameInput: {
             maxWidth: 220,
