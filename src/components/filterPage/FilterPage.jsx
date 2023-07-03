@@ -24,6 +24,8 @@ import popUpIcon from '../../assets/images/popUpIcon.svg'
 
 export const FilterContext = React.createContext(null)
 
+//осталось раскидать все по папкам + задеплоить + еще раз проверить все на всякий xxD
+
 const FilterPage = () => {
     const isAuth = useSelector(selectIsAuth)
     const isPopUpVis = useSelector(state => state.filter.isPopUpVisible)
