@@ -507,10 +507,10 @@ const Pagination = ({ totalCount }) => {
                     width={20}
                 />
             }
-            breakLabel="..."
+            breakLabel={null}
             pageCount={pageCount}
-            marginPagesDisplayed={1}
-            pageRangeDisplayed={3}
+            marginPagesDisplayed={0}
+            pageRangeDisplayed={4}
             onPageChange={handlePageChange}
             forcePage={pageNumber}
             containerClassName={s.pagination}
