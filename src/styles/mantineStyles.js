@@ -196,7 +196,7 @@ export const ms = {
         },
         shortInfoRoot: {
             maxWidth: 376,
-            width: '100%',
+            width: '96%',
             height: 46,
             padding: '12px 52px',
             margin: ' 15px auto',

@@ -346,6 +346,7 @@
     height: 100%;
     background: white;
     box-shadow: 4px 0 20px 0 #6F717A;
+    margin-left: 20px;
 }
 
 .userShortInfoName {
@@ -354,7 +355,7 @@
 
 .userShortInfo {
     max-width: 408px;
-    width: 100%;
+    width: 96%;
     border-radius: 6px;
     margin: 45px auto;
     border: 1px solid #E7E8EF;
@@ -512,6 +513,11 @@
 
     .usersTable tr {
         display: block;
+        border-top: 2px solid black;
+    }
+
+    .usersTable tr:first-of-type {
+        border-top: none;
     }
 
     .usersTable tr:nth-child(even) {
@@ -569,6 +575,13 @@
     .filtersTip {
         right: -60%;
         margin-bottom: 125px;
+    }
+}
+
+@media (max-width: 480px) and (min-width: 320px) {
+    .closeButton {
+        left: 2%;
+        box-shadow: none;
     }
 }
 
