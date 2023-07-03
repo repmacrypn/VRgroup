@@ -24,6 +24,8 @@ import popUpIcon from '../../assets/images/popUpIcon.svg'
 
 export const FilterContext = React.createContext(null)
 
+// решить ворос со стрелкой в гритингс стейте + ширина инпутов даунских + посмотреть че будет если будут длинные надписи в рисент штуке
+
 const FilterPage = () => {
     const isAuth = useSelector(selectIsAuth)
     const isPopUpVis = useSelector(state => state.filter.isPopUpVisible)
