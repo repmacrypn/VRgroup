@@ -47,6 +47,10 @@
     margin: 8px 0;
 }
 
+.filterBurgerWrapper {
+    min-width: 228px;
+}
+
 .filtersTitle {
     display: flex;
     justify-content: space-between;
@@ -103,7 +107,8 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100vh;
+    max-height: 100%;
+    min-height: 100vh;
 }
 
 .greetStWrapper {
@@ -303,10 +308,11 @@
 }
 
 .tableHeaderTitle {
+    min-width: 130px;
     text-align: left;
     font-weight: 600;
     font-size: 16px;
-    padding: 12px 0 12px 40px;
+    padding: 12px 0 12px 30px;
 }
 
 .tableHeaderTitle:first-of-type {
@@ -320,10 +326,11 @@
 
 .usersTable td {
     border-top: #E7E8EF 1px solid;
-    padding: 12px 0 12px 40px;
+    padding: 12px 4px 12px 30px;
 }
 
 .usersTable td:first-of-type {
+    min-width: 130px;
     border-right: #E7E8EF 1px solid;
     text-align: center;
     padding: 12px;
@@ -423,6 +430,22 @@
     cursor: pointer;
 }
 
+@media (max-width: 830px) and (min-width: 320px) {
+    .usersTable {
+        max-width: 550px;
+    }
+
+    .filterFieldWrapper {
+        margin-left: 0;
+        padding-left: 10px;
+        max-width: 224px;
+    }
+
+    .filtersTitle {
+        max-width: 238px;
+    }
+}
+
 @media (max-width: 770px) and (min-width: 320px) {
     .filterPageWrapper {
         flex-direction: column;
@@ -440,6 +463,7 @@
         border-top: 1px solid #E7E8EF;
         border-bottom: none;
         margin: 0;
+        max-width: 100%;
     }
 
     .logoTitle {
@@ -478,6 +502,35 @@
         margin: 0;
         margin-bottom: 100px;
         transform: translate(0, 0) rotate(45deg);
+    }
+}
+
+@media (max-width: 556px) and (min-width: 320px) {
+    .usersTable thead {
+        display: none;
+    }
+
+    .usersTable tr {
+        display: block;
+    }
+
+    .usersTable tr:nth-child(even) {
+        background-color: rgba(54, 38, 167, 0.1);
+    }
+
+    .usersTable td {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px;
+    }
+
+    .usersTable td:first-of-type {
+        align-items: center;
+    }
+
+    .usersTable td::before {
+        content: attr(data-th);
+        font-weight: 700;
     }
 }
 

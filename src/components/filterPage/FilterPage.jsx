@@ -50,7 +50,7 @@ const Filter = ({ isPopUpVis }) => {
     const [isVisible, setIsVisible] = useState(false)
 
     return (
-        <div>
+        <div className={s.filterBurgerWrapper}>
             <FilterBurger
                 isVisible={isVisible}
                 setIsVisible={setIsVisible}
@@ -564,10 +564,10 @@ const UserTableInfo = ({ user }) => {
             className={s.userTableRow}
             onClick={getUserShortInfo}
         >
-            <td>{name}</td>
-            <td>{user.job_title}</td>
-            <td>{user.industry}</td>
-            <td>{user.country}</td>
+            <td data-th='Full name:'>{name}</td>
+            <td data-th='Job title:'>{user.job_title}</td>
+            <td data-th='Industry:'>{user.industry}</td>
+            <td data-th='Location:'>{user.country}</td>
         </tr>
     )
 }
