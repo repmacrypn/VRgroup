@@ -1,10 +1,10 @@
 export const ms = {
     select: {
         input: {
+            maxWidth: 204,
             width: '100%',
             height: 40,
             marginBottom: 16,
-            padding: '14px 16px',
             border: '1px solid #EBEBED',
             color: '#151515',
             font: 'normal 400 14px/20px Mulish, sans-serif',
@@ -17,12 +17,22 @@ export const ms = {
             ['@media (max-width: 770px) and (min-width: 320px)']: {
                 marginBottom: 10,
             },
+            ['@media (max-width: 528px) and (min-width: 320px)']: {
+                maxWidth: '100%',
+                marginBottom: 0,
+            },
         },
         wrapper: {
             maxWidth: 204,
             borderBottom: '1px solid #E7E8EF',
             ['@media (max-width: 770px) and (min-width: 320px)']: {
                 borderBottom: 'none',
+            },
+            ['@media (max-width: 528px) and (min-width: 320px)']: {
+                minWidth: 240,
+                maxWidth: '100%',
+                width: '60%',
+                margin: '0 auto',
             },
         },
         dropdown: {
@@ -31,6 +41,9 @@ export const ms = {
             width: '100%',
             height: 188,
             padding: 4,
+            ['@media (max-width: 528px) and (min-width: 320px)']: {
+                maxWidth: '60%',
+            },
         },
         item: {
             width: '97%',
@@ -52,6 +65,10 @@ export const ms = {
         },
         rightSection: {
             pointerEvents: 'none',
+            marginBottom: 16,
+            ['@media (max-width: 770px) and (min-width: 320px)']: {
+                marginBottom: 0,
+            },
         },
     },
     textInput: {
@@ -74,6 +91,11 @@ export const ms = {
             marginBottom: 16,
             ['@media (max-width: 770px) and (min-width: 320px)']: {
                 marginBottom: 10,
+            },
+            ['@media (max-width: 528px) and (min-width: 320px)']: {
+                maxWidth: '100%',
+                width: '100%',
+                margin: '0 auto',
             },
         },
         emailInput: {
@@ -106,6 +128,12 @@ export const ms = {
             borderBottom: '1px solid #E7E8EF',
             ['@media (max-width: 770px) and (min-width: 320px)']: {
                 borderBottom: 'none',
+            },
+            ['@media (max-width: 528px) and (min-width: 320px)']: {
+                minWidth: 240,
+                maxWidth: '100%',
+                width: '60%',
+                margin: '0 auto',
             },
         },
         icon: {
@@ -182,9 +210,13 @@ export const ms = {
             marginTop: 8,
             marginBottom: 16,
             ['@media (max-width: 770px) and (min-width: 320px)']: {
-                width: '60%',
+                width: '57.6%',
+                minWidth: 240,
                 maxWidth: '100%',
                 margin: '0 auto 18px',
+            },
+            ['@media (max-width: 528px) and (min-width: 320px)']: {
+                marginTop: 10,
             },
         },
         profileRoot: {

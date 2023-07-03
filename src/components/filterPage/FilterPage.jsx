@@ -38,12 +38,7 @@ const FilterPage = () => {
                     <div className={`bold900 ${s.logoTitle}`}>
                         VRgroup
                     </div>
-                    <div>
-                        <FilterBurger />
-                        <FilterField
-                            isPopUpVis={isPopUpVis}
-                        />
-                    </div>
+                    <Filter />
                 </div>
                 <ResultData isPopUpVis={isPopUpVis} />
             </div>
@@ -51,9 +46,28 @@ const FilterPage = () => {
     )
 }
 
-const FilterBurger = () => {
+const Filter = ({ isPopUpVis }) => {
     const [isVisible, setIsVisible] = useState(false)
 
+    return (
+        <div>
+            <FilterBurger
+                isVisible={isVisible}
+                setIsVisible={setIsVisible}
+            />
+            <FilterField
+                classN={`changeVis${isVisible}`}
+                isPopUpVis={isPopUpVis}
+            />
+        </div>
+    )
+}
+
+Filter.propTypes = {
+    isPopUpVis: PropTypes.bool,
+}
+
+const FilterBurger = ({ isVisible, setIsVisible }) => {
     return (
         <div className={`bold600 ${s.filtersTitle}`}>
             <div>
@@ -69,6 +83,11 @@ const FilterBurger = () => {
             </div>
         </div>
     )
+}
+
+FilterBurger.propTypes = {
+    isVisible: PropTypes.bool,
+    setIsVisible: PropTypes.func,
 }
 
 const ResultData = ({ isPopUpVis }) => {
@@ -110,7 +129,7 @@ Total.propTypes = {
     totalCount: PropTypes.string,
 }
 
-const FilterField = ({ isPopUpVis }) => {
+const FilterField = ({ classN, isPopUpVis }) => {
     const dispatch = useDispatch()
     const countries = useSelector(state => state.filter.countries)
     const industries = useSelector(state => state.filter.industries)
@@ -150,9 +169,9 @@ const FilterField = ({ isPopUpVis }) => {
     }, [isClear])
 
     return (
-        <div className={s.filterField}>
+        <div className={`${s.filterField} ${s[classN]}`}>
             <div className={s.filterDataWrapper}>
-                <div>
+                <div className={s.curDataWrap}>
                     <FilterLabel text='Job title'>
                         <Briefcase viewBox="0 -2 24 24" height={14} width={26} />
                     </FilterLabel>
@@ -170,7 +189,7 @@ const FilterField = ({ isPopUpVis }) => {
                         }}
                     />
                 </div>
-                <div>
+                <div className={s.curDataWrap}>
                     <FilterLabel text='Location'>
                         <MapPin viewBox="0 -1 24 24" height={14} width={26} />
                     </FilterLabel>
@@ -182,7 +201,7 @@ const FilterField = ({ isPopUpVis }) => {
                         text='Choose location'
                     />
                 </div>
-                <div>
+                <div className={s.curDataWrap}>
                     <FilterLabel text='Industry'>
                         <BuildingSkyscraper viewBox="0 -1 24 24" height={14} width={26} />
                     </FilterLabel>
@@ -208,6 +227,7 @@ const FilterField = ({ isPopUpVis }) => {
 }
 
 FilterField.propTypes = {
+    classN: PropTypes.string,
     isPopUpVis: PropTypes.bool,
 }
 
