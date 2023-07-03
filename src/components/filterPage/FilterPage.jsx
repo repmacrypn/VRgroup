@@ -691,7 +691,7 @@ const GreetingsState = () => {
             </div>
             <div className={s.greetsEmptyState}>
                 Start your people search by applying
-                any filter in the left panel
+                any filter in the panel
             </div>
             <div className={s.recentSearchWrapper}>
                 <FilterLabel text='Recent searches'>
