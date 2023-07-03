@@ -1,0 +1,5 @@
+.appWrapper {
+  background-color: white;
+  height: var(--page-height);
+  width: 100vw;
+}

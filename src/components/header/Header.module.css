@@ -1,0 +1,23 @@
+.headerNavLink {
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    text-decoration: none;
+    color: #9195A4;
+    text-align: center;
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: #F5F6F9;
+    border: 1px solid #E7E8EF;
+    border-radius: 6px;
+    z-index: 1;
+    padding: 3px 5px;
+}
+
+.headerNavLink:hover {
+    background: #fafbfd;
+    cursor: pointer;
+}

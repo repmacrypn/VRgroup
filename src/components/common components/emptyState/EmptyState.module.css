@@ -1,0 +1,30 @@
+.emptyWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Mulish', sans-serif;
+    font-style: normal;
+    color: #151515;
+}
+
+.emptyState {
+    display: block;
+    margin: 120px auto 20px;
+    padding: 0 7px;
+}
+
+.emptyTitle {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+}
+
+.emptyAbstract {
+    line-height: 21px;
+    text-align: center;
+    margin: 20px 0;
+    max-width: 350px;
+    width: 96%;
+}

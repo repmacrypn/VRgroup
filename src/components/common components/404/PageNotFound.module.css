@@ -1,0 +1,12 @@
+.demoMessageAlertWrapper {
+    padding: 30px 10px;
+}
+
+.demoMessageAlert {
+    padding: 20px;
+    margin: 20px auto 0;
+    text-align: center;
+    border-top: 1px solid #E7E8EF;
+    border-radius: 6px;
+    background-color: #C9C1FF;
+}

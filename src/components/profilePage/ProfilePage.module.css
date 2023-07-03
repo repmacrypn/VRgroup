@@ -1,0 +1,150 @@
+.logoTitle {
+    color: #3626A7;
+    font-size: 32px;
+    margin: 14px 0 13px;
+    padding: 0 0 15px 24px;
+    border-bottom: 1px solid #E7E8EF;
+}
+
+.profileWrapper {
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1204px;
+    width: 100%;
+    margin: 0 auto 20px;
+}
+
+.profileInfoWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.backToMainLink {
+    display: inline-block;
+    color: #9195A4;
+    text-decoration: none;
+    width: 140px;
+    padding: 2px 0 3px 0;
+}
+
+.backToMainLink:hover {
+    background-color: #E7E8EF;
+    border-radius: 6px;
+    color: #151515;
+}
+
+.profileInfoTable {
+    border: 1px solid #E7E8EF;
+    border-radius: 6px;
+    max-width: 488px;
+    width: 100%;
+}
+
+.profileHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 5px 7px 10px;
+    border-bottom: 1px solid #E7E8EF;
+}
+
+.profileTitle {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.profileLogOut {
+    padding: 3px 5px 2px 0;
+    cursor: pointer;
+}
+
+.profileLogOut:hover {
+    background-color: #E7E8EF;
+    border-radius: 6px;
+}
+
+.nameSurnameWrapper {
+    display: flex;
+    padding: 10px 0 5px;
+    margin: 0 10px;
+    justify-content: center;
+    gap: 10px;
+}
+
+.nameSurnameWrapper>div {
+    max-width: 220px;
+    height: 70px;
+}
+
+.profileButton {
+    max-width: 204px;
+    width: 100%;
+    height: 40px;
+    padding: 8px 32px;
+    margin: 0 auto 10px;
+    font: normal 600 14px/24px Mulish, sans-serif;
+    background-color: #3626A7;
+    border-radius: 6px;
+    color: white;
+    border: none;
+}
+
+.profileButton:hover {
+    background-color: rgb(40 29 115);
+    cursor: pointer;
+}
+
+.rightSection {
+    color: #3626A7
+}
+
+.subscribtionWrapper {
+    max-width: 720px;
+    width: 100%;
+    margin-top: 45px;
+}
+
+.subscriptionTitle {
+    margin-bottom: 15px;
+}
+
+.subscriptionPlan {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #C9C1FF;
+    border-radius: 6px;
+}
+
+.subPlanTitle {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.subPlanAbstract {
+    max-width: 520px;
+    width: 100%;
+}
+
+.subNavLink {
+    align-self: center;
+    height: 48px;
+    text-decoration: none;
+}
+
+@media (max-width: 1100px) and (min-width: 320px) {
+    .profileWrapper {
+        flex-direction: column-reverse;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .subscribtionWrapper {
+        margin-top: 0;
+    }
+}
