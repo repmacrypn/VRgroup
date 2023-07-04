@@ -1,15 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useForm } from '@mantine/form'
 import { Navigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import s from './LoginPage.module.css'
-import { status, login } from '../../redux/authSlice'
 import { selectIsAuth } from '../../redux/authSlice'
 import '../../styles/fonts.css'
-import { LoginFormInfo } from './LoginForm'
+import { LoginForm } from './LoginForm'
 
-function LoginPage() {
+export const LoginPage = () => {
     const isAuth = useSelector(selectIsAuth)
     if (isAuth) return <Navigate to='/filterPage' />
 
@@ -34,30 +32,6 @@ const LoginDataField = () => {
             <LoginForm />
         </div>
     )
-}
-
-const LoginForm = () => {
-    const dispatch = useDispatch()
-    const error = useSelector(state => state.auth.error)
-    const isLoading = useSelector(status)
-
-    const form = useForm({
-        initialValues: {
-            email: '',
-            password: '',
-        },
-    })
-
-    const onSubmitButtonClick = ({ email, password }) => {
-        dispatch(login({ email, password }))
-    }
-
-    return <LoginFormInfo
-        onSubmitButtonClick={onSubmitButtonClick}
-        form={form}
-        error={error}
-        isLoading={isLoading}
-    />
 }
 
 const LoginData = () => {
@@ -109,5 +83,3 @@ const LoginIntroField = () => {
         </>
     )
 }
-
-export default LoginPage

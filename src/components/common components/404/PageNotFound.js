@@ -3,7 +3,7 @@ import s from './PageNotFound.module.css'
 import { BackToSearch } from '../../profilePage/ProfilePage'
 import '../../../styles/fonts.css'
 
-const PageNotFound = () => {
+export const PageNotFound = () => {
     return (
         <div className={`defaultfontS ${s.demoMessageAlertWrapper}`}>
             <BackToSearch />
@@ -13,5 +13,3 @@ const PageNotFound = () => {
         </div>
     )
 }
-
-export default PageNotFound

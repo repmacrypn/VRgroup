@@ -1,8 +1,8 @@
 import React from 'react'
 import { PropTypes } from 'prop-types'
 import { Link } from 'react-router-dom'
-import { selectUserData } from '../../redux/authSlice'
 import { useSelector } from 'react-redux'
+import { selectUserData } from '../../redux/authSlice'
 import s from './Header.module.css'
 
 export const Header = () => {

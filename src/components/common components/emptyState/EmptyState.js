@@ -7,7 +7,7 @@ import emptyState from '../../../assets/images/noResults.svg'
 import { clearFilters, findCustomers, setFilterData, status } from '../../../redux/filterSlice'
 import '../../../styles/fonts.css'
 import { ms } from '../../../styles/mantineStyles'
-import { FilterContext } from '../../filterPage/FilterPage'
+import { FilterContext } from '../../../context/contexts'
 
 export const EmptyState = () => {
     const itemsPerPage = useContext(FilterContext)
