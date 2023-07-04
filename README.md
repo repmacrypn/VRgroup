@@ -1,6 +1,5 @@
 # About the application
 ## VRgroup
-___
 This app is produced to help the typical user to find customers from different countries all over the world with an appropriate speciality.
 
 **The app idea is simple:**
