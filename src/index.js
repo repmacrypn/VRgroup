@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import { MantineProvider } from '@mantine/core'
 import './index.css'
 import App from './App'
@@ -14,11 +14,11 @@ const root = ReactDOM.createRoot(
 )
 root.render(
     <MantineProvider withGlobalStyles withNormalizeCSS>
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <HashRouter>
             <Provider store={store}>
                 <App />
             </Provider>
-        </BrowserRouter>
+        </HashRouter>
     </MantineProvider>,
 )
 
