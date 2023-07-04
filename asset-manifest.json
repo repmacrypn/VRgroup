@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/VRgroup/static/css/main.bd9f1d1d.css",
+    "main.js": "/VRgroup/static/js/main.fd3edd48.js",
+    "static/js/787.28cb0dcd.chunk.js": "/VRgroup/static/js/787.28cb0dcd.chunk.js",
+    "static/media/loginbg.jpg": "/VRgroup/static/media/loginbg.b2699c745d9f4bb582e1.jpg",
+    "static/media/emptyState.png": "/VRgroup/static/media/emptyState.2eba7931040d973ce5d8.png",
+    "static/media/bgPopUp.png": "/VRgroup/static/media/bgPopUp.ac1bbea2055de72b59b8.png",
+    "static/media/noResults.svg": "/VRgroup/static/media/noResults.12276f35101d0de31d967dba540034c5.svg",
+    "static/media/preloader.svg": "/VRgroup/static/media/preloader.77779e3d421abf6e27b915f013b842e7.svg",
+    "static/media/popUpIcon.svg": "/VRgroup/static/media/popUpIcon.31987ca6ff54613e285a251933b1795d.svg",
+    "index.html": "/VRgroup/index.html",
+    "static/media/verifyIcon.svg": "/VRgroup/static/media/verifyIcon.a78aa1c3813bf3b14fed.svg",
+    "static/media/iconUser.svg": "/VRgroup/static/media/iconUser.22c58b8aa030d975507e.svg",
+    "main.bd9f1d1d.css.map": "/VRgroup/static/css/main.bd9f1d1d.css.map",
+    "main.fd3edd48.js.map": "/VRgroup/static/js/main.fd3edd48.js.map",
+    "787.28cb0dcd.chunk.js.map": "/VRgroup/static/js/787.28cb0dcd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bd9f1d1d.css",
+    "static/js/main.fd3edd48.js"
+  ]
+}
