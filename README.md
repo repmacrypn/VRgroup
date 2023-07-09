@@ -8,7 +8,7 @@ This app is produced to help the typical user to find customers from different c
 + an opportunity to get the name of the user you like
 + the ability to get access of short info about some customers
 
-Speaking about the app, there are many pages and eath of them is responsible for its logic. 
+Speaking about the app, there are many pages and each of them is responsible for its logic. 
 ___
 ## Login page features :sunglasses:
  
