@@ -36,4 +36,8 @@ ___
 3. The user can manage his/her credentials data 
 4. There is the logout button therefore the user can change profile if he/she wants
 
+**The application was created using adaptive css :neckbeard:**
+
+Deploy: [https://repmacrypn.github.io/VRgroup/]
+
 **Created by Artem Efimovich :)**
