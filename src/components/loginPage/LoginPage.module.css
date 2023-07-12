@@ -13,6 +13,19 @@
     padding: 0 10px;
 }
 
+.dataWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.loginAccessTipWrapper {
+    font-size: 10px;
+    width: 140px;
+    margin-left: 10px;
+    border: 1px solid #3626A7;
+}
+
 .loginIntroPic {
     position: relative;
     width: 50%;
@@ -88,5 +101,18 @@
 
     .loginFormWrapper {
         max-width: 88%;
+    }
+}
+
+@media (max-width: 400px) and (min-width: 320px) {
+    .dataWrapper {
+        flex-direction: column-reverse;
+        justify-content: flex-start;
+        align-items: start;
+    }
+
+    .loginAccessTipWrapper {
+        margin: 0;
+        align-self: end;
     }
 }

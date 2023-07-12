@@ -28,7 +28,10 @@ const LoginDataField = () => {
             <div className={`${s.loginPageAbstract} regular400`}>
                 Welcome! Login to your account - find more potential customers.
             </div>
-            <LoginData />
+            <div className={s.dataWrapper}>
+                <LoginData />
+                <LoginAccessTip />
+            </div>
             <LoginForm />
         </div>
     )
@@ -81,5 +84,22 @@ const LoginIntroField = () => {
                 </div>
             </div>
         </>
+    )
+}
+
+const LoginAccessTip = () => {
+    return (
+        <div className={s.loginAccessTipWrapper}>
+            Due to some CORS problems to enable the login button you need to
+            visit this {' '}
+            <a
+                href='https://cors-anywhere.herokuapp.com/corsdemo'
+                target='_blank'
+                rel='noopener noreferrer'
+                className={s.corsLink}
+            >
+                website
+            </a> and request the access.
+        </div>
     )
 }
