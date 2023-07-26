@@ -84,27 +84,11 @@ const filterSlice = createSlice({
                 state.customers = data
                 state.totalCount = total
             })
-            .addCase(fetchCountries.fulfilled, (state, action) => {
-                state.status = 'succeeded'
-                state.countries = action.payload
-            })
-            .addCase(fetchIndustries.fulfilled, (state, action) => {
-                state.status = 'succeeded'
-                state.industries = action.payload
-            })
             .addCase(getUserName.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.usersFullNameArray.push(action.payload)
             })
     },
-})
-
-export const fetchCountries = createAsyncThunk('filter/fetchCountries', async () => {
-    return await filterAPI.fetchCountries()
-})
-
-export const fetchIndustries = createAsyncThunk('filter/fetchIndustries', async () => {
-    return await filterAPI.fetchIndustries()
 })
 
 export const findCustomers = createAsyncThunk('filter/findCustomers',

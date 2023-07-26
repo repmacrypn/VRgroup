@@ -1,22 +1,34 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Briefcase, BuildingSkyscraper, ChevronDown, MapPin, Search } from 'tabler-icons-react'
 import { Button, Select, TextInput } from '@mantine/core'
+import { useQuery } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import s from './FilterPage.module.css'
 import {
-    addRecentSearch, clearCustomers, fetchCountries, fetchIndustries,
+    addRecentSearch, clearCustomers, /* fetchCountries, fetchIndustries, */
     findCustomers, status, setIsVisible, setPageNumber, showPopUp,
     selectIsShortInfoVisible, setFilterData,
 } from '../../redux/filterSlice'
 import '../../styles/fonts.css'
 import { ms } from '../../styles/mantineStyles'
 import { FilterContext } from '../../context/contexts'
+import { filterAPI } from '../../api/api'
 
 export const FilterField = ({ classN, isPopUpVis }) => {
+    const { data: industries = [] } = useQuery({
+        queryKey: ['industries'],
+        queryFn: filterAPI.fetchIndustries,
+        staleTime: Infinity,
+    })
+
+    const { data: countries = [] } = useQuery({
+        queryKey: ['countries'],
+        queryFn: filterAPI.fetchCountries,
+        staleTime: Infinity,
+    })
+
     const dispatch = useDispatch()
-    const countries = useSelector(state => state.filter.countries)
-    const industries = useSelector(state => state.filter.industries)
     const isClear = useSelector(state => state.filter.isFiltersClear)
 
     const [searchValue, setSearchValue] = useState('')
@@ -33,18 +45,6 @@ export const FilterField = ({ classN, isPopUpVis }) => {
             dispatch(setFilterData({ searchValue: '', selectLocValue: '', selectIndValue: '' }))
         }
     }, [dispatch])
-
-    useEffect(() => {
-        if (!countries.length) {
-            dispatch(fetchCountries())
-        }
-    }, [dispatch, countries.length])
-
-    useEffect(() => {
-        if (!industries.length) {
-            dispatch(fetchIndustries())
-        }
-    }, [dispatch, industries.length])
 
     useEffect(() => {
         setSearchValue('')
