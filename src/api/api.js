@@ -42,76 +42,49 @@ instance.interceptors.response.use((config) => {
 
 export const authAPI = {
     async login(email, password) {
-        try {
-            const response = await instance.post('auth/login', {
-                'email': email,
-                'password': password,
-            })
-            return response.data
-        } catch (e) {
-            throw new Error(e.response.data.message)
-        }
+        const response = await instance.post('auth/login', {
+            'email': email,
+            'password': password,
+        })
+        return response.data
     },
     async logout() {
-        try {
-            const response = await instance.post('auth/logout', {
-                'token': localStorage.getItem('refresh_token'),
-            })
-            return response.data
-        } catch (e) {
-            throw new Error(e.response.data.message)
-        }
+        const response = await instance.post('auth/logout', {
+            'token': localStorage.getItem('refresh_token'),
+        })
+        return response.data
+
     },
     async changeUserCreds(name, surname) {
-        try {
-            const response = await instance.put('profile', {
-                'firstName': name,
-                'lastName': surname,
-            })
-            return response.data
-        } catch (e) {
-            throw new Error(e.response.data.message)
-        }
+        const response = await instance.put('profile', {
+            'firstName': name,
+            'lastName': surname,
+        })
+        return response.data
     },
 }
 
 export const filterAPI = {
     async findCustomers({ searchValue, selectLocValue, selectIndValue, from, to }) {
-        try {
-            // eslint-disable-next-line max-len
-            const response = await instance.get(`contacts?range=[${from},${Number(to) - 1}]&filter={"job_title":${searchValue ? '"' + searchValue + '"' : '""'},"country":${selectLocValue ? selectLocValue : '""'},"industry":${selectIndValue ? selectIndValue : '""'}}`)
-            const splitArr = response.headers['content-range'].split('/')
+        // eslint-disable-next-line max-len
+        const response = await instance.get(`contacts?range=[${from},${Number(to) - 1}]&filter={"job_title":${searchValue ? '"' + searchValue + '"' : '""'},"country":${selectLocValue ? selectLocValue : '""'},"industry":${selectIndValue ? selectIndValue : '""'}}`)
+        const splitArr = response.headers['content-range'].split('/')
 
-            return {
-                data: response.data,
-                total: splitArr[1],
-            }
-        } catch (e) {
-            throw new Error(e.response.data.message)
+        return {
+            data: response.data,
+            total: splitArr[1],
         }
     },
     async fetchIndustries() {
-        try {
-            const response = await instance.get('contacts/industries')
-            return response.data
-        } catch (e) {
-            throw new Error(e.response.data.message)
-        }
+        const response = await instance.get('contacts/industries')
+        return response.data
     },
     async fetchCountries() {
-        try {
-            const response = await instance.get('contacts/countries')
-            return response.data
-        } catch (e) {
-            throw new Error(e.response.data.message)
-        }
+        const response = await instance.get('contacts/countries')
+        return response.data
     },
     async getUserName(id) {
-        try {
-            const response = await instance.post(`contacts/${id}/open?contactId=${id}`)
-            return response.data
-        } catch (e) {
-            throw new Error(e.response.data.message)
-        }
+        const response = await instance.post(`contacts/${id}/open?contactId=${id}`)
+        return response.data
     },
 }

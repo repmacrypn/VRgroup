@@ -60,6 +60,11 @@ const filterSlice = createSlice({
         setPageNumber: (state, action) => {
             state.pageNumber = action.payload
         },
+        setCustomers: (state, action) => {
+            const { data, total } = action.payload
+            state.customers = data
+            state.totalCount = total
+        },
         setFilterData: (state, action) => {
             state.filterData = action.payload
         },
@@ -112,6 +117,6 @@ export const status = (state) => state.filter.status
 export const selectIsShortInfoVisible = (state) => state.filter.isShortInfoVisible
 
 export const { showPopUp, addRecentSearch, setCurrentUser, setIsVisible, clearFilters,
-    clearCustomers, setPageNumber, setFilterData } = filterSlice.actions
+    clearCustomers, setPageNumber, setFilterData, setCustomers } = filterSlice.actions
 
 export default filterSlice.reducer

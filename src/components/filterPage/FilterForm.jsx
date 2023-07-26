@@ -6,9 +6,9 @@ import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import s from './FilterPage.module.css'
 import {
-    addRecentSearch, clearCustomers, /* fetchCountries, fetchIndustries, */
-    findCustomers, status, setIsVisible, setPageNumber, showPopUp,
-    selectIsShortInfoVisible, setFilterData,
+    addRecentSearch, clearCustomers,
+    setIsVisible, setPageNumber, showPopUp,
+    selectIsShortInfoVisible, setFilterData, setCustomers,
 } from '../../redux/filterSlice'
 import '../../styles/fonts.css'
 import { ms } from '../../styles/mantineStyles'
@@ -119,15 +119,22 @@ const FilterButton = ({ searchValue, selectLocValue,
     selectIndValue, countries, industries, isPopUpVis }) => {
 
     const dispatch = useDispatch()
-    const isLoading = useSelector(status)
     const itemsPerPage = useContext(FilterContext)
     const isShortInfoVisible = useSelector(selectIsShortInfoVisible)
 
-    const fetchCustomersOnClick = () => {
-        dispatch(findCustomers({
+    const { isFetching, isLoading, refetch } = useQuery({
+        queryKey: ['customers'],
+        queryFn: () => filterAPI.findCustomers({
             searchValue, selectLocValue, selectIndValue,
             from: 0, to: 0 + itemsPerPage,
-        }))
+        }),
+        enabled: false,
+    })
+
+    const fetchCustomersOnClick = () => {
+        refetch().then((response) => {
+            dispatch(setCustomers(response.data))
+        })
         dispatch(addRecentSearch({
             searchValue, locIndex: selectLocValue, selectLocValue: countries[selectLocValue - 1]?.name,
             indIndex: selectIndValue, selectIndValue: industries[selectIndValue - 1]?.name,
@@ -141,7 +148,7 @@ const FilterButton = ({ searchValue, selectLocValue,
     return (
         <Button
             onClick={fetchCustomersOnClick}
-            disabled={isLoading === 'loading'}
+            disabled={isFetching && isLoading}/* {isLoading === 'loading'} */
             radius='md'
             type="submit"
             styles={{
