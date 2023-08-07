@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { MantineProvider } from '@mantine/core'
@@ -8,7 +7,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { HashRouter } from 'react-router-dom'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import store from './redux/store'
+import { store } from './redux/store'
 
 const queryClient = new QueryClient()
 
