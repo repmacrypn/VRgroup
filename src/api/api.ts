@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { ICustomer } from '../models/common/customer.interface'
 import { IUserNameResponse } from '../models/responses/userName.interface'
-import { ILoginResponse } from '../models/responses/login.interface'
+import { ILoginResponse, IUserData } from '../models/responses/login.interface'
 
 export const API_URL = 'http://3.65.149.62/test-api/'
 
@@ -55,8 +55,8 @@ export const authAPI = {
             'token': localStorage.getItem('refresh_token'),
         })
     },
-    async changeUserCreds(name: string, surname: string): Promise<ILoginResponse> {
-        const response = await instance.put<ILoginResponse>('profile', {
+    async changeUserCreds(name: string, surname: string): Promise<IUserData> {
+        const response = await instance.put<IUserData>('profile', {
             'firstName': name,
             'lastName': surname,
         })

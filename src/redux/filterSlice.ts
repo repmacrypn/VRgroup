@@ -5,9 +5,10 @@ import { ICustomer } from '../models/common/customer.interface'
 import { IRecentsArray } from '../models/common/recentsArray.interface'
 import { IUserNameResponse } from '../models/responses/userName.interface'
 import { ISearchData } from '../models/common/searchData.interface'
+import { StatusType } from '../models/common/status.type'
 
 interface IFIlterState {
-    status: 'idle' | 'loading' | 'failed' | 'succeeded';
+    status: StatusType;
     customers: ICustomer[];
     recentSearchArray: IRecentsArray[];
     usersFullNameArray: IUserNameResponse[];

@@ -17,7 +17,7 @@ export const NameSurnameInfo = () => {
     const [surname, setSurname] = useState(userData?.lastName)
 
     const changeUserDataOnClick = () => {
-        dispatch(changeUserCreds({ name, surname }))
+        dispatch(changeUserCreds({ firstName: name, lastName: surname }))
     }
 
     return (
