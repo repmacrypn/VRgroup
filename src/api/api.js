@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-/* export const API_URL = 'https://cors-anywhere.herokuapp.com/http://3.65.149.62/test-api/' */
-export const API_URL = 'http://3.65.149.62/test-api/'
+export const API_URL = 'https://cors-anywhere.herokuapp.com/http://3.65.149.62/test-api/'
+/* export const API_URL = 'http://3.65.149.62/test-api/' */
 
 const instance = axios.create({
     baseURL: API_URL,

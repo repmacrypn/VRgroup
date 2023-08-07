@@ -10,18 +10,18 @@ import { ProfilePage } from './components/profilePage/ProfilePage'
 import { selectIsAuth } from './redux/authSlice'
 import { UpgradePage } from './components/upgradePage/UpgradePage'
 
-function App() {
+const App = () => {
     const userData = useSelector(selectIsAuth)
     return (
-        <div className="appWrapper">
-            {userData && < Header />}
+        <div className="appWrapper" >
+            {userData && <Header />}
             <Routes>
                 <Route path='/' element={<Navigate to='/loginPage' />} />
-                <Route path='/loginPage' element={<LoginPage />} />
-                <Route path='/filterPage' element={<FilterPage />} />
-                <Route path='/upgradeVersionPage' element={<UpgradePage />} />
-                <Route path='/profilePage' element={<ProfilePage />} />
-                <Route path='*' element={<PageNotFound />} />
+                < Route path='/loginPage' element={< LoginPage />} />
+                < Route path='/filterPage' element={< FilterPage />} />
+                < Route path='/upgradeVersionPage' element={< UpgradePage />} />
+                < Route path='/profilePage' element={< ProfilePage />} />
+                < Route path='*' element={< PageNotFound />} />
             </Routes>
         </div>
     )
