@@ -8,7 +8,7 @@ import s from './FilterPage.module.css'
 import {
     addRecentSearch, clearCustomers,
     setIsVisible, setPageNumber, showPopUp,
-    selectIsShortInfoVisible, setFilterData, setCustomers,
+    selectIsShortInfoVisible, setFilterData, findCustomers, status,
 } from '../../redux/filterSlice'
 import '../../styles/fonts.css'
 import { ms } from '../../styles/mantineStyles'
@@ -120,21 +120,11 @@ const FilterButton = ({ searchValue, selectLocValue,
 
     const dispatch = useDispatch()
     const itemsPerPage = useContext(FilterContext)
+    const isLoading = useSelector(status)
     const isShortInfoVisible = useSelector(selectIsShortInfoVisible)
 
-    const { isFetching, isLoading, refetch } = useQuery({
-        queryKey: ['customers'],
-        queryFn: () => filterAPI.findCustomers({
-            searchValue, selectLocValue, selectIndValue,
-            from: 0, to: 0 + itemsPerPage,
-        }),
-        enabled: false,
-    })
-
     const fetchCustomersOnClick = () => {
-        refetch().then((response) => {
-            dispatch(setCustomers(response.data))
-        })
+        dispatch(findCustomers({ searchValue: '', selectLocValue: '', selectIndValue: '', from: 0, to: 0 + itemsPerPage }))
         dispatch(addRecentSearch({
             searchValue, locIndex: selectLocValue, selectLocValue: countries[selectLocValue - 1]?.name,
             indIndex: selectIndValue, selectIndValue: industries[selectIndValue - 1]?.name,
@@ -148,7 +138,7 @@ const FilterButton = ({ searchValue, selectLocValue,
     return (
         <Button
             onClick={fetchCustomersOnClick}
-            disabled={isFetching && isLoading}/* {isLoading === 'loading'} */
+            disabled={isLoading === 'loading'}
             radius='md'
             type="submit"
             styles={{
