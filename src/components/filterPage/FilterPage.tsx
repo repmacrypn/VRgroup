@@ -9,6 +9,7 @@ import '../../styles/fonts.css'
 import { FilterContext } from '../../context/contexts'
 import { useAppSelector } from '../../hooks/useAppHooks'
 import { selectIsPopUpVisible } from '../../redux/filterSlice'
+import { ITotalCount } from '../../models/common/total.interface'
 
 export const FilterPage = () => {
     const isAuth: boolean = useAppSelector(selectIsAuth)
@@ -66,7 +67,7 @@ const ResultData = () => {
     )
 }
 
-const Total = ({ totalCount }: { totalCount: number | null }) => {
+const Total = ({ totalCount }: ITotalCount) => {
     return (
         <div className={`bold700 ${s.filterTotalField}`}>
             <span className={s.totalTitle}>

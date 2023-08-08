@@ -119,7 +119,7 @@ const FilterButton = ({ searchValue, selectLocValue,
     const isPopUpVis: boolean = useAppSelector(selectIsPopUpVisible)
     const isShortInfoVisible: boolean = useAppSelector(selectIsShortInfoVisible)
 
-    const itemsPerPage: number | null = useContext(FilterContext)
+    const itemsPerPage = useContext(FilterContext)
 
     const fetchCustomersOnClick = () => {
         dispatch(findCustomers({ searchValue: '', selectLocValue: '', selectIndValue: '', from: 0, to: 0 + itemsPerPage! }))
