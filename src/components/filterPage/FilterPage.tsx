@@ -1,19 +1,18 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import s from './FilterPage.module.css'
-import { selectIsAuth } from '../../redux/authSlice'
-import '../../styles/fonts.css'
-import { FilterBurger, FilterField } from './FilterForm'
-import { FilterContext } from '../../context/contexts'
 import { UpgragePopUp } from './UpgradePopUp'
 import { UserTable } from './UserTable'
+import { FilterBurger, FilterField } from './FilterForm'
+import { selectIsAuth } from '../../redux/authSlice'
+import '../../styles/fonts.css'
+import { FilterContext } from '../../context/contexts'
+import { useAppSelector } from '../../hooks/useAppHooks'
+import { selectIsPopUpVisible } from '../../redux/filterSlice'
 
 export const FilterPage = () => {
-    const isAuth = useSelector(selectIsAuth)
-    const isPopUpVis = useSelector(state => state.filter.isPopUpVisible)
-    const itemsPerPage = useSelector(state => state.filter.itemsPerPage)
+    const isAuth: boolean = useAppSelector(selectIsAuth)
+    const itemsPerPage: number = useAppSelector(state => state.filter.itemsPerPage)
 
     if (!isAuth) return <Navigate to='/loginPage' />
 
@@ -26,13 +25,13 @@ export const FilterPage = () => {
                     </div>
                     <Filter />
                 </div>
-                <ResultData isPopUpVis={isPopUpVis} />
+                <ResultData />
             </div>
         </FilterContext.Provider>
     )
 }
 
-const Filter = ({ isPopUpVis }) => {
+const Filter = () => {
     const [isVisible, setIsVisible] = useState(false)
 
     return (
@@ -43,18 +42,14 @@ const Filter = ({ isPopUpVis }) => {
             />
             <FilterField
                 classN={`changeVis${isVisible}`}
-                isPopUpVis={isPopUpVis}
             />
         </div>
     )
 }
 
-Filter.propTypes = {
-    isPopUpVis: PropTypes.bool,
-}
-
-const ResultData = ({ isPopUpVis }) => {
-    const totalCount = useSelector(state => state.filter.totalCount)
+const ResultData = () => {
+    const isPopUpVis: boolean = useAppSelector(selectIsPopUpVisible)
+    const totalCount: number | null = useAppSelector(state => state.filter.totalCount)
 
     return (
         <div className={s.filterResultWrapper}>
@@ -71,11 +66,7 @@ const ResultData = ({ isPopUpVis }) => {
     )
 }
 
-ResultData.propTypes = {
-    isPopUpVis: PropTypes.bool,
-}
-
-const Total = ({ totalCount }) => {
+const Total = ({ totalCount }: { totalCount: number | null }) => {
     return (
         <div className={`bold700 ${s.filterTotalField}`}>
             <span className={s.totalTitle}>
@@ -86,8 +77,4 @@ const Total = ({ totalCount }) => {
             </span>
         </div>
     )
-}
-
-Total.propTypes = {
-    totalCount: PropTypes.string,
 }

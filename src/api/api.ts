@@ -2,6 +2,8 @@ import axios, { AxiosResponse } from 'axios'
 import { ICustomer } from '../models/common/customer.interface'
 import { IUserNameResponse } from '../models/responses/userName.interface'
 import { ILoginResponse, IUserData } from '../models/responses/login.interface'
+import { IIndustry } from '../models/responses/industry.interface'
+import { ICountry } from '../models/responses/country.interface'
 
 export const API_URL = 'http://3.65.149.62/test-api/'
 
@@ -83,6 +85,14 @@ export const filterAPI = {
             data: response.data,
             total: Number(splitArr[1]),
         }
+    },
+    async fetchIndustries(): Promise<IIndustry[]> {
+        const response = await instance.get<IIndustry[]>('contacts/industries')
+        return response.data
+    },
+    async fetchCountries(): Promise<ICountry[]> {
+        const response = await instance.get<ICountry[]>('contacts/countries')
+        return response.data
     },
     async getUserName(id: string): Promise<IUserNameResponse> {
         const response: AxiosResponse<IUserNameResponse> =

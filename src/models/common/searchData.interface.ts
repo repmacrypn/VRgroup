@@ -1,5 +1,5 @@
 export interface ISearchData {
     searchValue: string;
-    selectLocValue: string;
-    selectIndValue: string;
+    selectLocValue: string | null;
+    selectIndValue: string | null;
 }

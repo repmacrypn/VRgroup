@@ -128,6 +128,7 @@ export const selectUserName = (state: RootState, userId: string) =>
     state.filter.usersFullNameArray.find((obj: IUserNameResponse) => obj.userId === userId)?.userName
 
 export const status = (state: RootState) => state.filter.status
+export const selectIsPopUpVisible = (state: RootState) => state.filter.isPopUpVisible
 export const selectIsShortInfoVisible = (state: RootState) => state.filter.isShortInfoVisible
 
 export const { showPopUp, addRecentSearch, setCurrentUser, setIsVisible, clearFilters,

@@ -2,20 +2,23 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Briefcase, BuildingSkyscraper, ChevronDown, MapPin, Search } from 'tabler-icons-react'
 import { Button, Select, TextInput } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
-import PropTypes from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux'
 import s from './FilterPage.module.css'
 import {
     addRecentSearch, clearCustomers,
     setIsVisible, setPageNumber, showPopUp,
-    selectIsShortInfoVisible, setFilterData, findCustomers, status,
+    selectIsShortInfoVisible, setFilterData, findCustomers, status, selectIsPopUpVisible,
 } from '../../redux/filterSlice'
 import '../../styles/fonts.css'
 import { ms } from '../../styles/mantineStyles'
 import { FilterContext } from '../../context/contexts'
 import { filterAPI } from '../../api/api'
+import { useAppDispatch, useAppSelector } from '../../hooks/useAppHooks'
+import { StatusType } from '../../models/common/status.type'
+import { ICountry } from '../../models/responses/country.interface'
+import { IIndustry } from '../../models/responses/industry.interface'
+import { ISearchData } from '../../models/common/searchData.interface'
 
-export const FilterField = ({ classN, isPopUpVis }) => {
+export const FilterField = ({ classN }: { classN: string }) => {
     const { data: industries = [] } = useQuery({
         queryKey: ['industries'],
         queryFn: filterAPI.fetchIndustries,
@@ -28,16 +31,12 @@ export const FilterField = ({ classN, isPopUpVis }) => {
         staleTime: Infinity,
     })
 
-    const dispatch = useDispatch()
-    const isClear = useSelector(state => state.filter.isFiltersClear)
+    const dispatch = useAppDispatch()
+    const isClear: boolean = useAppSelector(state => state.filter.isFiltersClear)
 
     const [searchValue, setSearchValue] = useState('')
-    const [selectLocValue, setSelectLocValue] = useState('')
-    const [selectIndValue, setSelectIndValue] = useState('')
-
-    const mapFetchedFilterData = (fetchedArr) => {
-        return fetchedArr.map((prop) => ({ value: prop.id, label: prop.name }))
-    }
+    const [selectLocValue, setSelectLocValue] = useState<string | null>('')
+    const [selectIndValue, setSelectIndValue] = useState<string | null>('')
 
     useEffect(() => {
         return () => {
@@ -61,7 +60,7 @@ export const FilterField = ({ classN, isPopUpVis }) => {
                     </FilterLabel>
                     <TextInput
                         value={searchValue}
-                        onChange={(e) => setSearchValue(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
                         icon={<Search color="black" size={16} />}
                         iconWidth={30}
                         placeholder="Search by job title"
@@ -80,7 +79,6 @@ export const FilterField = ({ classN, isPopUpVis }) => {
                     <FilterPageSelect
                         value={selectLocValue}
                         setValue={setSelectLocValue}
-                        processArr={mapFetchedFilterData}
                         array={countries}
                         text='Choose location'
                     />
@@ -92,14 +90,12 @@ export const FilterField = ({ classN, isPopUpVis }) => {
                     <FilterPageSelect
                         value={selectIndValue}
                         setValue={setSelectIndValue}
-                        processArr={mapFetchedFilterData}
                         array={industries}
                         text='Choose industry'
                     />
                 </div>
             </div>
             <FilterButton
-                isPopUpVis={isPopUpVis}
                 searchValue={searchValue}
                 selectLocValue={selectLocValue}
                 selectIndValue={selectIndValue}
@@ -110,27 +106,30 @@ export const FilterField = ({ classN, isPopUpVis }) => {
     )
 }
 
-FilterField.propTypes = {
-    classN: PropTypes.string,
-    isPopUpVis: PropTypes.bool,
+interface IFilterButtonProps extends ISearchData {
+    countries: ICountry[];
+    industries: IIndustry[];
 }
 
 const FilterButton = ({ searchValue, selectLocValue,
-    selectIndValue, countries, industries, isPopUpVis }) => {
+    selectIndValue, countries, industries }: IFilterButtonProps) => {
 
-    const dispatch = useDispatch()
-    const itemsPerPage = useContext(FilterContext)
-    const isLoading = useSelector(status)
-    const isShortInfoVisible = useSelector(selectIsShortInfoVisible)
+    const dispatch = useAppDispatch()
+    const isLoading: StatusType = useAppSelector(status)
+    const isPopUpVis: boolean = useAppSelector(selectIsPopUpVisible)
+    const isShortInfoVisible: boolean = useAppSelector(selectIsShortInfoVisible)
+
+    const itemsPerPage: number | null = useContext(FilterContext)
 
     const fetchCustomersOnClick = () => {
-        dispatch(findCustomers({ searchValue: '', selectLocValue: '', selectIndValue: '', from: 0, to: 0 + itemsPerPage }))
+        dispatch(findCustomers({ searchValue: '', selectLocValue: '', selectIndValue: '', from: 0, to: 0 + itemsPerPage! }))
         dispatch(addRecentSearch({
-            searchValue, locIndex: selectLocValue, selectLocValue: countries[selectLocValue - 1]?.name,
-            indIndex: selectIndValue, selectIndValue: industries[selectIndValue - 1]?.name,
+            searchValue, locIndex: selectLocValue!, selectLocValue: countries[+selectLocValue! - 1]?.name,
+            indIndex: selectIndValue!, selectIndValue: industries[+selectIndValue! - 1]?.name,
         }))
         dispatch(setFilterData({ searchValue, selectLocValue, selectIndValue }))
         dispatch(setPageNumber(0))
+
         if (isPopUpVis) dispatch(showPopUp(false))
         if (isShortInfoVisible) dispatch(setIsVisible(false))
     }
@@ -150,16 +149,18 @@ const FilterButton = ({ searchValue, selectLocValue,
     )
 }
 
-FilterButton.propTypes = {
-    searchValue: PropTypes.string,
-    selectLocValue: PropTypes.string,
-    selectIndValue: PropTypes.string,
-    countries: PropTypes.array,
-    industries: PropTypes.array,
-    isPopUpVis: PropTypes.bool,
+interface IFilterPageSelectProps {
+    value: string | null;
+    setValue: React.Dispatch<React.SetStateAction<string | null>>;
+    array: ICountry[] | IIndustry[];
+    text: string;
 }
 
-const FilterPageSelect = React.memo(({ value, setValue, processArr, array, text }) => {
+const FilterPageSelect = React.memo(({ value, setValue, array, text }: IFilterPageSelectProps) => {
+    const processArr = (fetchedArr: IIndustry[] | ICountry[]) => {
+        return fetchedArr.map((prop: IIndustry | ICountry) => ({ value: prop.id, label: prop.name }))
+    }
+
     return (
         <Select
             value={value}
@@ -181,17 +182,12 @@ const FilterPageSelect = React.memo(({ value, setValue, processArr, array, text 
     )
 })
 
-FilterPageSelect.displayName = 'FilterPageSelect'
-
-FilterPageSelect.propTypes = {
-    value: PropTypes.string,
-    setValue: PropTypes.func,
-    processArr: PropTypes.func,
-    array: PropTypes.array,
-    text: PropTypes.string,
+interface IFilterLabelProps {
+    children: React.ReactNode
+    text: string;
 }
 
-export const FilterLabel = React.memo(({ children, text }) => {
+export const FilterLabel = React.memo(({ children, text }: IFilterLabelProps) => {
     return (
         <div className={`${s.filterLabelWrapper}`}>
             {children}
@@ -200,14 +196,12 @@ export const FilterLabel = React.memo(({ children, text }) => {
     )
 })
 
-FilterLabel.displayName = 'FilterLabel'
-
-FilterLabel.propTypes = {
-    children: PropTypes.node,
-    text: PropTypes.string,
+interface IFilterBurgerProps {
+    isVisible: boolean;
+    setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const FilterBurger = ({ isVisible, setIsVisible }) => {
+export const FilterBurger = ({ isVisible, setIsVisible }: IFilterBurgerProps) => {
     return (
         <div className={`bold600 ${s.filtersTitle}`}>
             <div>
@@ -215,7 +209,7 @@ export const FilterBurger = ({ isVisible, setIsVisible }) => {
             </div>
             <div
                 className={`${s.burgerContainer} ${s[`change${isVisible}`]}`}
-                onClick={() => setIsVisible(value => !value)}
+                onClick={() => setIsVisible((value: boolean) => !value)}
             >
                 <div className={s.bar1}></div>
                 <div className={s.bar2}></div>
@@ -223,9 +217,4 @@ export const FilterBurger = ({ isVisible, setIsVisible }) => {
             </div>
         </div>
     )
-}
-
-FilterBurger.propTypes = {
-    isVisible: PropTypes.bool,
-    setIsVisible: PropTypes.func,
 }

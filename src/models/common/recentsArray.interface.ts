@@ -1,7 +1,7 @@
 export interface IRecentsArray {
     searchValue: string;
-    locIndex: number;
+    locIndex: string;
     selectLocValue: string;
-    indIndex: number;
+    indIndex: string;
     selectIndValue: string;
 }

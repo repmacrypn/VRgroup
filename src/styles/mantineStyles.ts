@@ -1,3 +1,5 @@
+import { CSSObject } from "@mantine/core";
+
 export const ms = {
     select: {
         input: {
@@ -64,7 +66,7 @@ export const ms = {
             },
         },
         rightSection: {
-            pointerEvents: 'none',
+            rightSection: { pointerEvents: 'none' } as CSSObject,
             marginBottom: 16,
             ['@media (max-width: 770px) and (min-width: 320px)']: {
                 marginBottom: 0,
