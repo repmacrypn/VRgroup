@@ -1,4 +1,3 @@
-import React from 'react'
 import s from './PageNotFound.module.css'
 import { BackToSearch } from '../../profilePage/ProfilePage'
 import '../../../styles/fonts.css'

@@ -1,24 +1,24 @@
-import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
+import { useContext } from 'react'
 import { Button } from '@mantine/core'
-import { useDispatch, useSelector } from 'react-redux'
 import s from './EmptyState.module.css'
 import emptyState from '../../../assets/images/noResults.svg'
 import { clearFilters, findCustomers, setFilterData, status } from '../../../redux/filterSlice'
 import '../../../styles/fonts.css'
 import { ms } from '../../../styles/mantineStyles'
 import { FilterContext } from '../../../context/contexts'
+import { useAppDispatch, useAppSelector } from '../../../hooks/useAppHooks'
+import { StatusType } from '../../../models/common/status.type'
 
 export const EmptyState = () => {
     const itemsPerPage = useContext(FilterContext)
 
-    const dispatch = useDispatch()
-    const isLoading = useSelector(status)
+    const dispatch = useAppDispatch()
+    const isLoading = useAppSelector(status)
 
-    const resetFiltersOnClick = () => {
+    const resetFiltersOnClick = (): void => {
         dispatch(clearFilters())
         dispatch(setFilterData({ searchValue: '', selectLocValue: '', selectIndValue: '' }))
-        dispatch(findCustomers({ searchValue: '', selectLocValue: '', selectIndValue: '', from: 0, to: 0 + itemsPerPage }))
+        dispatch(findCustomers({ searchValue: '', selectLocValue: '', selectIndValue: '', from: 0, to: 0 + itemsPerPage! }))
     }
 
     return (
@@ -29,7 +29,12 @@ export const EmptyState = () => {
     )
 }
 
-const EmptyStateInfo = ({ resetFiltersOnClick, isLoading }) => {
+interface IEmptyStateInfoProps {
+    resetFiltersOnClick: () => void;
+    isLoading: StatusType;
+}
+
+const EmptyStateInfo = ({ resetFiltersOnClick, isLoading }: IEmptyStateInfoProps) => {
     return (
         <div className={s.emptyWrapper}>
             <img
@@ -58,9 +63,4 @@ const EmptyStateInfo = ({ resetFiltersOnClick, isLoading }) => {
             </Button>
         </div>
     )
-}
-
-EmptyStateInfo.propTypes = {
-    resetFiltersOnClick: PropTypes.func,
-    isLoading: PropTypes.string,
 }

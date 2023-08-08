@@ -102,9 +102,6 @@ export const ms = {
             maxWidth: 384,
             height: 48,
             marginBottom: 24,
-            /* [`@media (max-width: 1130px) and (min-width: 320px)`]: {
-                width: '100%',
-            }, */
         },
         profileEmailPasswordInput: {
             maxWidth: 668,
@@ -158,9 +155,6 @@ export const ms = {
             padding: '14px 16px',
             marginBottom: 24,
             border: 'none',
-            /* [`@media (max-width: 1130px) and (min-width: 320px)`]: {
-                width: '100%',
-            }, */
         },
         innerInput: {
             color: '#151515',
