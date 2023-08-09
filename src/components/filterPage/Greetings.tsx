@@ -1,12 +1,13 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { Briefcase, BuildingSkyscraper, History, MapPin } from 'tabler-icons-react'
-import PropTypes from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux'
 import s from './FilterPage.module.css'
-import { findCustomers, status, clearFilters } from '../../redux/filterSlice'
-import '../../styles/fonts.css'
 import { FilterLabel } from './FilterForm'
+import '../../styles/fonts.css'
+import { findCustomers, status, clearFilters } from '../../redux/filterSlice'
 import { FilterContext } from '../../context/contexts'
+import { useAppDispatch, useAppSelector } from '../../hooks/useAppHooks'
+import { IRecentsArray } from '../../models/common/recentsArray.interface'
+import { StatusType } from '../../models/common/status.type'
 
 export const GreetingsState = () => {
     return (
@@ -29,8 +30,8 @@ export const GreetingsState = () => {
 }
 
 const RecentSearches = () => {
-    const recentSearchArray = useSelector(state => state.filter.recentSearchArray)
-    const recentResultArray = recentSearchArray.map((searchData) => (
+    const recentSearchArray: IRecentsArray[] = useAppSelector(state => state.filter.recentSearchArray)
+    const recentResultArray = recentSearchArray.map((searchData: IRecentsArray) => (
         <RecentItem
             key={searchData.id}
             searchData={searchData}
@@ -50,16 +51,16 @@ const RecentSearches = () => {
     )
 }
 
-const RecentItem = ({ searchData }) => {
-    const dispatch = useDispatch()
-    const isLoading = useSelector(status)
-    const itemsPerPage = useContext(FilterContext)
+const RecentItem = ({ searchData }: { searchData: IRecentsArray }) => {
+    const dispatch = useAppDispatch()
+    const isLoading: StatusType = useAppSelector(status)
+    const itemsPerPage: number | null = useContext(FilterContext)
 
     const getCustomersOnClick = () => {
         dispatch(clearFilters())
         dispatch(findCustomers({
             searchValue: searchData.searchValue, selectLocValue: searchData.locIndex,
-            selectIndValue: searchData.indIndex, from: 0, to: 0 + itemsPerPage,
+            selectIndValue: searchData.indIndex, from: 0, to: 0 + itemsPerPage!,
         }))
     }
 
@@ -77,14 +78,4 @@ const RecentItem = ({ searchData }) => {
             <span>{searchData.selectIndValue || 'none'}</span>
         </button>
     )
-}
-
-RecentItem.propTypes = {
-    searchData: PropTypes.shape({
-        locIndex: PropTypes.string,
-        indIndex: PropTypes.string,
-        searchValue: PropTypes.string,
-        selectLocValue: PropTypes.string,
-        selectIndValue: PropTypes.string,
-    }),
 }

@@ -4,4 +4,5 @@ export interface IRecentsArray {
     selectLocValue: string;
     indIndex: string;
     selectIndValue: string;
+    id: string;
 }
