@@ -66,12 +66,12 @@ export const ms = {
             },
         },
         rightSection: {
-            rightSection: { pointerEvents: 'none' } as CSSObject,
+            pointerEvents: 'none',
             marginBottom: 16,
             ['@media (max-width: 770px) and (min-width: 320px)']: {
                 marginBottom: 0,
             },
-        },
+        } as CSSObject,
     },
     textInput: {
         defaultInput: {
@@ -145,10 +145,10 @@ export const ms = {
             font: 'normal 600 14px/20px Mulish, sans-serif',
             paddingBottom: 8,
             pointerEvents: 'none',
-        },
+        } as CSSObject,
         rightSection: {
             pointerEvents: 'none',
-        },
+        } as CSSObject,
     },
     passwordInput: {
         input: {
@@ -177,7 +177,7 @@ export const ms = {
             font: 'normal 600 14px/20px Mulish, sans-serif',
             paddingBottom: 8,
             pointerEvents: 'none',
-        },
+        } as CSSObject,
         rightSection: {
             marginRight: 7,
         },

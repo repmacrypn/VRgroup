@@ -1,17 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { Eye, EyeOff } from 'tabler-icons-react'
-import { useForm } from '@mantine/form'
+import { UseFormReturnType, useForm } from '@mantine/form'
 import { TextInput, Button, PasswordInput } from '@mantine/core'
-import { useDispatch, useSelector } from 'react-redux'
 import s from './LoginPage.module.css'
 import { ms } from '../../styles/mantineStyles'
 import { login, status } from '../../redux/authSlice'
+import { useAppDispatch, useAppSelector } from '../../hooks/useAppHooks'
+import { StatusType } from '../../models/common/status.type'
+
+interface IEmailPassword {
+    email: string;
+    password: string;
+}
 
 export const LoginForm = () => {
-    const dispatch = useDispatch()
-    const error = useSelector(state => state.auth.error)
-    const isLoading = useSelector(status)
+    const dispatch = useAppDispatch()
+    const error: string | null = useAppSelector(state => state.auth.error)
 
     const form = useForm({
         initialValues: {
@@ -20,7 +23,7 @@ export const LoginForm = () => {
         },
     })
 
-    const onSubmitButtonClick = ({ email, password }) => {
+    const onSubmitButtonClick = ({ email, password }: IEmailPassword): void => {
         dispatch(login({ email, password }))
     }
 
@@ -28,15 +31,34 @@ export const LoginForm = () => {
         onSubmitButtonClick={onSubmitButtonClick}
         form={form}
         error={error}
-        isLoading={isLoading}
     />
 }
 
-const LoginFormInfo = ({ form, error, isLoading, onSubmitButtonClick }) => {
+interface ILoginFormInfoProps {
+    form: UseFormReturnType<{
+        email: string;
+        password: string;
+    }, (values: {
+        email: string;
+        password: string;
+    }) => {
+        email: string;
+        password: string;
+    }>;
+    error: string | null;
+    onSubmitButtonClick: ({ email, password }: {
+        email: string;
+        password: string;
+    }) => void;
+}
+
+const LoginFormInfo = ({ form, error, onSubmitButtonClick }: ILoginFormInfoProps) => {
+    const isLoading: StatusType = useAppSelector(status)
+
     return (
         <form
             className={s.loginForm}
-            onSubmit={form.onSubmit((values) => onSubmitButtonClick(values))}
+            onSubmit={form.onSubmit((values: IEmailPassword) => onSubmitButtonClick(values))}
         >
             <TextInput
                 inputWrapperOrder={['label', 'error', 'input']}
@@ -52,7 +74,7 @@ const LoginFormInfo = ({ form, error, isLoading, onSubmitButtonClick }) => {
             />
             <PasswordInput
                 label="Password"
-                visibilityToggleIcon={({ reveal }) =>
+                visibilityToggleIcon={({ reveal }: { reveal: boolean }) =>
                     reveal ? <Eye /> : <EyeOff />}
                 placeholder="Enter your password"
                 {...form.getInputProps('password')}
@@ -81,12 +103,4 @@ const LoginFormInfo = ({ form, error, isLoading, onSubmitButtonClick }) => {
             </Button>
         </form>
     )
-}
-
-
-LoginFormInfo.propTypes = {
-    form: PropTypes.object,
-    error: PropTypes.string,
-    isLoading: PropTypes.string,
-    onSubmitButtonClick: PropTypes.func,
 }

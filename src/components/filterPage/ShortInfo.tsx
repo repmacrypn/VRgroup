@@ -8,6 +8,7 @@ import { ms } from '../../styles/mantineStyles'
 import { UserNameContext } from '../../context/contexts'
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppHooks'
 import { ICustomer } from '../../models/common/customer.interface'
+import { IDataProps } from '../../models/common/textValueProps.interface'
 
 export const UserShortInfo = () => {
     const user: ICustomer = useAppSelector(state => state.filter.currentUser)
@@ -90,12 +91,7 @@ const CloseButton = React.memo(() => {
     )
 })
 
-interface IUserShortDataProps {
-    text: string;
-    value: string;
-}
-
-const UserShortData = React.memo(({ text, value }: IUserShortDataProps) => {
+const UserShortData = React.memo(({ text, value }: IDataProps) => {
     return (
         <div>
             <div className={s.userInfoTitle}>

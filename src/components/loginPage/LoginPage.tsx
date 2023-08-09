@@ -1,14 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { Navigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import s from './LoginPage.module.css'
-import { selectIsAuth } from '../../redux/authSlice'
-import '../../styles/fonts.css'
 import { LoginForm } from './LoginForm'
+import '../../styles/fonts.css'
+import { selectIsAuth } from '../../redux/authSlice'
+import { useAppSelector } from '../../hooks/useAppHooks'
+import { IDataProps } from '../../models/common/textValueProps.interface'
 
 export const LoginPage = () => {
-    const isAuth = useSelector(selectIsAuth)
+    const isAuth: boolean = useAppSelector(selectIsAuth)
     if (isAuth) return <Navigate to='/filterPage' />
 
     return (
@@ -41,33 +40,28 @@ const LoginData = () => {
     return (
         <div className={s.loginDataWrapper}>
             <LoginDataProp
-                title='Email: '
+                text='Email: '
                 value='test@nyblecraft.com'
             />
             <LoginDataProp
-                title='Password: '
+                text='Password: '
                 value='12345678qQ'
             />
         </div>
     )
 }
 
-const LoginDataProp = ({ title, value }) => {
+const LoginDataProp = ({ text, value }: IDataProps) => {
     return (
         <div>
             <span className='bold600'>
-                {title}
+                {text}
             </span>
             <span className='regular400'>
                 {value}
             </span>
         </div>
     )
-}
-
-LoginDataProp.propTypes = {
-    title: PropTypes.string,
-    value: PropTypes.string,
 }
 
 const LoginIntroField = () => {
