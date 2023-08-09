@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Briefcase, BuildingSkyscraper, ChevronDown, MapPin, Search } from 'tabler-icons-react'
 import { Button, Select, TextInput } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
+import { nanoid } from '@reduxjs/toolkit'
 import s from './FilterPage.module.css'
 import {
     addRecentSearch, clearCustomers,
@@ -125,7 +126,7 @@ const FilterButton = ({ searchValue, selectLocValue,
         dispatch(findCustomers({ searchValue: '', selectLocValue: '', selectIndValue: '', from: 0, to: 0 + itemsPerPage! }))
         dispatch(addRecentSearch({
             searchValue, locIndex: selectLocValue!, selectLocValue: countries[+selectLocValue! - 1]?.name,
-            indIndex: selectIndValue!, selectIndValue: industries[+selectIndValue! - 1]?.name,
+            indIndex: selectIndValue!, selectIndValue: industries[+selectIndValue! - 1]?.name, id: nanoid(),
         }))
         dispatch(setFilterData({ searchValue, selectLocValue, selectIndValue }))
         dispatch(setPageNumber(0))

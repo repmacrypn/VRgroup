@@ -48,29 +48,19 @@ const filterSlice = createSlice({
         showPopUp: (state, action: PayloadAction<boolean>) => {
             state.isPopUpVisible = action.payload
         },
-        addRecentSearch: {
-            reducer(state, action: PayloadAction<IRecentsArray>) {
-                const currentDataObj = action.payload
-                const array: IRecentsArray[] = state.recentSearchArray
-                const isInArray = array.find((dataObj: IRecentsArray) => {
-                    return dataObj.searchValue === currentDataObj.searchValue &&
-                        dataObj.locIndex === currentDataObj.locIndex &&
-                        dataObj.indIndex === currentDataObj.indIndex
-                })
+        addRecentSearch: (state, action: PayloadAction<IRecentsArray>) => {
+            const currentDataObj = action.payload
+            const array: IRecentsArray[] = state.recentSearchArray
+            const isInArray = array.find((dataObj: IRecentsArray) => {
+                return dataObj.searchValue === currentDataObj.searchValue &&
+                    dataObj.locIndex === currentDataObj.locIndex &&
+                    dataObj.indIndex === currentDataObj.indIndex
+            })
 
-                if (!isInArray) {
-                    if (array.length === 4) array.shift()
-                    array.push(action.payload)
-                }
-            },
-            prepare(payloadObj: IRecentsArray) {
-                return {
-                    payload: {
-                        id: nanoid(),
-                        ...payloadObj,
-                    },
-                }
-            },
+            if (!isInArray) {
+                if (array.length === 4) array.shift()
+                array.push(action.payload)
+            }
         },
         clearCustomers: (state) => {
             state.customers.length = 0
