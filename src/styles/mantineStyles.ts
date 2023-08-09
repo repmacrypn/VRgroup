@@ -1,4 +1,4 @@
-import { CSSObject } from "@mantine/core";
+import { CSSObject } from '@mantine/core'
 
 export const ms = {
     select: {
