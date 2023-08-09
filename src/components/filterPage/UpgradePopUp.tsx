@@ -1,24 +1,24 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import s from './FilterPage.module.css'
-import { setPageNumber, showPopUp } from '../../redux/filterSlice'
 import '../../styles/fonts.css'
+import { setPageNumber, showPopUp } from '../../redux/filterSlice'
 import popUpIcon from '../../assets/images/popUpIcon.svg'
 import { FilterContext } from '../../context/contexts'
+import { useAppDispatch } from '../../hooks/useAppHooks'
 
 export const UpgragePopUp = () => {
-    const dispatch = useDispatch()
-    const itemsPerPage = useContext(FilterContext)
+    const dispatch = useAppDispatch()
+    const itemsPerPage: number | null = useContext(FilterContext)
 
-    const onConfirmClick = () => {
+    const onConfirmClick = (): void => {
         dispatch(showPopUp(false))
         dispatch(setPageNumber(0))
     }
 
-    const onDismissClick = () => {
+    const onDismissClick = (): void => {
         dispatch(showPopUp(false))
-        dispatch(setPageNumber(Math.ceil(60 / itemsPerPage - 1)))
+        dispatch(setPageNumber(Math.ceil(60 / itemsPerPage! - 1)))
     }
 
     return (

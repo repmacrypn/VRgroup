@@ -12,7 +12,7 @@ import {
 import { EmptyState } from '../common components/emptyState/EmptyState'
 import Preloader from '../common components/preloader/Preloader'
 import '../../styles/fonts.css'
-import { FilterContext, UserNameContext } from '../../context/contexts'
+import { UserNameContext } from '../../context/contexts'
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppHooks'
 import { StatusType } from '../../models/common/status.type'
 import { ITotalCount } from '../../models/common/total.interface'

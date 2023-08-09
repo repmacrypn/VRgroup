@@ -183,7 +183,7 @@ const FilterPageSelect = React.memo(({ value, setValue, array, text }: IFilterPa
 })
 
 interface IFilterLabelProps {
-    children: React.ReactNode
+    children: React.ReactNode;
     text: string;
 }
 

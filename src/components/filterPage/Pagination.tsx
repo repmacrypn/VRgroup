@@ -1,32 +1,33 @@
-import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux'
+import { useContext } from 'react'
+import { ChevronLeft, ChevronRight } from 'tabler-icons-react'
 import ReactPaginate from 'react-paginate'
 import s from './FilterPage.module.css'
-import { findCustomers, setPageNumber, showPopUp } from '../../redux/filterSlice'
 import '../../styles/fonts.css'
+import { findCustomers, setPageNumber, showPopUp } from '../../redux/filterSlice'
 import { FilterContext } from '../../context/contexts'
-import { ChevronLeft, ChevronRight } from 'tabler-icons-react'
+import { ITotalCount } from '../../models/common/total.interface'
+import { useAppDispatch, useAppSelector } from '../../hooks/useAppHooks'
+import { ISearchData } from '../../models/common/searchData.interface'
 
-export const Pagination = ({ totalCount }) => {
-    const dispatch = useDispatch()
-    const filterData = useSelector(state => state.filter.filterData)
+export const Pagination = ({ totalCount }: ITotalCount) => {
+    const dispatch = useAppDispatch()
+    const filterData: ISearchData = useAppSelector(state => state.filter.filterData)
 
     const itemsPerPage = useContext(FilterContext)
-    const pageCount = Math.ceil(totalCount / itemsPerPage)
-    const pageNumber = useSelector(state => state.filter.pageNumber)
+    const pageCount: number = Math.ceil(totalCount! / itemsPerPage!)
+    const pageNumber: number = useAppSelector(state => state.filter.pageNumber)
 
-    const handlePageChange = (e) => {
-        const newOffset = (e.selected * itemsPerPage) % totalCount
+    const handlePageChange = ({ selected }: { selected: number }): void => {
+        const newOffset: number = (selected * itemsPerPage!) % totalCount!
         if (newOffset >= 60) {
             dispatch(showPopUp(true))
         } else {
             dispatch(findCustomers({
-                searchValue: filterData.searchValue, selectLocValue: filterData.selectLocValue,
-                selectIndValue: filterData.selectIndValue, from: newOffset, to: newOffset + itemsPerPage,
+                searchValue: filterData.searchValue, selectLocValue: filterData.selectLocValue!,
+                selectIndValue: filterData.selectIndValue!, from: newOffset, to: newOffset + itemsPerPage!,
             }))
         }
-        dispatch(setPageNumber(e.selected))
+        dispatch(setPageNumber(selected))
     }
 
     return (
@@ -65,8 +66,4 @@ export const Pagination = ({ totalCount }) => {
             nextLinkClassName={`${s.navA} ${s.moveButton}`}
         />
     )
-}
-
-Pagination.propTypes = {
-    totalCount: PropTypes.string,
 }
