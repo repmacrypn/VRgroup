@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction, SerializedError } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from './store'
 import { authAPI } from '../api/api'
 import { ILoginResponse, IUserData } from '../models/responses/login.interface'

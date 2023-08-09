@@ -13,7 +13,7 @@ export const EmptyState = () => {
     const itemsPerPage = useContext(FilterContext)
 
     const dispatch = useAppDispatch()
-    const isLoading = useAppSelector(status)
+    const isLoading: StatusType = useAppSelector(status)
 
     const resetFiltersOnClick = (): void => {
         dispatch(clearFilters())

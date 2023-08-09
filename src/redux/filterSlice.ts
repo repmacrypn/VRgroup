@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, nanoid, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from './store'
 import { ICustomersParams, filterAPI } from '../api/api'
 import { ICustomer } from '../models/common/customer.interface'
