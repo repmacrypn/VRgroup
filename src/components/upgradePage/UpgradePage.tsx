@@ -1,7 +1,6 @@
-import React from 'react'
+import s from './UpgradePage.module.css'
 import { BackToSearch } from '../profilePage/ProfilePage'
 import '../../styles/fonts.css'
-import s from './UpgradePage.module.css'
 
 export const UpgradePage = () => {
     return (
