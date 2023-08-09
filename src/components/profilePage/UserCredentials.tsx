@@ -1,23 +1,24 @@
-import { Button, TextInput } from '@mantine/core'
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import { Button, TextInput } from '@mantine/core'
 import { Edit } from 'tabler-icons-react'
-import { useDispatch, useSelector } from 'react-redux'
-import { changeUserCreds, status } from '../../redux/authSlice'
 import s from './ProfilePage.module.css'
+import { changeUserCreds, status } from '../../redux/authSlice'
 import '../../styles/fonts.css'
 import { ms } from '../../styles/mantineStyles'
+import { useAppDispatch, useAppSelector } from '../../hooks/useAppHooks'
+import { IUserData } from '../../models/responses/login.interface'
+import { StatusType } from '../../models/common/status.type'
 
 export const NameSurnameInfo = () => {
-    const dispatch = useDispatch()
-    const isLoading = useSelector(status)
-    const userData = useSelector(state => state.auth.userData)
+    const dispatch = useAppDispatch()
+    const isLoading: StatusType = useAppSelector(status)
+    const userData: IUserData | null = useAppSelector(state => state.auth.userData)
 
-    const [name, setName] = useState(userData?.firstName)
-    const [surname, setSurname] = useState(userData?.lastName)
+    const [name, setName] = useState<string | undefined>(userData?.firstName)
+    const [surname, setSurname] = useState<string | undefined>(userData?.lastName)
 
-    const changeUserDataOnClick = () => {
-        dispatch(changeUserCreds({ firstName: name, lastName: surname }))
+    const changeUserDataOnClick = (): void => {
+        dispatch(changeUserCreds({ firstName: name!, lastName: surname! }))
     }
 
     return (
@@ -52,7 +53,15 @@ export const NameSurnameInfo = () => {
     )
 }
 
-const CustomTextInput = React.memo(({ classN, text, value, setValue, placeholder }) => {
+interface ICustomTextInputProps {
+    classN: string;
+    text: string;
+    placeholder: string;
+    value: string | undefined;
+    setValue: React.Dispatch<React.SetStateAction<string | undefined>>;
+}
+
+const CustomTextInput = React.memo(({ classN, text, value, setValue, placeholder }: ICustomTextInputProps) => {
     return (
         <div className={s[classN]}>
             <div className={'bold600'}>
@@ -60,7 +69,7 @@ const CustomTextInput = React.memo(({ classN, text, value, setValue, placeholder
             </div>
             <TextInput
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
                 placeholder={placeholder}
                 radius="md"
                 styles={{
@@ -71,16 +80,6 @@ const CustomTextInput = React.memo(({ classN, text, value, setValue, placeholder
     )
 })
 
-CustomTextInput.displayName = 'CustomSur(Name)TextInput'
-
-CustomTextInput.propTypes = {
-    classN: PropTypes.string,
-    text: PropTypes.string,
-    value: PropTypes.string,
-    placeholder: PropTypes.string,
-    setValue: PropTypes.func,
-}
-
 export const LoginDataInfo = () => {
     const [email, setEmail] = useState('test@nyblecraft.com')
     const [password, setPassword] = useState('12345678qQ')
@@ -89,7 +88,7 @@ export const LoginDataInfo = () => {
         <div>
             <TextInput
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                 placeholder="Change email..."
                 variant="unstyled"
                 rightSectionWidth={125}
@@ -97,12 +96,12 @@ export const LoginDataInfo = () => {
                 styles={{
                     rightSection: ms.textInput.rightSection,
                     wrapper: ms.textInput.profileEmailPasswordWrapper,
-                    input: Object.assign({}, ms.textInput.defaultInput, ms.textInput.profileEmailInput, ms.textInput.profileEmailPasswordInput),
+                    input: Object.assign({}, ms.textInput.defaultInput, ms.textInput.emailInput, ms.textInput.profileEmailPasswordInput),
                 }}
             />
             <TextInput
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                 placeholder="Change password..."
                 variant="unstyled"
                 rightSectionWidth={155}
@@ -117,7 +116,7 @@ export const LoginDataInfo = () => {
     )
 }
 
-const RightSection = React.memo(({ text }) => {
+const RightSection = React.memo(({ text }: { text: string }) => {
     return (
         <div className={`${s.rightSection} bold600`}>
             <Edit viewBox="0 -2 24 24" height={18} width={26} />
@@ -125,9 +124,3 @@ const RightSection = React.memo(({ text }) => {
         </div>
     )
 })
-
-RightSection.displayName = 'RightSection'
-
-RightSection.propTypes = {
-    text: PropTypes.string,
-}

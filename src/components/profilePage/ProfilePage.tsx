@@ -1,17 +1,17 @@
+import { useMemo } from 'react'
 import { Button } from '@mantine/core'
-import React, { useMemo } from 'react'
 import { ArrowLeft, Logout, UserPlus } from 'tabler-icons-react'
-import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, Navigate } from 'react-router-dom'
-import { logout, selectIsAuth } from '../../redux/authSlice'
+import { LoginDataInfo, NameSurnameInfo } from './UserCredentials'
 import s from './ProfilePage.module.css'
 import '../../styles/fonts.css'
+import { logout, selectIsAuth } from '../../redux/authSlice'
 import { ms } from '../../styles/mantineStyles'
 import { getCurDate } from '../../utilites/getCurDate'
-import { LoginDataInfo, NameSurnameInfo } from './UserCredentials'
+import { useAppDispatch, useAppSelector } from '../../hooks/useAppHooks'
 
 export const ProfilePage = () => {
-    const isAuth = useSelector(selectIsAuth)
+    const isAuth: boolean = useAppSelector(selectIsAuth)
     if (!isAuth) return <Navigate to='/loginPage' />
 
     return (
@@ -46,7 +46,7 @@ const Profile = () => {
 }
 
 const Subscription = () => {
-    const date = useMemo(() => getCurDate(), [])
+    const date: string = useMemo(() => getCurDate(), [])
 
     return (
         <div className={s.subscribtionWrapper}>
@@ -98,9 +98,9 @@ export const BackToSearch = () => {
 }
 
 export const LogOut = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
-    const logoutOnClick = () => {
+    const logoutOnClick = (): void => {
         dispatch(logout())
     }
 
